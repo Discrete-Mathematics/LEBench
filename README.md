@@ -90,6 +90,9 @@ The directory layout is also described in [results/README.md](results/README.md)
 | Name | Student ID |
 | --- | --- |
 | 邹浩宇 | 5260000157 |
+| 孙东旭 | 5260000073 |
+| 张澄心 | 1240016541 |
+| 邹涵锋 | 1240020460 |
 
 ## Upstream instructions
 
