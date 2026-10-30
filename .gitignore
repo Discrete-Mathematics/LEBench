@@ -1,0 +1,26 @@
+# Build outputs
+TEST_DIR/OS_Eval
+*.o
+*.a
+*.so
+*.d
+
+# Python
+__pycache__/
+*.pyc
+
+# Ephemeral files the upstream harness and OS_Eval drop in the repo root.
+# Result CSVs under results/ are intentionally not ignored: the report
+# must be able to trace every number to a committed log.
+/raw_kern
+/iteration
+/output_file.csv
+/new_output_file.csv
+/output.*.csv
+/LEBench.out
+TEST_DIR/socket
+
+# Editor and OS junk
+.DS_Store
+Thumbs.db
+*.swp

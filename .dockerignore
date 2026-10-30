@@ -1,0 +1,9 @@
+.git
+**/__pycache__
+*.pyc
+TEST_DIR/OS_Eval
+results/**
+!results/README.md
+*.o
+.DS_Store
+Thumbs.db
