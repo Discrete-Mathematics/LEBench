@@ -1,0 +1,18 @@
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Test & Default & $nopti$ & Change & Intervals overlap? \\
+\midrule
+getpid & 314 ns & 295 ns & -6\% & yes \\
+context siwtch & 11.2 us & 12.9 us & +15\% & yes \\
+send & 600 ns & 693 ns & +15\% & yes \\
+recv & 692 ns & 764 ns & +10\% & yes \\
+fork & 92.8 us & 254.0 us & +174\% & no \\
+small read & 784 ns & 946 ns & +21\% & yes \\
+small write & 1.9 us & 2.0 us & +7\% & yes \\
+big write & 1.66 ms & 3.62 ms & +118\% & yes \\
+big munmap & 269.5 us & 266.3 us & -1\% & yes \\
+select & 1.2 us & 1.5 us & +29\% & yes \\
+poll & 847 ns & 1.1 us & +26\% & yes \\
+epoll & 905 ns & 1.0 us & +12\% & yes \\
+\bottomrule
+\end{tabular}

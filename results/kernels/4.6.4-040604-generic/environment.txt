@@ -1,0 +1,6 @@
+kernel: 4.6.4-040604-generic
+cmdline: BOOT_IMAGE=/boot/vmlinuz-4.6.4-040604-generic root=UUID=3984d9d0-fbe8-49bf-9bf9-95cd695fd9a3 ro quiet
+date_utc: 2026-10-31T11:43:48Z
+gcc: gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
+cpu: 13th Gen Intel(R) Core(TM) i7-13700H
+nproc: 2

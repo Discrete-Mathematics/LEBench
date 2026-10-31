@@ -1,0 +1,393 @@
+2026-10-31T08:43:01Z bench 4.4.0-210-nopti exit 0
+2026-10-31T08:43:04Z bench 4.4.0-210-nopti exit 4294967295
+2026-10-31T08:43:04Z Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T08:46:11Z bench 4.4.0-210-nopti exit 0
+2026-10-31T08:47:12Z kernel list has 41 entries
+2026-10-31T08:47:19Z grub default update exit 0
+2026-10-31T08:48:24Z install 3.0.7-030007-generic exit 1
+2026-10-31T08:48:24Z init-tools (>= 3.3-pre11-4ubuntu3); however: |   Package module-init-tools is not installed. |  linux-image-3.0.7-030007-generic depends on wireless-crda; however: |   Package wireless-crda is not installed. |  | dpkg: error processing package linux-image-3.0.7-030007-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-3.0.7-030007-generic | 
+2026-10-31T08:50:31Z kernel list has 41 entries
+2026-10-31T08:50:39Z grub default update exit 0
+2026-10-31T08:50:46Z install 3.0.7-030007-generic exit 4294967295
+2026-10-31T08:50:46Z configuration file ... | Found linux image: /boot/vmlinuz-4.4.0-210-generic | Found initrd image: /boot/initrd.img-4.4.0-210-generic | Found linux image: /boot/vmlinuz-4.4.0-142-generic | Found initrd image: /boot/initrd.img-4.4.0-142-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T08:54:28Z BOOT FAIL 3.0.7-030007-generic (uname=None)
+2026-10-31T08:55:53Z kernel list has 41 entries
+2026-10-31T08:55:59Z grub default update exit 0
+2026-10-31T08:55:59Z skip existing 3.0.7-030007-generic
+2026-10-31T08:56:05Z install 3.1.7-030107-generic exit 2
+2026-10-31T08:56:05Z 16.9M 0s |  35600K .......... .......... .......... .......... .......... 99%  226M 0s |  35650K .......... .......... .......... .......... .......... 99% 19.0M 0s |  35700K .......... .......... .......... .......              100%  248M=11s |  | 2026-10-31 16:56:03 (3.32 MB/s) - '/var/tmp/kernels/3.1.7-030107-generic.deb' saved [36595030/36595030] |  | dpkg: error: dpkg frontend is locked by another process | 
+2026-10-31T08:56:51Z BOOT FAIL 3.0.7-030007-generic (uname=4.4.0-210-generic)
+2026-10-31T08:56:57Z install 3.1.7-030107-generic exit 4294967295
+2026-10-31T08:56:57Z rnel/postinst.d/unattended-upgrades 3.1.7-030107-generic /boot/vmlinuz-3.1.7-030107-generic | run-parts: executing /etc/kernel/postinst.d/zz-update-grub 3.1.7-030107-generic /boot/vmlinuz-3.1.7-030107-generic | Generating grub configuration file ... | Found linux image: /boot/vmlinuz-4.4.0-210-generic | Found initrd image: /boot/initrd.img-4.4.0-210-generic | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T08:56:57Z install 3.1.7-030107-generic exit 4294967295
+2026-10-31T08:56:57Z img-3.0.7-030007-generic | error: out of memory. | error: syntax error. | error: Incorrect command. | error: syntax error. | Syntax error at line 116 | Syntax errors are detected in generated GRUB config file. | Ensure that there are no errors in /etc/default/grub | and /etc/grub.d/* files or please file a bug report with | /boot/grub/grub.cfg.new file attached. | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T08:59:32Z BOOT FAIL 3.1.7-030107-generic (uname=4.4.0-210-generic)
+2026-10-31T08:59:57Z kernel list has 41 entries
+2026-10-31T09:00:04Z grub default update exit 0
+2026-10-31T09:00:15Z install 4.0.5-040005-generic exit 100
+2026-10-31T09:00:15Z                  100%  240M=9.6s |  | 2026-10-31 17:00:13 (5.49 MB/s) - '/var/tmp/kernels/4.0.5-040005-generic.deb.part' saved [55531972/55531972] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:15Z INSTALL FAIL 4.0.5-040005-generic exit 100
+2026-10-31T09:00:15Z eneric.deb.part' saved [55531972/55531972] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:29Z install 4.15.15-041515-generic exit 100
+2026-10-31T09:00:29Z                100% 28.0M=9.7s |  | 2026-10-31 17:00:27 (5.14 MB/s) - '/var/tmp/kernels/4.15.15-041515-generic.deb.part' saved [52076062/52076062] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:29Z INSTALL FAIL 4.15.15-041515-generic exit 100
+2026-10-31T09:00:29Z eneric.deb.part' saved [52076062/52076062] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:49Z install 4.14.15-041415-generic exit 100
+2026-10-31T09:00:49Z                 100%  270M=15s |  | 2026-10-31 17:00:46 (3.51 MB/s) - '/var/tmp/kernels/4.14.15-041415-generic.deb.part' saved [55481502/55481502] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:49Z INSTALL FAIL 4.14.15-041415-generic exit 100
+2026-10-31T09:00:49Z eneric.deb.part' saved [55481502/55481502] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:53Z install 4.20.13-042013-generic exit 100
+2026-10-31T09:00:53Z                  100%  297M=2.4s |  | 2026-10-31 17:00:50 (3.25 MB/s) - '/var/tmp/kernels/4.20.13-042013-generic.deb.part' saved [8064968/8064968] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:53Z INSTALL FAIL 4.20.13-042013-generic exit 100
+2026-10-31T09:00:53Z -generic.deb.part' saved [8064968/8064968] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:57Z install 3.2.11-030211-generic exit 100
+2026-10-31T09:00:57Z boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | dpkg: error: failed to remove my own update file /var/lib/dpkg/updates/0001: No such file or directory | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:00:57Z INSTALL FAIL 3.2.11-030211-generic exit 100
+2026-10-31T09:00:57Z g: error: failed to remove my own update file /var/lib/dpkg/updates/0001: No such file or directory | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:05Z install 4.4.5-040405-generic exit 100
+2026-10-31T09:01:05Z ...... ......... 100%  950K=6.0s |  | 2026-10-31 17:01:02 (8.91 MB/s) - '/var/tmp/kernels/4.4.5-040405-generic.deb.part' saved [55961112/55961112] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:05Z INSTALL FAIL 4.4.5-040405-generic exit 100
+2026-10-31T09:01:05Z eneric.deb.part' saved [55961112/55961112] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:09Z install 3.3.6-030306-generic exit 100
+2026-10-31T09:01:09Z ...... ........  100% 5.11M=7.3s |  | 2026-10-31 17:01:07 (4.98 MB/s) - '/var/tmp/kernels/3.3.6-030306-generic.deb.part' saved [38091604/38091604] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:09Z INSTALL FAIL 3.3.6-030306-generic exit 100
+2026-10-31T09:01:09Z eneric.deb.part' saved [38091604/38091604] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:13Z install 3.4.6-030406-generic exit 100
+2026-10-31T09:01:13Z                  100% 1237G=2.1s |  | 2026-10-31 17:01:11 (5.40 MB/s) - '/var/tmp/kernels/3.4.6-030406-generic.deb.part' saved [12083864/12083864] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:13Z INSTALL FAIL 3.4.6-030406-generic exit 100
+2026-10-31T09:01:13Z eneric.deb.part' saved [12083864/12083864] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:21Z install 3.5.4-030504-generic exit 100
+2026-10-31T09:01:21Z                  100% 4.65M=4.1s |  | 2026-10-31 17:01:19 (2.86 MB/s) - '/var/tmp/kernels/3.5.4-030504-generic.deb.part' saved [12216782/12216782] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:21Z INSTALL FAIL 3.5.4-030504-generic exit 100
+2026-10-31T09:01:21Z eneric.deb.part' saved [12216782/12216782] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:24Z install 4.9.11-040911-generic exit 100
+2026-10-31T09:01:24Z                  100% 17.0M=14s |  | 2026-10-31 17:01:22 (4.08 MB/s) - '/var/tmp/kernels/4.9.11-040911-generic.deb.part' saved [58651880/58651880] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:24Z INSTALL FAIL 4.9.11-040911-generic exit 100
+2026-10-31T09:01:24Z eneric.deb.part' saved [58651880/58651880] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:27Z install 3.6.10-030610-generic exit 100
+2026-10-31T09:01:27Z ..              100% 14.2M=1.9s |  | 2026-10-31 17:01:24 (6.08 MB/s) - '/var/tmp/kernels/3.6.10-030610-generic.deb.part' saved [12428566/12428566] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:27Z INSTALL FAIL 3.6.10-030610-generic exit 100
+2026-10-31T09:01:27Z eneric.deb.part' saved [12428566/12428566] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:28Z install 4.19.11-041911-generic exit 100
+2026-10-31T09:01:28Z ......           100%  493M=0.9s |  | 2026-10-31 17:01:25 (9.01 MB/s) - '/var/tmp/kernels/4.19.11-041911-generic.deb.part' saved [8233140/8233140] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:28Z INSTALL FAIL 4.19.11-041911-generic exit 100
+2026-10-31T09:01:28Z -generic.deb.part' saved [8233140/8233140] |  | dpkg: error: dpkg frontend is locked by another process | E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable) | E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it? | 
+2026-10-31T09:01:28Z skip existing 3.0.7-030007-generic
+2026-10-31T09:01:28Z skip existing 3.1.7-030107-generic
+2026-10-31T09:01:30Z install 3.7.9-030709-generic exit 4294967295
+2026-10-31T09:01:30Z 1s |   6650K .......... .......... .......... .......... .......... 52% 1.83M 1s |   6700K .......... .......... .......... .......... .......... 52% 5.07M 1s |   6750K .......... .......... .......... .......... .......... 52%  244M 1s |   6800K .......... .......... .......... .......... .......... 53% 3.03M 1s |   6850K .......... .......... .......... ....Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T09:01:30Z install 3.2.11-030211-generic exit 4294967295
+2026-10-31T09:01:30Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T09:02:07Z BOOT FAIL 3.1.7-030107-generic (uname=None)
+2026-10-31T09:03:03Z BOOT FAIL 3.1.7-030107-generic (uname=None)
+2026-10-31T09:04:04Z BOOT FAIL 3.2.11-030211-generic (uname=4.4.0-210-generic)
+2026-10-31T09:04:05Z install 3.3.6-030306-generic exit 100
+2026-10-31T09:04:05Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:04:05Z INSTALL FAIL 3.3.6-030306-generic exit 100
+2026-10-31T09:04:05Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:04:06Z install 3.4.6-030406-generic exit 100
+2026-10-31T09:04:06Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:04:06Z INSTALL FAIL 3.4.6-030406-generic exit 100
+2026-10-31T09:04:06Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:04:17Z BOOT FAIL 3.7.9-030709-generic (uname=None)
+2026-10-31T09:04:17Z install 3.2.11-030211-generic exit 4294967295
+2026-10-31T09:04:17Z 0-142-generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T09:04:17Z install 3.2.11-030211-generic exit 4294967295
+2026-10-31T09:04:17Z 0-142-generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T09:05:14Z BOOT FAIL 3.5.4-030504-generic (uname=4.4.0-210-generic)
+2026-10-31T09:05:15Z install 3.6.10-030610-generic exit 100
+2026-10-31T09:05:15Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:05:15Z INSTALL FAIL 3.6.10-030610-generic exit 100
+2026-10-31T09:05:15Z dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:05:15Z skip existing 3.7.9-030709-generic
+2026-10-31T09:05:24Z install 3.8.10-030810-generic exit 100
+2026-10-31T09:05:24Z 17.3M 0s |  43300K .......                                               100% 47.1M=5.6s |  | 2026-10-31 17:05:22 (7.61 MB/s) - '/var/tmp/kernels/3.8.10-030810-generic.deb.part' saved [44346856/44346856] |  | dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:05:24Z INSTALL FAIL 3.8.10-030810-generic exit 100
+2026-10-31T09:05:24Z 7:05:22 (7.61 MB/s) - '/var/tmp/kernels/3.8.10-030810-generic.deb.part' saved [44346856/44346856] |  | dpkg: error: parsing file '/var/lib/dpkg/updates/0001' near line 0: |  newline in field name '#padding' | E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.  | 
+2026-10-31T09:05:27Z install 3.8.10-030810-generic exit 1
+2026-10-31T09:05:27Z ..... .......... .......... 99%  291M 0s |  43250K .......... .......... .......... .......... .......... 99% 76.7M 0s |  43300K .......                                               100%  318M=8.6s |  | 2026-10-31 17:05:25 (4.93 MB/s) - '/var/tmp/kernels/3.8.10-030810-generic.deb.part' saved [44346856/44346856] |  | mv: cannot stat '/var/tmp/kernels/3.8.10-030810-generic.deb.part': No such file or directory | 
+2026-10-31T09:05:27Z INSTALL FAIL 3.8.10-030810-generic exit 1
+2026-10-31T09:05:27Z ... 99% 76.7M 0s |  43300K .......                                               100%  318M=8.6s |  | 2026-10-31 17:05:25 (4.93 MB/s) - '/var/tmp/kernels/3.8.10-030810-generic.deb.part' saved [44346856/44346856] |  | mv: cannot stat '/var/tmp/kernels/3.8.10-030810-generic.deb.part': No such file or directory | 
+2026-10-31T09:45:30Z kernel list has 41 entries
+2026-10-31T09:45:35Z grub default update exit 0
+2026-10-31T09:46:47Z install 4.0.5-040005-generic exit 4294967295
+2026-10-31T09:46:47Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T09:47:52Z bench 4.0.5-040005-generic exit 0
+2026-10-31T09:58:33Z install 4.15.15-041515-generic exit 124
+2026-10-31T09:58:33Z timeout
+2026-10-31T09:58:33Z INSTALL FAIL 4.15.15-041515-generic exit 124
+2026-10-31T09:58:33Z timeout
+2026-10-31T10:01:12Z kernel list has 41 entries
+2026-10-31T10:01:29Z grub default update exit 0
+2026-10-31T10:01:29Z skip existing 4.0.5-040005-generic
+2026-10-31T10:02:38Z install 4.15.15-041515-generic exit 4294967295
+2026-10-31T10:02:38Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:02:38Z waiting for 4.15.15-041515-generic after install exit 4294967295
+2026-10-31T10:03:43Z bench 4.15.15-041515-generic exit 0
+2026-10-31T10:06:33Z install 4.14.15-041415-generic exit 4294967295
+2026-10-31T10:06:33Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:06:33Z waiting for 4.14.15-041415-generic after install exit 4294967295
+2026-10-31T10:07:39Z bench 4.14.15-041415-generic exit 0
+2026-10-31T10:08:32Z install 4.20.13-042013-generic exit 1
+2026-10-31T10:08:32Z 13-generic: |  linux-image-unsigned-4.20.13-042013-generic depends on linux-modules-4.20.13-042013-generic; however: |   Package linux-modules-4.20.13-042013-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.20.13-042013-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.20.13-042013-generic | 
+2026-10-31T10:08:32Z waiting for 4.20.13-042013-generic after install exit 1
+2026-10-31T10:09:14Z INSTALL FAIL 4.20.13-042013-generic exit 1
+2026-10-31T10:09:14Z eric; however: |   Package linux-modules-4.20.13-042013-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.20.13-042013-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.20.13-042013-generic | 
+2026-10-31T10:10:26Z install 4.4.5-040405-generic exit 4294967295
+2026-10-31T10:10:26Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:10:26Z waiting for 4.4.5-040405-generic after install exit 4294967295
+2026-10-31T10:11:19Z bench 4.4.5-040405-generic exit 0
+2026-10-31T10:13:23Z install 4.9.11-040911-generic exit 4294967295
+2026-10-31T10:13:23Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:13:23Z waiting for 4.9.11-040911-generic after install exit 4294967295
+2026-10-31T10:14:33Z bench 4.9.11-040911-generic exit 0
+2026-10-31T10:15:32Z install 4.19.11-041911-generic exit 1
+2026-10-31T10:15:32Z 11-generic: |  linux-image-unsigned-4.19.11-041911-generic depends on linux-modules-4.19.11-041911-generic; however: |   Package linux-modules-4.19.11-041911-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.19.11-041911-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.19.11-041911-generic | 
+2026-10-31T10:15:32Z waiting for 4.19.11-041911-generic after install exit 1
+2026-10-31T10:16:14Z INSTALL FAIL 4.19.11-041911-generic exit 1
+2026-10-31T10:16:14Z eric; however: |   Package linux-modules-4.19.11-041911-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.19.11-041911-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.19.11-041911-generic | 
+2026-10-31T10:16:14Z skip existing 3.0.7-030007-generic
+2026-10-31T10:16:14Z skip existing 3.1.7-030107-generic
+2026-10-31T10:16:14Z skip existing 3.2.11-030211-generic
+2026-10-31T10:17:32Z install 3.3.6-030306-generic exit 4294967295
+2026-10-31T10:17:32Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:17:32Z waiting for 3.3.6-030306-generic after install exit 4294967295
+2026-10-31T10:20:35Z BOOT FAIL 3.3.6-030306-generic (uname=None)
+2026-10-31T10:22:25Z install 3.4.6-030406-generic exit 4294967295
+2026-10-31T10:22:25Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:22:25Z waiting for 3.4.6-030406-generic after install exit 4294967295
+2026-10-31T10:25:38Z BOOT FAIL 3.4.6-030406-generic (uname=None)
+2026-10-31T10:27:39Z install 3.5.4-030504-generic exit 4294967295
+2026-10-31T10:27:39Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:27:39Z waiting for 3.5.4-030504-generic after install exit 4294967295
+2026-10-31T10:30:42Z BOOT FAIL 3.5.4-030504-generic (uname=None)
+2026-10-31T10:32:39Z install 3.6.10-030610-generic exit 4294967295
+2026-10-31T10:32:39Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:32:39Z waiting for 3.6.10-030610-generic after install exit 4294967295
+2026-10-31T10:33:52Z bench 3.6.10-030610-generic exit 0
+2026-10-31T10:35:21Z install 3.7.9-030709-generic exit 4294967295
+2026-10-31T10:35:21Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:35:21Z waiting for 3.7.9-030709-generic after install exit 4294967295
+2026-10-31T10:36:19Z bench 3.7.9-030709-generic exit 0
+2026-10-31T10:39:37Z install 3.8.10-030810-generic exit 4294967295
+2026-10-31T10:39:37Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:39:37Z waiting for 3.8.10-030810-generic after install exit 4294967295
+2026-10-31T10:40:34Z bench 3.8.10-030810-generic exit 0
+2026-10-31T10:42:37Z install 3.9.8-030908-generic exit 4294967295
+2026-10-31T10:42:37Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:42:37Z waiting for 3.9.8-030908-generic after install exit 4294967295
+2026-10-31T10:43:34Z bench 3.9.8-030908-generic exit 0
+2026-10-31T10:46:08Z install 3.10.10-031010-generic exit 4294967295
+2026-10-31T10:46:08Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:46:08Z waiting for 3.10.10-031010-generic after install exit 4294967295
+2026-10-31T10:47:20Z bench 3.10.10-031010-generic exit 0
+2026-10-31T10:50:35Z install 3.11.6-031106-generic exit 4294967295
+2026-10-31T10:50:35Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:50:35Z waiting for 3.11.6-031106-generic after install exit 4294967295
+2026-10-31T10:51:42Z bench 3.11.6-031106-generic exit 0
+2026-10-31T10:54:50Z install 3.12.8-031208-generic exit 4294967295
+2026-10-31T10:54:50Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:54:50Z waiting for 3.12.8-031208-generic after install exit 4294967295
+2026-10-31T10:56:11Z bench 3.12.8-031208-generic exit 0
+2026-10-31T10:59:18Z install 3.13.7-031307-generic exit 4294967295
+2026-10-31T10:59:18Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T10:59:18Z waiting for 3.13.7-031307-generic after install exit 4294967295
+2026-10-31T11:00:43Z bench 3.13.7-031307-generic exit 0
+2026-10-31T11:03:48Z install 3.14.6-031406-generic exit 4294967295
+2026-10-31T11:03:48Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:03:48Z waiting for 3.14.6-031406-generic after install exit 4294967295
+2026-10-31T11:05:04Z bench 3.14.6-031406-generic exit 0
+2026-10-31T11:07:39Z install 3.15.8-031508-generic exit 4294967295
+2026-10-31T11:07:39Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:07:39Z waiting for 3.15.8-031508-generic after install exit 4294967295
+2026-10-31T11:08:59Z bench 3.15.8-031508-generic exit 0
+2026-10-31T11:11:38Z install 3.16.3-031603-generic exit 4294967295
+2026-10-31T11:11:38Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:11:38Z waiting for 3.16.3-031603-generic after install exit 4294967295
+2026-10-31T11:12:37Z bench 3.16.3-031603-generic exit 0
+2026-10-31T11:16:13Z install 3.17.6-031706-generic exit 4294967295
+2026-10-31T11:16:13Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:16:13Z waiting for 3.17.6-031706-generic after install exit 4294967295
+2026-10-31T11:17:05Z bench 3.17.6-031706-generic exit 0
+2026-10-31T11:19:30Z install 3.18.6-031806-generic exit 4294967295
+2026-10-31T11:19:30Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:19:30Z waiting for 3.18.6-031806-generic after install exit 4294967295
+2026-10-31T11:20:34Z bench 3.18.6-031806-generic exit 0
+2026-10-31T11:23:54Z install 3.19.3-031903-generic exit 4294967295
+2026-10-31T11:23:54Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:23:54Z waiting for 3.19.3-031903-generic after install exit 4294967295
+2026-10-31T11:24:59Z bench 3.19.3-031903-generic exit 0
+2026-10-31T11:28:08Z install 4.1.6-040106-generic exit 4294967295
+2026-10-31T11:28:08Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:28:08Z waiting for 4.1.6-040106-generic after install exit 4294967295
+2026-10-31T11:29:14Z bench 4.1.6-040106-generic exit 0
+2026-10-31T11:31:54Z install 4.2.5-040205-generic exit 4294967295
+2026-10-31T11:31:54Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:31:54Z waiting for 4.2.5-040205-generic after install exit 4294967295
+2026-10-31T11:32:54Z bench 4.2.5-040205-generic exit 0
+2026-10-31T11:36:00Z install 4.3.3-040303-generic exit 4294967295
+2026-10-31T11:36:00Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:36:00Z waiting for 4.3.3-040303-generic after install exit 4294967295
+2026-10-31T11:36:57Z bench 4.3.3-040303-generic exit 0
+2026-10-31T11:40:10Z install 4.5.4-040504-generic exit 4294967295
+2026-10-31T11:40:10Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:40:10Z waiting for 4.5.4-040504-generic after install exit 4294967295
+2026-10-31T11:41:02Z bench 4.5.4-040504-generic exit 0
+2026-10-31T11:43:45Z install 4.6.4-040604-generic exit 4294967295
+2026-10-31T11:43:45Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:43:45Z waiting for 4.6.4-040604-generic after install exit 4294967295
+2026-10-31T11:44:40Z bench 4.6.4-040604-generic exit 0
+2026-10-31T11:47:08Z install 4.7.6-040706-generic exit 4294967295
+2026-10-31T11:47:08Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:47:08Z waiting for 4.7.6-040706-generic after install exit 4294967295
+2026-10-31T11:48:15Z bench 4.7.6-040706-generic exit 0
+2026-10-31T11:51:04Z install 4.8.14-040814-generic exit 4294967295
+2026-10-31T11:51:04Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:51:04Z waiting for 4.8.14-040814-generic after install exit 4294967295
+2026-10-31T11:52:13Z bench 4.8.14-040814-generic exit 0
+2026-10-31T11:55:07Z install 4.10.13-041013-generic exit 4294967295
+2026-10-31T11:55:07Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T11:55:07Z waiting for 4.10.13-041013-generic after install exit 4294967295
+2026-10-31T11:56:05Z bench 4.10.13-041013-generic exit 0
+2026-10-31T12:00:30Z install 4.11.8-041108-generic exit 4294967295
+2026-10-31T12:00:30Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:00:30Z waiting for 4.11.8-041108-generic after install exit 4294967295
+2026-10-31T12:01:36Z bench 4.11.8-041108-generic exit 0
+2026-10-31T12:04:16Z install 4.12.10-041210-generic exit 4294967295
+2026-10-31T12:04:16Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:04:16Z waiting for 4.12.10-041210-generic after install exit 4294967295
+2026-10-31T12:05:21Z bench 4.12.10-041210-generic exit 0
+2026-10-31T12:09:05Z install 4.13.12-041312-generic exit 4294967295
+2026-10-31T12:09:05Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:09:05Z waiting for 4.13.12-041312-generic after install exit 4294967295
+2026-10-31T12:10:12Z bench 4.13.12-041312-generic exit 0
+2026-10-31T12:11:35Z install 4.16.13-041613-generic exit 1
+2026-10-31T12:11:35Z 13-generic: |  linux-image-unsigned-4.16.13-041613-generic depends on linux-modules-4.16.13-041613-generic; however: |   Package linux-modules-4.16.13-041613-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.16.13-041613-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.16.13-041613-generic | 
+2026-10-31T12:11:35Z waiting for 4.16.13-041613-generic after install exit 1
+2026-10-31T12:12:17Z INSTALL FAIL 4.16.13-041613-generic exit 1
+2026-10-31T12:12:17Z eric; however: |   Package linux-modules-4.16.13-041613-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.16.13-041613-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.16.13-041613-generic | 
+2026-10-31T12:12:51Z install 4.17.14-041714-generic exit 1
+2026-10-31T12:12:51Z 14-generic: |  linux-image-unsigned-4.17.14-041714-generic depends on linux-modules-4.17.14-041714-generic; however: |   Package linux-modules-4.17.14-041714-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.17.14-041714-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.17.14-041714-generic | 
+2026-10-31T12:12:51Z waiting for 4.17.14-041714-generic after install exit 1
+2026-10-31T12:13:33Z INSTALL FAIL 4.17.14-041714-generic exit 1
+2026-10-31T12:13:33Z eric; however: |   Package linux-modules-4.17.14-041714-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.17.14-041714-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.17.14-041714-generic | 
+2026-10-31T12:14:10Z install 4.18.16-041816-generic exit 1
+2026-10-31T12:14:10Z 16-generic: |  linux-image-unsigned-4.18.16-041816-generic depends on linux-modules-4.18.16-041816-generic; however: |   Package linux-modules-4.18.16-041816-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.18.16-041816-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.18.16-041816-generic | 
+2026-10-31T12:14:10Z waiting for 4.18.16-041816-generic after install exit 1
+2026-10-31T12:14:51Z INSTALL FAIL 4.18.16-041816-generic exit 1
+2026-10-31T12:14:51Z eric; however: |   Package linux-modules-4.18.16-041816-generic is not installed. |  | dpkg: error processing package linux-image-unsigned-4.18.16-041816-generic (--install): |  dependency problems - leaving unconfigured | Errors were encountered while processing: |  linux-image-unsigned-4.18.16-041816-generic | 
+2026-10-31T12:14:51Z sweep stopped
+2026-10-31T12:15:13Z kernel list has 41 entries
+2026-10-31T12:15:44Z grub default update exit 0
+2026-10-31T12:15:44Z skip existing 4.0.5-040005-generic
+2026-10-31T12:15:44Z skip existing 4.15.15-041515-generic
+2026-10-31T12:15:44Z skip existing 4.14.15-041415-generic
+2026-10-31T12:18:01Z install 4.20.13-042013-generic exit 4294967295
+2026-10-31T12:18:01Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:18:01Z waiting for 4.20.13-042013-generic after install exit 4294967295
+2026-10-31T12:19:08Z bench 4.20.13-042013-generic exit 0
+2026-10-31T12:19:48Z skip existing 4.4.5-040405-generic
+2026-10-31T12:19:48Z skip existing 4.9.11-040911-generic
+2026-10-31T12:19:56Z install 4.19.11-041911-generic exit 8
+2026-10-31T12:19:56Z mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb [following] | --2026-10-31 20:19:52--  https://kernel.ubuntu.com/mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb | Reusing existing connection to kernel.ubuntu.com:443. | HTTP request sent, awaiting response... 404 Not Found | 2026-10-31 20:19:55 ERROR 404: Not Found. |  | 
+2026-10-31T12:19:56Z waiting for 4.19.11-041911-generic after install exit 8
+2026-10-31T12:20:39Z INSTALL FAIL 4.19.11-041911-generic exit 8
+2026-10-31T12:20:39Z ing] | --2026-10-31 20:19:52--  https://kernel.ubuntu.com/mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb | Reusing existing connection to kernel.ubuntu.com:443. | HTTP request sent, awaiting response... 404 Not Found | 2026-10-31 20:19:55 ERROR 404: Not Found. |  | 
+2026-10-31T12:20:39Z skip existing 3.0.7-030007-generic
+2026-10-31T12:20:39Z skip existing 3.1.7-030107-generic
+2026-10-31T12:20:39Z skip existing 3.2.11-030211-generic
+2026-10-31T12:20:39Z skip existing 3.3.6-030306-generic
+2026-10-31T12:20:39Z skip existing 3.4.6-030406-generic
+2026-10-31T12:20:39Z skip existing 3.5.4-030504-generic
+2026-10-31T12:20:39Z skip existing 3.6.10-030610-generic
+2026-10-31T12:20:39Z skip existing 3.7.9-030709-generic
+2026-10-31T12:20:39Z skip existing 3.8.10-030810-generic
+2026-10-31T12:20:39Z skip existing 3.9.8-030908-generic
+2026-10-31T12:20:39Z skip existing 3.10.10-031010-generic
+2026-10-31T12:20:39Z skip existing 3.11.6-031106-generic
+2026-10-31T12:20:39Z skip existing 3.12.8-031208-generic
+2026-10-31T12:20:39Z skip existing 3.13.7-031307-generic
+2026-10-31T12:20:39Z skip existing 3.14.6-031406-generic
+2026-10-31T12:20:39Z skip existing 3.15.8-031508-generic
+2026-10-31T12:20:39Z skip existing 3.16.3-031603-generic
+2026-10-31T12:20:39Z skip existing 3.17.6-031706-generic
+2026-10-31T12:20:39Z skip existing 3.18.6-031806-generic
+2026-10-31T12:20:39Z skip existing 3.19.3-031903-generic
+2026-10-31T12:20:39Z skip existing 4.1.6-040106-generic
+2026-10-31T12:20:39Z skip existing 4.2.5-040205-generic
+2026-10-31T12:20:39Z skip existing 4.3.3-040303-generic
+2026-10-31T12:20:39Z skip existing 4.5.4-040504-generic
+2026-10-31T12:20:39Z skip existing 4.6.4-040604-generic
+2026-10-31T12:20:39Z skip existing 4.7.6-040706-generic
+2026-10-31T12:20:39Z skip existing 4.8.14-040814-generic
+2026-10-31T12:20:39Z skip existing 4.10.13-041013-generic
+2026-10-31T12:20:39Z skip existing 4.11.8-041108-generic
+2026-10-31T12:20:39Z skip existing 4.12.10-041210-generic
+2026-10-31T12:20:39Z skip existing 4.13.12-041312-generic
+2026-10-31T12:22:08Z install 4.16.13-041613-generic exit 4294967295
+2026-10-31T12:22:08Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:22:08Z waiting for 4.16.13-041613-generic after install exit 4294967295
+2026-10-31T12:22:37Z bench 4.16.13-041613-generic exit 0
+2026-10-31T12:32:56Z install 4.17.14-041714-generic exit 124
+2026-10-31T12:32:56Z timeout
+2026-10-31T12:32:56Z waiting for 4.17.14-041714-generic after install exit 124
+2026-10-31T12:33:39Z INSTALL TIMEOUT 4.17.14-041714-generic still on 4.4.0-210-generic
+2026-10-31T12:37:12Z install 4.18.16-041816-generic exit 255
+2026-10-31T12:37:12Z 3.6-030306-generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | Timeout, server 127.0.0.1 not responding. | 
+2026-10-31T12:37:12Z waiting for 4.18.16-041816-generic after install exit 255
+2026-10-31T12:40:31Z BOOT FAIL 4.18.16-041816-generic (uname=None)
+2026-10-31T12:41:16Z sweep stopped
+2026-10-31T12:41:41Z kernel list has 41 entries
+2026-10-31T12:42:06Z grub default update exit 0
+2026-10-31T12:42:06Z skip existing 4.0.5-040005-generic
+2026-10-31T12:42:06Z skip existing 4.15.15-041515-generic
+2026-10-31T12:42:06Z skip existing 4.14.15-041415-generic
+2026-10-31T12:42:06Z skip existing 4.20.13-042013-generic
+2026-10-31T12:42:06Z skip existing 4.4.5-040405-generic
+2026-10-31T12:42:06Z skip existing 4.9.11-040911-generic
+2026-10-31T12:42:46Z install 4.19.11-041911-generic exit 8
+2026-10-31T12:42:46Z mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb [following] | --2026-10-31 20:42:43--  https://kernel.ubuntu.com/mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb | Reusing existing connection to kernel.ubuntu.com:443. | HTTP request sent, awaiting response... 404 Not Found | 2026-10-31 20:42:43 ERROR 404: Not Found. |  | 
+2026-10-31T12:42:46Z waiting for 4.19.11-041911-generic after install exit 8
+2026-10-31T12:43:26Z INSTALL FAIL 4.19.11-041911-generic exit 8
+2026-10-31T12:43:26Z ing] | --2026-10-31 20:42:43--  https://kernel.ubuntu.com/mainline/v4.19.11/linux-modules-4.19.11-041911-generic_4.19.11-041911.201812191931_amd64.deb | Reusing existing connection to kernel.ubuntu.com:443. | HTTP request sent, awaiting response... 404 Not Found | 2026-10-31 20:42:43 ERROR 404: Not Found. |  | 
+2026-10-31T12:43:26Z skip existing 3.0.7-030007-generic
+2026-10-31T12:43:26Z skip existing 3.1.7-030107-generic
+2026-10-31T12:43:26Z skip existing 3.2.11-030211-generic
+2026-10-31T12:43:26Z skip existing 3.3.6-030306-generic
+2026-10-31T12:43:26Z skip existing 3.4.6-030406-generic
+2026-10-31T12:43:26Z skip existing 3.5.4-030504-generic
+2026-10-31T12:43:26Z skip existing 3.6.10-030610-generic
+2026-10-31T12:43:26Z skip existing 3.7.9-030709-generic
+2026-10-31T12:43:26Z skip existing 3.8.10-030810-generic
+2026-10-31T12:43:26Z skip existing 3.9.8-030908-generic
+2026-10-31T12:43:26Z skip existing 3.10.10-031010-generic
+2026-10-31T12:43:26Z skip existing 3.11.6-031106-generic
+2026-10-31T12:43:26Z skip existing 3.12.8-031208-generic
+2026-10-31T12:43:26Z skip existing 3.13.7-031307-generic
+2026-10-31T12:43:26Z skip existing 3.14.6-031406-generic
+2026-10-31T12:43:26Z skip existing 3.15.8-031508-generic
+2026-10-31T12:43:26Z skip existing 3.16.3-031603-generic
+2026-10-31T12:43:26Z skip existing 3.17.6-031706-generic
+2026-10-31T12:43:26Z skip existing 3.18.6-031806-generic
+2026-10-31T12:43:26Z skip existing 3.19.3-031903-generic
+2026-10-31T12:43:26Z skip existing 4.1.6-040106-generic
+2026-10-31T12:43:26Z skip existing 4.2.5-040205-generic
+2026-10-31T12:43:26Z skip existing 4.3.3-040303-generic
+2026-10-31T12:43:26Z skip existing 4.5.4-040504-generic
+2026-10-31T12:43:26Z skip existing 4.6.4-040604-generic
+2026-10-31T12:43:26Z skip existing 4.7.6-040706-generic
+2026-10-31T12:43:26Z skip existing 4.8.14-040814-generic
+2026-10-31T12:43:26Z skip existing 4.10.13-041013-generic
+2026-10-31T12:43:26Z skip existing 4.11.8-041108-generic
+2026-10-31T12:43:26Z skip existing 4.12.10-041210-generic
+2026-10-31T12:43:26Z skip existing 4.13.12-041312-generic
+2026-10-31T12:43:26Z skip existing 4.16.13-041613-generic
+2026-10-31T12:44:15Z install 4.17.14-041714-generic exit 4294967295
+2026-10-31T12:44:15Z -generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | done | Connection to 127.0.0.1 closed by remote host. | 
+2026-10-31T12:44:15Z waiting for 4.17.14-041714-generic after install exit 4294967295
+2026-10-31T12:44:42Z bench 4.17.14-041714-generic exit 0
+2026-10-31T12:46:33Z install 4.18.16-041816-generic exit 255
+2026-10-31T12:46:33Z 3.6-030306-generic | Found linux image: /boot/vmlinuz-3.2.11-030211-generic | Found initrd image: /boot/initrd.img-3.2.11-030211-generic | Found linux image: /boot/vmlinuz-3.1.7-030107-generic | Found initrd image: /boot/initrd.img-3.1.7-030107-generic | Found linux image: /boot/vmlinuz-3.0.7-030007-generic | Found initrd image: /boot/initrd.img-3.0.7-030007-generic | Timeout, server 127.0.0.1 not responding. | 
+2026-10-31T12:46:33Z waiting for 4.18.16-041816-generic after install exit 255
+2026-10-31T12:49:51Z BOOT FAIL 4.18.16-041816-generic (uname=None)
+2026-10-31T12:50:38Z sweep stopped

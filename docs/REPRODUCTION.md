@@ -2,7 +2,7 @@
 
 Paper: Xiang (Jenny) Ren, Kirk Rodrigues, Luyuan Chen, Camilo Vega, Michael Stumm, and Ding Yuan. *An Analysis of Performance Evolution of Linux’s Core Operations.* SOSP 2019. <https://doi.org/10.1145/3341301.3359640>
 
-Course: CS340 Operating Systems, academic year 2026–2027. This note is the week of 2026-10-26 setup. It states which claims will be tested and what will differ from the paper. It does not yet report measurements.
+Course: CS340 Operating Systems, academic year 2026–2027. The week of 2026-10-26 set the plan. The week of 2026-10-31 runs that plan on the VirtualBox guest. Measurements are the CSVs under `results/kernels/`. The report is `report/report.tex`.
 
 ## Starting code
 
@@ -55,12 +55,12 @@ The paper’s reference machine is an HP DL160 G9, Xeon E5-2630 v3 at 2.40 GHz, 
 | Item | Paper | Setting used | Reason |
 | --- | --- | --- | --- |
 | Hardware | HP DL160 G9, Xeon E5-2630 v3, 128 GB, 960 GB SSD | Whatever machine boots the kernel under test; model recorded in `environment.txt` | The paper’s server is not available. Absolute latencies will differ; comparisons use the same machine across kernels. |
-| Kernel set | 36 Ubuntu mainline builds, 3.0.7 through 4.20.13 | A reduced subset that includes the 4.0 baseline and kernels on both sides of a named change | Course rules allow a reduced scale when it is stated. Thirty-six kernel installs are not the first milestone. |
-| Userspace | Ubuntu 16.04.6 | Ubuntu 22.04 toolchain in `setup/Dockerfile`, or the host distribution recorded per run | Current machines do not ship 16.04. System-call latency is dominated by the kernel; the compiler only builds the harness. |
+| Kernel set | 36 versions in the paper; 41 releases in `EXPERIMENTS.md` | Every release in `EXPERIMENTS.md`, on the VirtualBox guest | The released list is the one that can be downloaded. Kernels that do not reach sshd are logged and skipped. |
+| Userspace | Ubuntu 16.04.6 | Ubuntu 16.04.6 in VirtualBox (the Dockerfile is an unused alternate toolchain) | The guest matches the paper's distribution. Kernels older than 3.6 often reach a login prompt and never answer sshd. |
 | Cross-run statistics | K-best inside one process; the paper does not report a cross-run standard deviation | At least three process runs, then mean ± sample standard deviation of the published K-best value | The course requires mean ± standard deviation across at least three runs. |
-| Multi-kernel driver | `run.py` reboots through GRUB | `scripts/run_current_kernel.py` measures only the booted kernel | Rebooting a shared or remote machine from the first commit is unsafe. The upstream harness is kept for a later, supervised sweep. |
+| Multi-kernel driver | `run.py` reboots through GRUB and runs `grub-install` on `/dev/sda1` | `scripts/vm_kernel_sweep.py` uses `grub-reboot` for one boot and always returns to 4.4.0-210 | Installing GRUB onto a partition can overwrite the host disk. One-shot reboot keeps a known-good kernel. |
 | Application suite | Redis, Apache, and Nginx | Not run this week | The microbenchmark path has to exist before the macrobenchmarks. |
 
-## What this week does not show
+## What the measurements are
 
-No latency number in this commit comes from a measurement. Figure 1, Table 3, and the application speedups are not yet supported or refuted. The next measurement week should boot one Linux kernel, run `python3 scripts/run_current_kernel.py --runs 3`, and commit the `results/` directory that the script writes.
+Logs from the guest are under `results/kernels/`. `results/kernel_summary.csv` is the mean and sample standard deviation of the K-best value over three runs. The English report is `report/report.tex` and the slides are `report/slides.tex`. Application benchmarks from Section 5 of the paper are still not run.

@@ -1,0 +1,96 @@
+Performing test ref.
+Total test iteration 4000.
+Test took: 0.001557186 seconds
+Performing test cpu.
+Total test iteration 100.
+Test took: 0.748098735 seconds
+Performing test getpid.
+Total test iteration 4000.
+Test took: 0.002644058 seconds
+Performing test context siwtch.
+Total test iteration 400.
+Test took: 5.715510371 seconds
+msg size: 1.
+curr iter limit: 50.
+Performing test send.
+Total test iteration 400.
+Test took: 0.015094119 seconds
+Performing test recv.
+Total test iteration 400.
+Test took: 0.015944876 seconds
+Performing test fork.
+Total test iteration 80.
+Test took: 0.089027808 seconds
+Performing test thr create.
+Total test iteration 200.
+Test took: 0.111680876 seconds
+Performing test big fork.
+Total test iteration 20.
+Test took: 0.127279919 seconds
+file size: 4096.
+Performing test small write.
+Total test iteration 400.
+Test took: 0.006073587 seconds
+Performing test small read.
+Total test iteration 400.
+Test took: 0.001195893 seconds
+Performing test small mmap.
+Total test iteration 400.
+Test took: 0.001372167 seconds
+Performing test small munmap.
+Total test iteration 400.
+Test took: 0.009323603 seconds
+Performing test small page fault.
+Total test iteration 200.
+Test took: 0.002037958 seconds
+file size: 40960.
+Performing test mid write.
+Total test iteration 400.
+Test took: 0.039474902 seconds
+Performing test mid read.
+Total test iteration 400.
+Test took: 0.003185961 seconds
+Performing test mid mmap.
+Total test iteration 400.
+Test took: 0.002482406 seconds
+Performing test mid munmap.
+Total test iteration 400.
+Test took: 0.052995668 seconds
+Performing test mid page fault.
+Total test iteration 200.
+Test took: 0.002393819 seconds
+file size: 4096000.
+Performing test big write.
+Total test iteration 20.
+Test took: 0.217916319 seconds
+Performing test big read.
+Total test iteration 40.
+Test took: 0.037996603 seconds
+Performing test big mmap.
+Total test iteration 400.
+Test took: 0.002192319 seconds
+Performing test big munmap.
+Total test iteration 10.
+Test took: 0.131621266 seconds
+Performing test big page fault.
+Total test iteration 200.
+Test took: 0.003802423 seconds
+Performing test select.
+Total test iteration 400.
+Test took: 0.015893257 seconds
+Performing test poll.
+Total test iteration 400.
+Test took: 0.016035652 seconds
+Performing test epoll.
+Total test iteration 400.
+Test took: 0.023707261 seconds
+Performing test select big.
+Total test iteration 40.
+Test took: 0.209671150 seconds
+Performing test poll big.
+Total test iteration 40.
+Test took: 0.218177046 seconds
+Performing test epoll big.
+Total test iteration 40.
+Test took: 0.286277129 seconds
+Test took: 8.159952630 seconds

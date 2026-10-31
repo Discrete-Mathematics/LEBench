@@ -1,5 +1,6 @@
 # Build outputs
 TEST_DIR/OS_Eval
+course/sweep_bench
 *.o
 *.a
 *.so
@@ -19,6 +20,7 @@ __pycache__/
 /output.*.csv
 /LEBench.out
 TEST_DIR/socket
+results/kernels/sweep.lock
 
 # Editor and OS junk
 .DS_Store

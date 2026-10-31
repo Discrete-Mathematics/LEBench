@@ -59,14 +59,15 @@ Check the summary arithmetic without a machine measurement:
 python3 scripts/summarize_runs.py --self-test
 ```
 
-Upstream multi-kernel sweep (Python 2, reboots the machine, one kernel at a time):
+Multi-kernel sweep on the course VM (Python 3). It installs the Ubuntu image debs listed in `EXPERIMENTS.md`, boots each one with `grub-reboot`, and stores three reduced runs under `results/kernels/`. A kernel that never reaches sshd is appended to `results/kernels/boot-failures.txt` and is not retried.
 
 ```bash
-python get_kern.py
-sudo python run.py
+python scripts/vm_kernel_sweep.py
+python scripts/summarize_kernel_sweep.py
+python scripts/render_results.py
 ```
 
-Do not point that harness at a machine you cannot reboot. Details are in the upstream section below.
+The password is read from `LEBENCH_VM_PASSWORD` or from a local `Password:` line. It is not stored in this repository. Do not point the upstream `run.py` harness at a machine you cannot reboot, and do not let it run `grub-install` against the Windows disk. Details are in the upstream section below.
 
 ## Expected outputs and runtime
 
