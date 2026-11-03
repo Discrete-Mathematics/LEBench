@@ -12,7 +12,7 @@
 \large Linux 核心操作性能演化分析}
 \author{邹浩宇 \quad 5260000157\\
 CS340 操作系统，2026--2027}
-\date{2026年10月31日}
+\date{2026年11月3日}
 
 \begin{document}
 \maketitle
@@ -89,7 +89,7 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 \subsection{已安装内核上的页表隔离}
 \label{sec:ext}
 
-扩展实验只改一个因素。内核 4.4.0-210-generic 启动两次：一次用默认命令行，一次在同一内核上加上 \texttt{nopti}。硬件、二进制和迭代次数都不变。两次启动里，\path{/sys/devices/system/cpu/vulnerabilities/meltdown} 都是“Not affected”。Spectre v2 保持 Enhanced IBRS。
+这次对照只改一个因素。内核 4.4.0-210-generic 启动两次：一次用默认命令行，一次在同一内核上加上 \texttt{nopti}。硬件、二进制和迭代次数都不变。两次启动里，\path{/sys/devices/system/cpu/vulnerabilities/meltdown} 都是“Not affected”。Spectre v2 保持 Enhanced IBRS。
 
 表~\ref{tab:nopti} 由 \texttt{scripts/render\_results.py} 根据 \texttt{results/kernel\_summary.csv} 算出。“重叠”表示两个“均值 $\pm$ 标准差”区间相交。
 
@@ -135,6 +135,20 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 
 这次运行给不出原服务器上的热力图、十一项消融，以及应用程序的加速。到不了 sshd 的内核记在 \texttt{results/kernels/progress.log} 的启动失败里，不给它们填一个延迟。
 
+\section{扩展：把 getpid 改成批量计时}
+\label{sec:batch}
+
+精简套件在两次 \texttt{clock\_gettime} 之间只调用一次 \texttt{getpid}。在 4.0.5 上，空跑的 \texttt{ref} 是 156 $\pm$ 64 ns，\texttt{getpid} 是 245 $\pm$ 0 ns，计时器占了这个数字的很大一部分。扩展实验只改这一项。\texttt{course/OS\_Eval\_batched.c} 从精简源生成，把 \texttt{getpid} 改成一次计时 1{,}000 次调用再除以 1{,}000。K-best、\texttt{BASE\_ITER}、编译选项和其它测试都不变。每个内核把新二进制跑了三次。日志在 \texttt{results/batching/<版本>/run\{1,2,3\}.csv}。
+
+\begin{table}[ht]
+\centering
+\caption{三次 K-best 的均值 $\pm$ 样本标准差。单次一列来自精简扫描，批量一列是上面这一处改动。}
+\label{tab:batch}
+\input{generated/batch_table_zh.tex}
+\end{table}
+
+在 4.0.5 上，批量之后每次调用是 129 ns，单次是 245 ns，两个区间不重叠。同一天这份二进制的空跑时钟对是 132 $\pm$ 19 ns，和批量后的每次调用接近。在 4.4.0-210 上，单次均值是 314 ns，区间整个在 4.0.5 之上。批量之后两个均值是 127 ns 和 129 ns，区间重叠。这两个内核之间看起来的 \texttt{getpid} 变慢，在这一处改动之后没有了。批量二进制上的 \texttt{small read} 仍落在单次结果的波动里（4.0.5：813 $\pm$ 72 ns，对照 726 $\pm$ 73 ns），所以套件的其余部分没有跟着这次修改一起变。
+
 \section{另一份实现}
 \label{sec:rewrite}
 
@@ -153,11 +167,11 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 
 \section{结论}
 
-这次复现是部分完成的。作者列出的 41 个内核里，34 个把作者的基准程序跑了三次。在这些日志上，“4.0 之后大多数核心操作变慢了”这一条不成立；在一颗不受 Meltdown 影响的 CPU 上，\texttt{nopti} 也没有复现出 KPTI 变慢。应用程序一节和十一项原因的消融没有复现。实际的教训是：把微基准抄到一个新计时器上，以及一个装得上却启动不了的内核镜像，都会安静地失败。前者仍然会打出一个数字，后者则根本走不到打印数字的那一步。日志必须能看出发生的是哪一种。
+这次复现是部分完成的。作者列出的 41 个内核里，34 个把精简基准跑了三次。在这些日志上，“4.0 之后大多数核心操作变慢了”这一条不成立；在一颗不受 Meltdown 影响的 CPU 上，\texttt{nopti} 也没有复现出 KPTI 变慢。在 4.0.5 和 4.4.0-210 上把 \texttt{getpid} 改成批量计时之后，报告的每次调用大约少了一半，两个内核之间的变慢也不见了，所以原来那一行主要是计时器。应用程序一节和十一项原因的消融没有复现。实际的教训是：把微基准抄到一个新计时器上，以及一个装得上却启动不了的内核镜像，都会安静地失败。前者仍然会打出一个数字，后者则根本走不到打印数字的那一步。日志必须能看出发生的是哪一种。
 
 \section*{贡献说明}
 
-邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
+邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
 
 \section*{AI 使用说明}
 

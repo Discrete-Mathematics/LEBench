@@ -10,7 +10,7 @@
 \subtitle{SOSP 2019，Ren 等人}
 \author{邹浩宇 \quad 5260000157}
 \institute{CS340 操作系统}
-\date{2026年10月31日}
+\date{2026年11月3日}
 
 \begin{document}
 
@@ -64,6 +64,16 @@
 \item getpid、读、send、recv 的变化小于各次运行之间的波动。
 \item 加上 \texttt{nopti} 之后 fork 更慢，这不是论文里的 KPTI 故事。
 \item KPTI 开销在这里没有复现出来。这颗 CPU 本来就不付这笔代价。
+\end{itemize}
+\end{frame}
+
+\begin{frame}{扩展：批量计时 getpid}
+只改一处：一次计时 1{,}000 次调用，再除以 1{,}000。K-best 和机器不变。
+\begin{itemize}
+\item 4.0.5：从 245 $\pm$ 0 ns 降到 129 $\pm$ 0 ns。区间不重叠。
+\item 4.4.0-210：从 314 $\pm$ 39 ns 降到 127 $\pm$ 40 ns。
+\item 批量之后这两个内核的区间重叠。单次计时里的变慢没有留下来。
+\item 4.0.5 上一次空跑的时钟大约 130 ns。原来的 getpid 一行主要就是这一对时钟。
 \end{itemize}
 \end{frame}
 

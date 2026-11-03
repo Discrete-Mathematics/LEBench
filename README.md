@@ -67,6 +67,13 @@ python scripts/summarize_kernel_sweep.py
 python scripts/render_results.py
 ```
 
+The reduced binary uses `BASE_ITER` 40 and omits the three long cases named in `course/make_reduced_eval.py`. Thirty-four of the 41 listed kernels have three runs under `results/kernels/`. `course/make_batched_eval.py` changes only `getpid`: 1,000 calls per sample, then divide. `scripts/run_batched_extension.py` runs that binary three times; logs are `results/batching/`.
+
+```bash
+python3 course/make_batched_eval.py
+gcc -O0 -pthread -o course/batched_bench course/OS_Eval_batched.c
+```
+
 The password is read from `LEBENCH_VM_PASSWORD` or from a local `Password:` line. It is not stored in this repository. Do not point the upstream `run.py` harness at a machine you cannot reboot, and do not let it run `grub-install` against the Windows disk. Details are in the upstream section below.
 
 ## Expected outputs and runtime
@@ -82,7 +89,7 @@ Each invocation creates `results/<kernel-release>/<UTC-timestamp>/`:
 | `run<N>/output.<kernel>.csv` | Per-test K-best and average latency, in seconds |
 | `summary.csv` | Mean and sample standard deviation across the runs |
 
-The directory layout is also described in [results/README.md](results/README.md). No result batch is checked in yet.
+The directory layout is also described in [results/README.md](results/README.md). The virtual-machine sweep is checked in under `results/kernels/`, and the batched-`getpid` runs under `results/batching/`.
 
 `OS_Eval` sleeps 60 seconds at startup, then runs on the order of 10^5 to 10^6 iterations of each microbenchmark (fork, page fault, select, send/recv, and the rest of Table 2 in the paper). On the class of server used in the paper, plan on roughly one to a few hours per pass. Three passes is the default, so leave the machine otherwise idle for that long. The script stops if a pass exits non-zero and leaves the logs in place.
 

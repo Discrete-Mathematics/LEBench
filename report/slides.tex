@@ -7,7 +7,7 @@
 \subtitle{SOSP 2019, Ren et al.}
 \author{Haoyu Zou \quad 5260000157}
 \institute{CS340 Operating Systems}
-\date{31 October 2026}
+\date{3 November 2026}
 
 \begin{document}
 
@@ -61,6 +61,16 @@ The full table is in the report.
 \item getpid, read, send, and recv move by less than the run-to-run spread.
 \item fork is slower with \texttt{nopti}, which is not the paper's KPTI story.
 \item The KPTI tax is not reproduced here. The CPU never pays it.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Extension: batch \texttt{getpid}}
+One change. Time 1{,}000 calls, divide by 1{,}000. Same K-best, same machine.
+\begin{itemize}
+\item 4.0.5: 245 $\pm$ 0 ns down to 129 $\pm$ 0 ns. The intervals do not overlap.
+\item 4.4.0-210: 314 $\pm$ 39 ns down to 127 $\pm$ 40 ns.
+\item After batching, those two kernels overlap. The single-shot slowdown does not.
+\item The empty clock pair on 4.0.5 is about 130 ns. The old \texttt{getpid} row was mostly that pair.
 \end{itemize}
 \end{frame}
 
