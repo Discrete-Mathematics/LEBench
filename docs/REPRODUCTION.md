@@ -63,4 +63,4 @@ The paper’s reference machine is an HP DL160 G9, Xeon E5-2630 v3 at 2.40 GHz, 
 
 ## What the measurements are
 
-Logs from the guest are under `results/kernels/`. `results/kernel_summary.csv` is the mean and sample standard deviation of the K-best value over three runs. The English report is `report/report.tex` and the slides are `report/slides.tex`. Application benchmarks from Section 5 of the paper are still not run.
+Logs from the guest are under `results/kernels/`. `results/kernel_summary.csv` is the mean and sample standard deviation of the K-best value over three runs. The one-factor extension times 1,000 `getpid` calls per sample and divides; those logs are `results/batching/`. The English report is `report/report.tex` and the slides are `report/slides.tex`. Application benchmarks from Section 5 of the paper are still not run.

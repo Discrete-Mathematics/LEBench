@@ -1,0 +1,18 @@
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+测试 & 默认 & \texttt{nopti} & 变化 & 区间重叠 \\
+\midrule
+getpid & 314 ns & 295 ns & -6\% & 是 \\
+context siwtch & 11.2 us & 12.9 us & +15\% & 是 \\
+send & 600 ns & 693 ns & +15\% & 是 \\
+recv & 692 ns & 764 ns & +10\% & 是 \\
+fork & 92.8 us & 254.0 us & +174\% & 否 \\
+small read & 784 ns & 946 ns & +21\% & 是 \\
+small write & 1.9 us & 2.0 us & +7\% & 是 \\
+big write & 1.66 ms & 3.62 ms & +118\% & 是 \\
+big munmap & 269.5 us & 266.3 us & -1\% & 是 \\
+select & 1.2 us & 1.5 us & +29\% & 是 \\
+poll & 847 ns & 1.1 us & +26\% & 是 \\
+epoll & 905 ns & 1.0 us & +12\% & 是 \\
+\bottomrule
+\end{tabular}

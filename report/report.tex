@@ -10,7 +10,7 @@
 \large An Analysis of Performance Evolution of Linux's Core Operations}
 \author{Haoyu Zou \quad 5260000157\\
 CS340 Operating Systems, 2026--2027}
-\date{31 October 2026}
+\date{3 November 2026}
 
 \begin{document}
 \maketitle
@@ -85,7 +85,7 @@ Applications & Redis, Apache, Nginx & Not run & Claim 1 and one security switch 
 \subsection{Page-table isolation on the installed kernel}
 \label{sec:ext}
 
-The extension changes one factor. Kernel 4.4.0-210-generic is booted twice: the default command line, and the same kernel with \texttt{nopti}. Hardware, binary, and iteration count stay the same. \texttt{/sys/devices/system/cpu/vulnerabilities/meltdown} reads ``Not affected'' in both boots. Spectre v2 stays on Enhanced IBRS.
+This comparison changes one factor. Kernel 4.4.0-210-generic is booted twice: the default command line, and the same kernel with \texttt{nopti}. Hardware, binary, and iteration count stay the same. \texttt{/sys/devices/system/cpu/vulnerabilities/meltdown} reads ``Not affected'' in both boots. Spectre v2 stays on Enhanced IBRS.
 
 Table~\ref{tab:nopti} is computed by \texttt{scripts/render\_results.py} from \texttt{results/kernel\_summary.csv}. ``Overlap'' means the two mean$\pm$stdev intervals touch.
 
@@ -103,6 +103,20 @@ Fast operations move by less than their run-to-run spread. \texttt{fork} is slow
 Of the 41 releases in \texttt{EXPERIMENTS.md}, 34 booted far enough for three runs. Kernels 3.0.7 through 3.5.4 install and then never answer sshd; they are listed in \texttt{results/kernels/boot-failures.txt} and have no latency. Linux 4.19.11 needs a \texttt{linux-modules} package that is no longer published at the Ubuntu mainline URL used for 4.16, 4.17, 4.18, and 4.20, so that one release was not installed. The 4.4.0-210 pair is the guest's recovery kernel and is not one of the 41.
 
 \input{generated/claim_summary.tex}
+
+\begin{table}[ht]
+\centering
+\caption{Paper versus this guest. The metric is the sign of the latency change from Linux 4.0, which is what Figure 1(a) plots.}
+\label{tab:paper}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.36\linewidth}p{0.34\linewidth}@{}}
+\toprule
+Item & Paper & Ours \\
+\midrule
+Later kernels vs 4.0 & Most tests slower, and many by at least 50\% & 271 of 627 means (43\%) are higher; 76 (12\%) are at least 50\% higher \\
+vs Linux 3.0 & 75\% of tests slower & No measurement: 3.0.7--3.5.4 never reached sshd \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Those 627 rows are every test on the 19 kernels newer than 4.0.5 that finished three runs. A zero K-best on 3.6.10 (getpid and a few other tests) is a failed window: the average in the same CSV is not zero, and 3.6.10 is not the baseline, so it is not in the 627. Table~\ref{tab:kernels} shows three tests. Every mean is the mean of three K-best values in \texttt{results/kernels/<release>/run\{1,2,3\}.csv}, and the full set is \texttt{results/kernel\_summary.csv}.
 
@@ -131,6 +145,20 @@ Claim 3 is not tested. There is no Redis, Apache, or Nginx number in this reposi
 
 What this run cannot show is the heatmap on the original server, the eleven-way ablation, or the application speedups. Kernels that do not reach sshd are recorded as boot failures in \texttt{results/kernels/progress.log} and are not given a latency.
 
+\section{Extension}
+\label{sec:batch}
+
+The reduced suite times one \texttt{getpid} between two \texttt{clock\_gettime} calls. On 4.0.5 that empty pair, the \texttt{ref} row, is 156 $\pm$ 64 ns, and the \texttt{getpid} row is 245 $\pm$ 0 ns, so the timer is a large part of the number. The extension changes only that test. \texttt{course/OS\_Eval\_batched.c} is the reduced source with \texttt{getpid} rewritten to time 1{,}000 calls and divide by 1{,}000. K-best, \texttt{BASE\_ITER}, the compiler flags, and every other test stay the same. Each kernel ran the new binary three times. Logs are \texttt{results/batching/<release>/run\{1,2,3\}.csv}.
+
+\begin{table}[ht]
+\centering
+\caption{Mean $\pm$ sample standard deviation of three K-best runs. Single-shot numbers are the reduced sweep; batched numbers are the one-line change above.}
+\label{tab:batch}
+\input{generated/batch_table.tex}
+\end{table}
+
+On 4.0.5 the batched per-call cost is 129 ns, against 245 ns for one call. The two intervals do not overlap. The same binary's empty clock pair that day was 132 $\pm$ 19 ns, close to the batched per-call figure, which is what a timer-dominated sample looks like. On 4.4.0-210 the single-shot mean is 314 ns and its interval sits entirely above 4.0.5. After batching, the means are 127 ns and 129 ns, and the intervals overlap. The apparent \texttt{getpid} slowdown between these two kernels does not survive the change. \texttt{small read} on the batched binary stays within the single-shot spread (4.0.5: 813 $\pm$ 72 ns against 726 $\pm$ 73 ns), so the rest of the suite did not move with this edit.
+
 \section{The other implementation}
 \label{sec:rewrite}
 
@@ -149,11 +177,11 @@ The changes that make the course tree more faithful are the ones in \texttt{cour
 
 \section{Conclusion}
 
-The reproduction is partial. Thirty-four of the 41 listed kernels ran the authors' benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and the \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. The application section and the eleven-cause ablation are not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
+The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduced benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and the \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. Batching \texttt{getpid} on 4.0.5 and 4.4.0-210 cuts the reported per-call cost by about half and removes the slowdown between those two kernels, so that one row was mostly the timer. The application section and the eleven-cause ablation are not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
 
 \section*{Contribution statement}
 
-Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, and wrote this report and the slides. Commits for this work use that student ID and name.
+Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, and wrote this report and the slides. Commits for this work use that student ID and name.
 
 \section*{AI usage statement}
 
