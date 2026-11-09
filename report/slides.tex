@@ -7,7 +7,7 @@
 \subtitle{SOSP 2019, Ren et al.}
 \author{Haoyu Zou \quad 5260000157}
 \institute{CS340 Operating Systems}
-\date{3 November 2026}
+\date{9 November 2026}
 
 \begin{document}
 
@@ -22,7 +22,7 @@
 \item Eleven causes cover the jumps: security, features, and bad config (Table 3, Figure 2).
 \item Turning them off speeds Redis, Apache, and Nginx (Section 5).
 \end{itemize}
-We test the first claim on the authors' kernel list, and one security switch as the extension. The applications are not run.
+We test the first claim on the authors' kernel list, and one security switch as the extension. The applications are one kernel and one switch, \texttt{spectre\_v2=off}.
 \end{frame}
 
 \begin{frame}{What actually runs}
@@ -93,13 +93,24 @@ A second C suite reimplemented the tests with \texttt{rdtsc} and had an empty re
 The course tree calls \texttt{OS\_Eval} instead of replacing it.
 \end{frame}
 
+\begin{frame}{Claim 3: one switch}
+Same kernel, 4.4.0-210. Three runs. Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3.
+\begin{itemize}
+\item The sysfs line changes from Enhanced IBRS to Vulnerable.
+\item Apache 1580 $\pm$ 139 to 1308 $\pm$ 24 requests/s. Slower, no overlap.
+\item Nginx 5725 $\pm$ 966 to 7314 $\pm$ 208 requests/s. Faster, no overlap.
+\item Redis means rise, and every interval still overlaps.
+\item The paper's speed-ups need all eleven causes. This one switch does not reproduce them.
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Verdict}
 34 of 41 listed kernels finished three runs. 3.0.7--3.5.4 never answered sshd. 4.19.11 had no published modules package.
 \begin{itemize}
 \item Claim 1: not supported here. 43\% of later-kernel means are higher than our 4.0.5; 12\% are at least 50\% higher.
 \item getpid is clearly faster on 9 of 19 later kernels, and slower on 2.
 \item Claim 2: \texttt{nopti} does not reproduce the KPTI tax. This CPU is not affected.
-\item Claim 3: not run, so inconclusive.
+\item Claim 3: not supported. \texttt{spectre\_v2=off} slows Apache and speeds Nginx. Redis stays inside its spread.
 \item Overall: partially reproduced. The missing piece is the paper's own conclusion, not the harness.
 \end{itemize}
 \end{frame}

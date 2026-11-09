@@ -10,7 +10,7 @@
 \large An Analysis of Performance Evolution of Linux's Core Operations}
 \author{Haoyu Zou \quad 5260000157\\
 CS340 Operating Systems, 2026--2027}
-\date{3 November 2026}
+\date{9 November 2026}
 
 \begin{document}
 \maketitle
@@ -27,7 +27,7 @@ Three claims are tied to the paper:
 \item \textbf{Section 5.} Turning those eleven changes off speeds Redis, Apache, and Nginx by up to 56\%, 33\%, and 34\%.
 \end{enumerate}
 
-This reproduction tests claim 1 on the kernel list shipped with the authors' experiment notes, and tests one factor from claim 2 (page-table isolation) as the extension. Claim 3 is not run. The authors' \texttt{EXPERIMENTS.md} lists 41 Ubuntu mainline builds, from 3.0.7 to 4.20.13. The paper text says 36 versions. The driver attempts every release in that file.
+This reproduction tests claim 1 on the kernel list shipped with the authors' experiment notes, and tests one factor from claim 2 (page-table isolation). Claim 3 is tested as one runtime switch, \texttt{spectre\_v2=off}, on the guest's recovery kernel. The authors' \texttt{EXPERIMENTS.md} lists 41 Ubuntu mainline builds, from 3.0.7 to 4.20.13. The paper text says 36 versions. The driver attempts every release in that file.
 
 \section{Reproduction setup}
 
@@ -75,7 +75,7 @@ Kernel count & 36 versions in the paper text & All 41 releases listed by the aut
 Iterations & \texttt{BASE\_ITER} 10{,}000 and a 60\,s settle & \texttt{BASE\_ITER} 40, no settle & A full pass is hours per kernel on this guest. The K-best rule is unchanged. \\
 Omitted tests & 96\,KB send/recv, 12{,}000-page fork, 10{,}000-page I/O & Not compiled in & The upstream comment says the large send blocks on old kernels. The other two dominate runtime. \\
 Statistics & K-best inside one process & That value, then mean $\pm$ sample standard deviation over 3 processes & The course requires the cross-run statistic. \\
-Applications & Redis, Apache, Nginx & Not run & Claim 1 and one security switch come first. \\
+Applications & Redis, Apache, Nginx, all 11 causes disabled, many kernels & Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3, one kernel, only \texttt{spectre\_v2=off} & The guest can toggle one mitigation. The other ten causes need kernel rebuilds. \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -141,9 +141,20 @@ On that rule, claim 1 is \textbf{not supported} on this guest. Only 271 of 627 l
 
 Claim 2 is only touched by the \texttt{nopti} switch. The paper's KPTI result needs a CPU that pays for page-table isolation. The i7-13700H reports that it does not. The switch still changes \texttt{fork}, so the command line is not a no-op, but it does not reproduce ``KPTI makes \texttt{getpid}, read, and recv slower.'' That part of claim 2 is \textbf{not supported} here.
 
-Claim 3 is not tested. There is no Redis, Apache, or Nginx number in this repository, so the application claim is \textbf{inconclusive}.
+Claim 3 was run on 4.4.0-210-generic only. The paper turns off eleven causes and reports speed-ups of up to 56\%, 33\%, and 34\% for Redis, Apache, and Nginx. Here the only change is \texttt{spectre\_v2=off}. The vulnerability file moves from ``Mitigation: Enhanced IBRS'' to ``Vulnerable'', so the switch took effect. Table~\ref{tab:macro} is mean $\pm$ sample standard deviation of three runs, in requests per second. Logs are \texttt{results/macro/<config>/results.csv}.
 
-What this run cannot show is the heatmap on the original server, the eleven-way ablation, or the application speedups. Kernels that do not reach sshd are recorded as boot failures in \texttt{results/kernels/progress.log} and are not given a latency.
+\begin{table}[ht]
+\centering
+\caption{Application throughput on one kernel. Ratio is the \texttt{spectre\_v2=off} mean divided by the default mean.}
+\label{tab:macro}
+\input{generated/macro_table.tex}
+\end{table}
+
+Apache is slower with the switch, and the intervals do not overlap (1580 $\pm$ 139 against 1308 $\pm$ 24). Nginx is faster, and those intervals do not overlap either (5725 $\pm$ 966 against 7314 $\pm$ 208). Every Redis row has a higher mean, and every Redis interval still overlaps the default interval. The three applications do not move in the same direction, and the Redis changes are inside the run-to-run spread. Claim 3 is \textbf{not supported} on this guest. The paper's percentages come from disabling eleven causes on a server, not one command-line switch on this virtual machine.
+
+A separate audit of the existing sweep, in \texttt{docs/timer-floor.md}, asks whether claim 1 is an artifact of the clock. It treats \texttt{ref} as the timer floor and drops a row when the mean is below three times that floor, or when the floor is zero. That removes 56 of 1152 rows (4.9\%), mostly \texttt{getpid} and the whole 3.6.10 boot. The median ratio to 4.0.5 stays 1.02, and the share of rows at least 50\% higher stays near 18\%. The 4.16.13--4.18.16 rows look about twice as fast, including the pure-CPU loop, which does not call the kernel. Those three boots are a shifted time base, not a faster kernel. Dropping the timer-bound rows does not turn claim 1 into the paper's result.
+
+What this run cannot show is the heatmap on the original server or the eleven-way ablation. Kernels that do not reach sshd are recorded as boot failures in \texttt{results/kernels/progress.log} and are not given a latency.
 
 \section{Extension}
 \label{sec:batch}
@@ -177,11 +188,11 @@ The changes that make the course tree more faithful are the ones in \texttt{cour
 
 \section{Conclusion}
 
-The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduced benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and the \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. Batching \texttt{getpid} on 4.0.5 and 4.4.0-210 cuts the reported per-call cost by about half and removes the slowdown between those two kernels, so that one row was mostly the timer. The application section and the eleven-cause ablation are not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
+The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduced benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and removing timer-bound rows does not reverse that. The \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. Batching \texttt{getpid} on 4.0.5 and 4.4.0-210 cuts the reported per-call cost by about half. Turning Spectre v2 off speeds Nginx and slows Apache, while Redis stays inside its run-to-run spread, so the application claim is not supported either. The eleven-cause ablation is not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
 
 \section*{Contribution statement}
 
-Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, and wrote this report and the slides. Commits for this work use that student ID and name.
+Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, ran the Redis, Apache, and Nginx comparison under \texttt{results/macro/}, and wrote this report and the slides. Commits for this work use that student ID and name.
 
 \section*{AI usage statement}
 

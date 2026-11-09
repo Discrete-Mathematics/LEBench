@@ -59,8 +59,8 @@ The paper’s reference machine is an HP DL160 G9, Xeon E5-2630 v3 at 2.40 GHz, 
 | Userspace | Ubuntu 16.04.6 | Ubuntu 16.04.6 in VirtualBox (the Dockerfile is an unused alternate toolchain) | The guest matches the paper's distribution. Kernels older than 3.6 often reach a login prompt and never answer sshd. |
 | Cross-run statistics | K-best inside one process; the paper does not report a cross-run standard deviation | At least three process runs, then mean ± sample standard deviation of the published K-best value | The course requires mean ± standard deviation across at least three runs. |
 | Multi-kernel driver | `run.py` reboots through GRUB and runs `grub-install` on `/dev/sda1` | `scripts/vm_kernel_sweep.py` uses `grub-reboot` for one boot and always returns to 4.4.0-210 | Installing GRUB onto a partition can overwrite the host disk. One-shot reboot keeps a known-good kernel. |
-| Application suite | Redis, Apache, and Nginx | Not run this week | The microbenchmark path has to exist before the macrobenchmarks. |
+| Application suite | Redis, Apache, and Nginx with all 11 causes disabled | Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3, one kernel, `spectre_v2=off` only | The guest can toggle one mitigation. Logs are `results/macro/`. |
 
 ## What the measurements are
 
-Logs from the guest are under `results/kernels/`. `results/kernel_summary.csv` is the mean and sample standard deviation of the K-best value over three runs. The one-factor extension times 1,000 `getpid` calls per sample and divides; those logs are `results/batching/`. The English report is `report/report.tex` and the slides are `report/slides.tex`. Application benchmarks from Section 5 of the paper are still not run.
+Logs from the guest are under `results/kernels/`. `results/kernel_summary.csv` is the mean and sample standard deviation of the K-best value over three runs. The one-factor extension times 1,000 `getpid` calls per sample and divides; those logs are `results/batching/`. The English report is `report/report.tex` and the slides are `report/slides.tex`. Application logs are `results/macro/`.

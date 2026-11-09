@@ -1,0 +1,46 @@
+config,run,app,test,metric,value,unit
+default,1,apache,index,throughput,1657.21,req_per_s
+default,1,apache,index,latency_mean,60.342,ms
+default,1,apache,index,failed,0,count
+default,1,nginx,index,throughput,5403.61,req_per_s
+default,1,nginx,index,latency_mean,18.506,ms
+default,1,nginx,index,failed,0,count
+default,2,apache,index,throughput,1663.37,req_per_s
+default,2,apache,index,latency_mean,60.119,ms
+default,2,apache,index,failed,0,count
+default,2,nginx,index,throughput,6810.40,req_per_s
+default,2,nginx,index,latency_mean,14.683,ms
+default,2,nginx,index,failed,0,count
+default,3,apache,index,throughput,1419.20,req_per_s
+default,3,apache,index,latency_mean,70.462,ms
+default,3,apache,index,failed,0,count
+default,3,nginx,index,throughput,4961.22,req_per_s
+default,3,nginx,index,latency_mean,20.156,ms
+default,3,nginx,index,failed,0,count
+default,1,redis,GET,throughput,40436.71,req_per_s
+default,1,redis,RPUSH,throughput,37608.12,req_per_s
+default,1,redis,RPOP,throughput,42462.84,req_per_s
+default,1,redis,SPOP,throughput,34423.41,req_per_s
+default,1,redis,LPUSH (needed to benchmark LRANGE),throughput,31928.48,req_per_s
+default,1,redis,LRANGE_100 (first 100 elements),throughput,16215.34,req_per_s
+default,1,redis,LRANGE_300 (first 300 elements),throughput,8514.26,req_per_s
+default,1,redis,LRANGE_500 (first 450 elements),throughput,6857.77,req_per_s
+default,1,redis,LRANGE_600 (first 600 elements),throughput,3675.39,req_per_s
+default,2,redis,GET,throughput,29351.33,req_per_s
+default,2,redis,RPUSH,throughput,23860.65,req_per_s
+default,2,redis,RPOP,throughput,29931.16,req_per_s
+default,2,redis,SPOP,throughput,25581.99,req_per_s
+default,2,redis,LPUSH (needed to benchmark LRANGE),throughput,24360.54,req_per_s
+default,2,redis,LRANGE_100 (first 100 elements),throughput,11380.45,req_per_s
+default,2,redis,LRANGE_300 (first 300 elements),throughput,6415.60,req_per_s
+default,2,redis,LRANGE_500 (first 450 elements),throughput,4262.21,req_per_s
+default,2,redis,LRANGE_600 (first 600 elements),throughput,3768.18,req_per_s
+default,3,redis,GET,throughput,39370.08,req_per_s
+default,3,redis,RPUSH,throughput,28344.67,req_per_s
+default,3,redis,RPOP,throughput,24260.07,req_per_s
+default,3,redis,SPOP,throughput,22266.75,req_per_s
+default,3,redis,LPUSH (needed to benchmark LRANGE),throughput,26910.66,req_per_s
+default,3,redis,LRANGE_100 (first 100 elements),throughput,13376.14,req_per_s
+default,3,redis,LRANGE_300 (first 300 elements),throughput,5756.72,req_per_s
+default,3,redis,LRANGE_500 (first 450 elements),throughput,4665.48,req_per_s
+default,3,redis,LRANGE_600 (first 600 elements),throughput,3903.81,req_per_s

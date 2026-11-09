@@ -1,0 +1,30 @@
+default      apache  index    failed       n=3           0 +/-        0 count    ratio=-
+default      apache  index    latency_mean n=3       63.64 +/-     5.91 ms       ratio=1.0000
+default      apache  index    throughput   n=3        1580 +/-      139 req_per_s ratio=1.0000
+default      nginx   index    failed       n=3           0 +/-        0 count    ratio=-
+default      nginx   index    latency_mean n=3       17.78 +/-     2.81 ms       ratio=1.0000
+default      nginx   index    throughput   n=3        5725 +/-      966 req_per_s ratio=1.0000
+default      redis   GET      throughput   n=3   3.639e+04 +/- 6.12e+03 req_per_s ratio=1.0000
+default      redis   LPUSH (needed to benchmark LRANGE) throughput   n=3   2.773e+04 +/- 3.85e+03 req_per_s ratio=1.0000
+default      redis   LRANGE_100 (first 100 elements) throughput   n=3   1.366e+04 +/- 2.43e+03 req_per_s ratio=1.0000
+default      redis   LRANGE_300 (first 300 elements) throughput   n=3        6896 +/- 1.44e+03 req_per_s ratio=1.0000
+default      redis   LRANGE_500 (first 450 elements) throughput   n=3        5262 +/-  1.4e+03 req_per_s ratio=1.0000
+default      redis   LRANGE_600 (first 600 elements) throughput   n=3        3782 +/-      115 req_per_s ratio=1.0000
+default      redis   RPOP     throughput   n=3   3.222e+04 +/- 9.31e+03 req_per_s ratio=1.0000
+default      redis   RPUSH    throughput   n=3   2.994e+04 +/- 7.01e+03 req_per_s ratio=1.0000
+default      redis   SPOP     throughput   n=3   2.742e+04 +/- 6.28e+03 req_per_s ratio=1.0000
+spectre-off  apache  index    failed       n=3           0 +/-        0 count    ratio=-
+spectre-off  apache  index    latency_mean n=3       76.47 +/-     1.42 ms       ratio=1.2016
+spectre-off  apache  index    throughput   n=3        1308 +/-     24.2 req_per_s ratio=0.8279
+spectre-off  nginx   index    failed       n=3           0 +/-        0 count    ratio=-
+spectre-off  nginx   index    latency_mean n=3       13.68 +/-    0.396 ms       ratio=0.7693
+spectre-off  nginx   index    throughput   n=3        7314 +/-      208 req_per_s ratio=1.2776
+spectre-off  redis   GET      throughput   n=3   4.917e+04 +/- 1.48e+04 req_per_s ratio=1.3514
+spectre-off  redis   LPUSH (needed to benchmark LRANGE) throughput   n=3   3.027e+04 +/- 4.55e+03 req_per_s ratio=1.0916
+spectre-off  redis   LRANGE_100 (first 100 elements) throughput   n=3   1.469e+04 +/- 2.76e+03 req_per_s ratio=1.0754
+spectre-off  redis   LRANGE_300 (first 300 elements) throughput   n=3        5240 +/- 2.16e+03 req_per_s ratio=0.7599
+spectre-off  redis   LRANGE_500 (first 450 elements) throughput   n=3        4203 +/-      474 req_per_s ratio=0.7988
+spectre-off  redis   LRANGE_600 (first 600 elements) throughput   n=3        3276 +/-      300 req_per_s ratio=0.8662
+spectre-off  redis   RPOP     throughput   n=3   3.722e+04 +/- 1.87e+04 req_per_s ratio=1.1553
+spectre-off  redis   RPUSH    throughput   n=3   3.769e+04 +/- 4.55e+03 req_per_s ratio=1.2589
+spectre-off  redis   SPOP     throughput   n=3   3.276e+04 +/- 3.12e+03 req_per_s ratio=1.1947

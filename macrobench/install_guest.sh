@@ -11,8 +11,20 @@ if [[ $EUID -eq 0 ]]; then SUDO=""; fi
 
 export DEBIAN_FRONTEND=noninteractive
 $SUDO apt-get update -qq
+# Apache's postinst binds port 80. Nginx's postinst then fails. Stop Apache
+# and move the packaged Nginx site to 8080 before configuring Nginx.
+set +e
 $SUDO apt-get install -y -qq build-essential curl ca-certificates \
     apache2 apache2-utils nginx redis-tools
+set -e
+$SUDO systemctl stop apache2 || true
+if [[ -f /etc/nginx/sites-available/default ]]; then
+  $SUDO sed -i \
+    -e 's/listen 80 default_server;/listen 8080 default_server;/' \
+    -e 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' \
+    /etc/nginx/sites-available/default
+fi
+$SUDO dpkg --configure -a
 
 REDIS_VERSION="4.0.8"
 REDIS_PREFIX="/opt/redis-${REDIS_VERSION}"

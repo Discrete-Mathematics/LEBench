@@ -1,0 +1,20 @@
+config: default
+date_utc: 2026-11-09T07:42:10Z
+uname: 4.4.0-210-generic
+cmdline: BOOT_IMAGE=/boot/vmlinuz-4.4.0-210-generic root=UUID=3984d9d0-fbe8-49bf-9bf9-95cd695fd9a3 ro quiet
+cpu: 13th Gen Intel(R) Core(TM) i7-13700H
+nproc: 2
+itlb_multihit: Not affected
+l1tf: Not affected
+mds: Not affected
+meltdown: Not affected
+spec_store_bypass: Vulnerable
+spectre_v1: Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+spectre_v2: Mitigation: Enhanced IBRS, IBPB: kernel-off, RSB filling
+srbds: Not affected
+tsx_async_abort: Not affected
+redis_server: Redis server v=4.0.8 sha=00000000:0 malloc=jemalloc-4.0.3 bits=64 build=efc0686e7b571667
+redis_bench: Invalid option "--version" or option argument missing
+apache: Server version: Apache/2.4.18 (Ubuntu)
+nginx: nginx version: nginx/1.10.3 (Ubuntu)
+ab: This is ApacheBench, Version 2.3 <$Revision: 1706008 $>

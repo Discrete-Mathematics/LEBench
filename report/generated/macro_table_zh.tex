@@ -1,0 +1,13 @@
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+测试 & 默认 & \texttt{spectre\_v2=off} & 比值 \\
+\midrule
+Apache 首页 & 1580 $\pm$ 139 /s & 1308 $\pm$ 24 /s & 0.83 \\
+Nginx 首页 & 5725 $\pm$ 966 /s & 7314 $\pm$ 208 /s & 1.28 \\
+Redis GET & 36386 $\pm$ 6116 /s & 49172 $\pm$ 14833 /s & 1.35 \\
+Redis RPUSH & 29938 $\pm$ 7011 /s & 37689 $\pm$ 4546 /s & 1.26 \\
+Redis RPOP & 32218 $\pm$ 9314 /s & 37221 $\pm$ 18717 /s & 1.16 \\
+Redis SPOP & 27424 $\pm$ 6284 /s & 32762 $\pm$ 3120 /s & 1.19 \\
+Redis LRANGE 100 & 13657 $\pm$ 2430 /s & 14687 $\pm$ 2755 /s & 1.08 \\
+\bottomrule
+\end{tabular}

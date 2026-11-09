@@ -1,0 +1,46 @@
+config,run,app,test,metric,value,unit
+spectre-off,1,redis,GET,throughput,34662.05,req_per_s
+spectre-off,1,redis,RPUSH,throughput,41017.23,req_per_s
+spectre-off,1,redis,RPOP,throughput,22466.86,req_per_s
+spectre-off,1,redis,SPOP,throughput,35260.93,req_per_s
+spectre-off,1,redis,LPUSH (needed to benchmark LRANGE),throughput,25335.70,req_per_s
+spectre-off,1,redis,LRANGE_100 (first 100 elements),throughput,11511.45,req_per_s
+spectre-off,1,redis,LRANGE_300 (first 300 elements),throughput,2752.02,req_per_s
+spectre-off,1,redis,LRANGE_500 (first 450 elements),throughput,3856.98,req_per_s
+spectre-off,1,redis,LRANGE_600 (first 600 elements),throughput,3494.79,req_per_s
+spectre-off,1,apache,index,throughput,1311.08,req_per_s
+spectre-off,1,apache,index,latency_mean,76.273,ms
+spectre-off,1,apache,index,failed,0,count
+spectre-off,1,nginx,index,throughput,7074.35,req_per_s
+spectre-off,1,nginx,index,latency_mean,14.136,ms
+spectre-off,1,nginx,index,failed,0,count
+spectre-off,2,redis,GET,throughput,64308.68,req_per_s
+spectre-off,2,redis,RPUSH,throughput,39541.32,req_per_s
+spectre-off,2,redis,RPOP,throughput,30921.46,req_per_s
+spectre-off,2,redis,SPOP,throughput,29265.44,req_per_s
+spectre-off,2,redis,LPUSH (needed to benchmark LRANGE),throughput,31181.79,req_per_s
+spectre-off,2,redis,LRANGE_100 (first 100 elements),throughput,16095.28,req_per_s
+spectre-off,2,redis,LRANGE_300 (first 300 elements),throughput,6590.65,req_per_s
+spectre-off,2,redis,LRANGE_500 (first 450 elements),throughput,4009.30,req_per_s
+spectre-off,2,redis,LRANGE_600 (first 600 elements),throughput,2934.36,req_per_s
+spectre-off,2,apache,index,throughput,1330.44,req_per_s
+spectre-off,2,apache,index,latency_mean,75.163,ms
+spectre-off,2,apache,index,failed,0,count
+spectre-off,2,nginx,index,throughput,7445.51,req_per_s
+spectre-off,2,nginx,index,latency_mean,13.431,ms
+spectre-off,2,nginx,index,failed,0,count
+spectre-off,3,redis,GET,throughput,48543.69,req_per_s
+spectre-off,3,redis,RPUSH,throughput,32509.75,req_per_s
+spectre-off,3,redis,RPOP,throughput,58275.06,req_per_s
+spectre-off,3,redis,SPOP,throughput,33760.97,req_per_s
+spectre-off,3,redis,LPUSH (needed to benchmark LRANGE),throughput,34305.32,req_per_s
+spectre-off,3,redis,LRANGE_100 (first 100 elements),throughput,16452.78,req_per_s
+spectre-off,3,redis,LRANGE_300 (first 300 elements),throughput,6376.33,req_per_s
+spectre-off,3,redis,LRANGE_500 (first 450 elements),throughput,4742.71,req_per_s
+spectre-off,3,redis,LRANGE_600 (first 600 elements),throughput,3399.86,req_per_s
+spectre-off,3,apache,index,throughput,1282.36,req_per_s
+spectre-off,3,apache,index,latency_mean,77.981,ms
+spectre-off,3,apache,index,failed,0,count
+spectre-off,3,nginx,index,throughput,7422.70,req_per_s
+spectre-off,3,nginx,index,latency_mean,13.472,ms
+spectre-off,3,nginx,index,failed,0,count

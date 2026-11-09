@@ -101,12 +101,13 @@ for r in $(seq 1 "$RUNS"); do
   echo "[macrobench]   redis"
   "$REDIS_BENCH" -n 100000 -c 50 -q -t rpush,spop,rpop,get,lrange \
     > "$OUT/raw/redis.run$r.log" 2>&1
+  # -q reprints each test on one line with carriage returns. Keep the final
+  # "requests per second" reading of every test.
   while IFS= read -r line; do
     name="${line%%:*}"
-    rest="${line#*: }"
-    value="${rest%% *}"
+    value="$(awk '{print $(NF-3)}' <<< "$line")"
     append "$CONFIG" "$r" redis "$name" throughput "$value" req_per_s
-  done < <(grep -E '^[A-Za-z_]+: [0-9.]+ requests per second' "$OUT/raw/redis.run$r.log" || true)
+  done < <(tr '\r' '\n' < "$OUT/raw/redis.run$r.log" | grep 'requests per second$' || true)
 
   echo "[macrobench]   apache"
   http_metrics apache "http://127.0.0.1/" "$r"

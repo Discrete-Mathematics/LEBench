@@ -1,0 +1,31 @@
+config,app,test,metric,n,mean,std,min,max,unit,ratio_vs_default
+default,apache,index,failed,3,0,0,0,0,count,
+default,apache,index,latency_mean,3,63.641,5.90821,60.119,70.462,ms,1.0000
+default,apache,index,throughput,3,1579.93,139.227,1419.2,1663.37,req_per_s,1.0000
+default,nginx,index,failed,3,0,0,0,0,count,
+default,nginx,index,latency_mean,3,17.7817,2.80748,14.683,20.156,ms,1.0000
+default,nginx,index,throughput,3,5725.08,965.594,4961.22,6810.4,req_per_s,1.0000
+default,redis,GET,throughput,3,36386,6115.54,29351.3,40436.7,req_per_s,1.0000
+default,redis,LPUSH (needed to benchmark LRANGE),throughput,3,27733.2,3850.44,24360.5,31928.5,req_per_s,1.0000
+default,redis,LRANGE_100 (first 100 elements),throughput,3,13657.3,2429.68,11380.5,16215.3,req_per_s,1.0000
+default,redis,LRANGE_300 (first 300 elements),throughput,3,6895.53,1440.05,5756.72,8514.26,req_per_s,1.0000
+default,redis,LRANGE_500 (first 450 elements),throughput,3,5261.82,1396.76,4262.21,6857.77,req_per_s,1.0000
+default,redis,LRANGE_600 (first 600 elements),throughput,3,3782.46,114.878,3675.39,3903.81,req_per_s,1.0000
+default,redis,RPOP,throughput,3,32218,9314.37,24260.1,42462.8,req_per_s,1.0000
+default,redis,RPUSH,throughput,3,29937.8,7010.84,23860.7,37608.1,req_per_s,1.0000
+default,redis,SPOP,throughput,3,27424.1,6284.19,22266.8,34423.4,req_per_s,1.0000
+spectre-off,apache,index,failed,3,0,0,0,0,count,
+spectre-off,apache,index,latency_mean,3,76.4723,1.41954,75.163,77.981,ms,1.2016
+spectre-off,apache,index,throughput,3,1307.96,24.1914,1282.36,1330.44,req_per_s,0.8279
+spectre-off,nginx,index,failed,3,0,0,0,0,count,
+spectre-off,nginx,index,latency_mean,3,13.6797,0.395728,13.431,14.136,ms,0.7693
+spectre-off,nginx,index,throughput,3,7314.19,208.018,7074.35,7445.51,req_per_s,1.2776
+spectre-off,redis,GET,throughput,3,49171.5,14833.3,34662.1,64308.7,req_per_s,1.3514
+spectre-off,redis,LPUSH (needed to benchmark LRANGE),throughput,3,30274.3,4553.15,25335.7,34305.3,req_per_s,1.0916
+spectre-off,redis,LRANGE_100 (first 100 elements),throughput,3,14686.5,2755.48,11511.5,16452.8,req_per_s,1.0754
+spectre-off,redis,LRANGE_300 (first 300 elements),throughput,3,5239.67,2157.03,2752.02,6590.65,req_per_s,0.7599
+spectre-off,redis,LRANGE_500 (first 450 elements),throughput,3,4203,473.57,3856.98,4742.71,req_per_s,0.7988
+spectre-off,redis,LRANGE_600 (first 600 elements),throughput,3,3276.34,299.94,2934.36,3494.79,req_per_s,0.8662
+spectre-off,redis,RPOP,throughput,3,37221.1,18716.9,22466.9,58275.1,req_per_s,1.1553
+spectre-off,redis,RPUSH,throughput,3,37689.4,4546.03,32509.8,41017.2,req_per_s,1.2589
+spectre-off,redis,SPOP,throughput,3,32762.4,3119.98,29265.4,35260.9,req_per_s,1.1947

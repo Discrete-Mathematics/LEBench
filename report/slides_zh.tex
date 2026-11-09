@@ -10,7 +10,7 @@
 \subtitle{SOSP 2019，Ren 等人}
 \author{邹浩宇 \quad 5260000157}
 \institute{CS340 操作系统}
-\date{2026年11月3日}
+\date{2026年11月9日}
 
 \begin{document}
 
@@ -25,7 +25,7 @@
 \item 十一个原因覆盖这些跳动：安全、新功能、错误配置（表 3、图 2）。
 \item 关掉它们之后，Redis、Apache 和 Nginx 会变快（第 5 节）。
 \end{itemize}
-我们在作者的内核清单上检验第一条，并把一个安全开关当作扩展。应用程序没有跑。
+我们在作者的内核清单上检验第一条，并把一个安全开关当作扩展。应用程序只在一个内核上比较了 \texttt{spectre\_v2=off}。
 \end{frame}
 
 \begin{frame}{实际跑的是什么}
@@ -96,13 +96,24 @@
 课程这棵树调用的是 \texttt{OS\_Eval}，没有把它换掉。
 \end{frame}
 
+\begin{frame}{论断 3：只改一个开关}
+同一内核 4.4.0-210，各三次。Redis 4.0.8，Apache 2.4.18，Nginx 1.10.3。
+\begin{itemize}
+\item 漏洞文件从 Enhanced IBRS 变成 Vulnerable。
+\item Apache 从每秒 1580 $\pm$ 139 次降到 1308 $\pm$ 24 次。更慢，区间不重叠。
+\item Nginx 从每秒 5725 $\pm$ 966 次升到 7314 $\pm$ 208 次。更快，区间不重叠。
+\item Redis 的均值上升，每个区间仍然重叠。
+\item 论文的加速来自关掉全部十一项。这一个开关复现不出来。
+\end{itemize}
+\end{frame}
+
 \begin{frame}{结论}
 41 个列出的内核里，34 个完成了三次运行。3.0.7--3.5.4 的 sshd 没有应答。4.19.11 没有可下载的 modules 包。
 \begin{itemize}
 \item 论断 1：在这里不成立。更晚内核里 43\% 的均值高于本机 4.0.5，12\% 至少高 50\%。
 \item 19 个更晚内核里，getpid 有 9 个明显更快，2 个更慢。
 \item 论断 2：\texttt{nopti} 没有复现 KPTI 开销。这颗 CPU 不受影响。
-\item 论断 3：没有跑，所以无法判断。
+\item 论断 3：不成立。\texttt{spectre\_v2=off} 让 Apache 变慢、Nginx 变快。Redis 仍落在波动里。
 \item 总体：部分复现。缺的是论文自己的结论，测量框架已经跑起来了。
 \end{itemize}
 \end{frame}
