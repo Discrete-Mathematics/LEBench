@@ -1,7 +1,7 @@
 # Top-level entry points for the CS340 reproduction.
 # The measured code still lives in TEST_DIR/ and is unchanged.
 
-.PHONY: build bench summarize
+.PHONY: build bench summarize verify test
 
 build:
 	$(MAKE) -C TEST_DIR
@@ -13,3 +13,11 @@ bench: build
 
 summarize:
 	python3 scripts/summarize_runs.py results
+
+# Recompute every published number from results/ and fail on a mismatch.
+verify:
+	python3 scripts/verify_report_numbers.py
+
+# Unit and integration tests (pure Python, no VM required).
+test:
+	python3 -m unittest discover -s tests -v
