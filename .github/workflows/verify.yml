@@ -1,0 +1,31 @@
+name: verify
+
+# Every reported number must be recomputable from results/. This workflow runs
+# the traceability check plus the unit tests on every push and pull request, so
+# a stale or hand-edited table fails the build instead of shipping.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Recompute report numbers from results/
+        run: python3 scripts/verify_report_numbers.py
+
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Syntax-check every Python script
+        run: |
+          find scripts macrobench analysis course -name '*.py' -print0 \
+            | xargs -0 -n1 python3 -m py_compile

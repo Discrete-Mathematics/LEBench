@@ -1,5 +1,7 @@
 # LEBench reproduction (CS340)
 
+[![verify](https://github.com/Discrete-Mathematics/LEBench/actions/workflows/verify.yml/badge.svg)](https://github.com/Discrete-Mathematics/LEBench/actions/workflows/verify.yml)
+
 This repository reproduces Ren et al., *An Analysis of Performance Evolution of Linux’s Core Operations* (SOSP 2019), using the authors’ [LEBench](https://github.com/LinuxPerfStudy/LEBench) microbenchmarks. The study asks whether the latency of core kernel operations (system calls, page faults, context switching, and related paths) got slower as Linux went from 3.0 to 4.20, and which kernel changes caused the regressions.
 
 The course write-up and the claims under test are in [docs/REPRODUCTION.md](docs/REPRODUCTION.md). Who committed what is in [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md).
@@ -92,6 +94,24 @@ Each invocation creates `results/<kernel-release>/<UTC-timestamp>/`:
 The directory layout is also described in [results/README.md](results/README.md). The virtual-machine sweep is checked in under `results/kernels/`, and the batched-`getpid` runs under `results/batching/`.
 
 `OS_Eval` sleeps 60 seconds at startup, then runs on the order of 10^5 to 10^6 iterations of each microbenchmark (fork, page fault, select, send/recv, and the rest of Table 2 in the paper). On the class of server used in the paper, plan on roughly one to a few hours per pass. Three passes is the default, so leave the machine otherwise idle for that long. The script stops if a pass exits non-zero and leaves the logs in place.
+
+## Verification
+
+Every number printed in `report/report.tex` is recomputed from the committed logs:
+
+```bash
+make verify     # scripts/verify_report_numbers.py
+make test       # unit + integration tests, no VM needed
+```
+
+`verify` checks the claim-1 counts in `report/generated/claim_summary.tex`, the
+claim-3 macro table, and the batched-`getpid` extension against
+`results/kernel_summary.csv`, `results/macro/summary.csv` and
+`results/batching/`. A stale or hand-edited table fails the command, and the same
+checks run in CI on every push (`.github/workflows/verify.yml`).
+
+The audit of what the repository does and does not cover against the course
+rubric is in [docs/audit.md](docs/audit.md).
 
 ## Group
 
