@@ -7,12 +7,13 @@
 \subtitle{SOSP 2019, Ren et al.}
 \author{Haoyu Zou \quad 5260000157}
 \institute{CS340 Operating Systems}
-\date{9 November 2026}
+\date{17 November 2026}
 
 \begin{document}
 
 \begin{frame}
 \titlepage
+\note{0:00--0:30. Name the paper, the guest, and the student. Say the talk is about fourteen minutes. The numbers are from this virtual machine, and the server in the paper is a different machine.}
 \end{frame}
 
 \begin{frame}{What the paper claims}
@@ -22,7 +23,8 @@
 \item Eleven causes cover the jumps: security, features, and bad config (Table 3, Figure 2).
 \item Turning them off speeds Redis, Apache, and Nginx (Section 5).
 \end{itemize}
-We test the first claim on the authors' kernel list, and one security switch as the extension. The applications are one kernel and one switch, \texttt{spectre\_v2=off}.
+We test the first claim on the authors' kernel list, and two single-factor switches on the recovery kernel: \texttt{nopti}, and transparent hugepages. The applications are one kernel and one switch, \texttt{spectre\_v2=off}.
+\note{0:30--1:45. Read the four claims, then say which ones this guest can actually touch. Do not promise the eleven-cause rebuild.}
 \end{frame}
 
 \begin{frame}{What actually runs}
@@ -33,6 +35,7 @@ We test the first claim on the authors' kernel list, and one security switch as 
 \item Ubuntu 16.04.6 in VirtualBox, legacy BIOS, disk on \texttt{D:}.
 \item One \texttt{grub-reboot} per kernel. A panic falls back to 4.4.0-210.
 \end{itemize}
+\note{1:45--2:45. The measurement functions are the authors' functions. What changed is the iteration count and the reboot path. Three process runs, then mean and sample standard deviation.}
 \end{frame}
 
 \begin{frame}{Why the numbers are not the paper's numbers}
@@ -42,6 +45,7 @@ We test the first claim on the authors' kernel list, and one security switch as 
 \item The paper's server is a Xeon E5-2630 v3 with 128\,GB.
 \item We compare kernels to each other on this guest. We do not match the paper's nanoseconds.
 \end{itemize}
+\note{2:45--3:45. Absolute nanoseconds are not the claim. The claim is the sign of the change from Linux 4.0 on one machine. This CPU reports that Meltdown does not apply.}
 \end{frame}
 
 \begin{frame}{Extension: one switch, \texttt{nopti}}
@@ -53,6 +57,7 @@ Same kernel (4.4.0-210), same binary, command line only.
 \item \texttt{/sys/.../meltdown} says ``Not affected'' on both boots.
 \end{itemize}
 The full table is in the report.
+\note{3:45--5:00. Point at fork. The intervals do not overlap, and the direction is the wrong one for a KPTI tax. The other rows stay inside the spread.}
 \end{frame}
 
 \begin{frame}{What \texttt{nopti} shows}
@@ -62,6 +67,7 @@ The full table is in the report.
 \item fork is slower with \texttt{nopti}, which is not the paper's KPTI story.
 \item The KPTI tax is not reproduced here. The CPU never pays it.
 \end{itemize}
+\note{5:00--5:45. Verdict for this factor: not supported. The command line is live, because fork moved, and the vulnerability file still says the CPU is not affected.}
 \end{frame}
 
 \begin{frame}{Extension: batch \texttt{getpid}}
@@ -72,6 +78,7 @@ One change. Time 1{,}000 calls, divide by 1{,}000. Same K-best, same machine.
 \item After batching, those two kernels overlap. The single-shot slowdown does not.
 \item The empty clock pair on 4.0.5 is about 130 ns. The old \texttt{getpid} row was mostly that pair.
 \end{itemize}
+\note{5:45--7:00. One factor: a thousand calls inside one clock pair, then divide. After that, 4.0.5 and 4.4 overlap. The single-shot gap was the timer.}
 \end{frame}
 
 \begin{frame}{Across kernels}
@@ -80,6 +87,7 @@ One change. Time 1{,}000 calls, divide by 1{,}000. Same K-best, same machine.
 \IfFileExists{generated/relative_latency.pdf}{%
 \includegraphics[width=\linewidth,height=0.55\textheight,keepaspectratio]{generated/relative_latency.pdf}
 }{The relative-latency figure is written when 4.0.5 and a later kernel both have three runs.}
+\note{7:00--8:30. 43 percent of later means are higher, and 12 percent are at least 50 percent higher. A row counts as slower only when the intervals do not overlap. Fork never has a higher mean. The 4.16 to 4.18 dip is a shifted clock, including the pure-CPU loop.}
 \end{frame}
 
 \begin{frame}{A rewrite we did not use}
@@ -91,6 +99,7 @@ A second C suite reimplemented the tests with \texttt{rdtsc} and had an empty re
 \item It had not been executed on Linux.
 \end{itemize}
 The course tree calls \texttt{OS\_Eval} instead of replacing it.
+\note{8:30--9:15. This tree is not the source of any number. rdtsc is the wrong clock on this hypervisor, and that suite had not been run on Linux.}
 \end{frame}
 
 \begin{frame}{Claim 3: one switch}
@@ -102,6 +111,18 @@ Same kernel, 4.4.0-210. Three runs. Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3.
 \item Redis means rise, and every interval still overlaps.
 \item The paper's speed-ups need all eleven causes. This one switch does not reproduce them.
 \end{itemize}
+\note{9:15--10:45. The sysfs line did change, so the switch took effect. Apache and Nginx move in opposite directions. Redis stays inside its spread. Claim 3 is not supported.}
+\end{frame}
+
+\begin{frame}{Transparent hugepages}
+Same kernel, same binary. Three sysfs settings, three runs each. Defrag stayed on \texttt{always}.
+\begin{itemize}
+\item Big munmap: 302857 $\pm$ 36653 ns, 307558 $\pm$ 14605 ns, 306336 $\pm$ 15523 ns. The intervals overlap.
+\item The closest pair is small page fault, 2610 $\pm$ 129 ns against 2277 $\pm$ 228 ns, and it still overlaps.
+\item \texttt{getpid}, the control, overlaps too.
+\item The paper's ``turn THP always on'' cause is not supported on this guest.
+\end{itemize}
+\note{10:45--12:00. One factor: the enabled file, not a rebuild. Every page-fault, mmap, and munmap pair overlaps, including always. The benchmark maps a file and does not call MADV\_HUGEPAGE. The guest was put back to madvise.}
 \end{frame}
 
 \begin{frame}{Verdict}
@@ -111,8 +132,10 @@ Same kernel, 4.4.0-210. Three runs. Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3.
 \item getpid is clearly faster on 9 of 19 later kernels, and slower on 2.
 \item Claim 2: \texttt{nopti} does not reproduce the KPTI tax. This CPU is not affected.
 \item Claim 3: not supported. \texttt{spectre\_v2=off} slows Apache and speeds Nginx. Redis stays inside its spread.
+\item THP: not supported. \texttt{always}, \texttt{madvise}, and \texttt{never} overlap on page fault, mmap, and munmap.
 \item Overall: partially reproduced. The missing piece is the paper's own conclusion, not the harness.
 \end{itemize}
+\note{12:00--13:30. Walk the four verdicts. 34 of 41 kernels finished. The 3.0 comparison stays inconclusive because those kernels never answered sshd.}
 \end{frame}
 
 \begin{frame}{What failed quietly}
@@ -122,6 +145,7 @@ Same kernel, 4.4.0-210. Three runs. Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3.
 \item Both have to be in the log: a CSV, or a boot-failure line.
 \item Upstream \texttt{grub-install} onto a partition is not used. It can overwrite the wrong disk.
 \end{itemize}
+\note{13:30--14:15. Close on the two quiet failures: a wrong timer still prints a number, and a kernel that never reaches sshd prints nothing. Both have to be in the log. Stop at fourteen minutes.}
 \end{frame}
 
 \end{document}

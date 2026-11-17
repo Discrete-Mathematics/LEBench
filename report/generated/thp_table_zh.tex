@@ -1,0 +1,16 @@
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+测试 & madvise & never & always \\
+\midrule
+small page fault & 2610 $\pm$ 129 ns & 2277 $\pm$ 228 ns & 2522 $\pm$ 158 ns \\
+mid page fault & 4028 $\pm$ 233 ns & 3617 $\pm$ 589 ns & 4245 $\pm$ 1196 ns \\
+big page fault & 5971 $\pm$ 894 ns & 5802 $\pm$ 428 ns & 6095 $\pm$ 606 ns \\
+small mmap & 1446 $\pm$ 3 ns & 1577 $\pm$ 186 ns & 1524 $\pm$ 210 ns \\
+mid mmap & 1617 $\pm$ 287 ns & 1374 $\pm$ 116 ns & 1494 $\pm$ 166 ns \\
+big mmap & 1609 $\pm$ 240 ns & 1382 $\pm$ 217 ns & 1606 $\pm$ 289 ns \\
+small munmap & 2986 $\pm$ 188 ns & 3071 $\pm$ 144 ns & 3100 $\pm$ 264 ns \\
+mid munmap & 8160 $\pm$ 1059 ns & 8021 $\pm$ 341 ns & 8771 $\pm$ 1077 ns \\
+big munmap & 302857 $\pm$ 36653 ns & 307558 $\pm$ 14605 ns & 306336 $\pm$ 15523 ns \\
+getpid & 291 $\pm$ 38 ns & 327 $\pm$ 13 ns & 333 $\pm$ 62 ns \\
+\bottomrule
+\end{tabular}

@@ -31,7 +31,7 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 \item \textbf{第 5 节。} 关掉这十一项之后，Redis、Apache 和 Nginx 最多分别加快 56\%、33\% 和 34\%。
 \end{enumerate}
 
-这次复现检验作者实验笔记里那份内核清单上的论断 1，并把论断 2 里的一个因素（页表隔离）当作扩展实验。论断 3 在恢复用内核上只测了一个运行时开关 \texttt{spectre\_v2=off}。作者的 \texttt{EXPERIMENTS.md} 列出了 41 个 Ubuntu 主线版本，从 3.0.7 到 4.20.13。论文正文写的是 36 个版本。驱动程序对这份清单里的每一个版本都做了尝试。
+这次复现检验作者实验笔记里那份内核清单上的论断 1，并在恢复用内核上检验论断 2 里的两个因素：页表隔离，以及透明大页的 sysfs 开关。论断 3 在同一内核上只测了一个运行时开关 \texttt{spectre\_v2=off}。作者的 \texttt{EXPERIMENTS.md} 列出了 41 个 Ubuntu 主线版本，从 3.0.7 到 4.20.13。论文正文写的是 36 个版本。驱动程序对这份清单里的每一个版本都做了尝试。
 
 \section{复现设置}
 
@@ -80,6 +80,7 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 省掉的测试 & 96\,KB 的 send/recv、12{,}000 页的 fork、10{,}000 页的 I/O & 不编译进去 & 上游注释写明大块 send 在旧内核上会阻塞。另外两项占满运行时间。 \\
 统计量 & 进程内的 K-best & 先取该值，再对 3 个进程做均值 $\pm$ 样本标准差 & 课程要求报告跨次运行的统计量。 \\
 应用程序 & Redis、Apache、Nginx，关掉十一项原因，多个内核 & Redis 4.0.8、Apache 2.4.18、Nginx 1.10.3，一个内核，只加 \texttt{spectre\_v2=off} & 这台客户机只能拨动一项缓解。其余十项要重新编译内核。 \\
+透明大页 & 十一项原因之一是 \texttt{CONFIG\_TRANSPARENT\_HUGEPAGE\_ALWAYS} & 在 4.4.0-210 上把运行时设为 \texttt{always}、\texttt{madvise}、\texttt{never} & 已安装的内核不重新编译。只改 sysfs 开关。 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -142,6 +143,19 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 
 Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx 更快，区间也不重叠（5725 $\pm$ 966 对 7314 $\pm$ 208）。Redis 每一行的均值都更高，但每一个区间仍与默认区间重叠。三个应用的方向不一致，Redis 的变化落在各次运行的波动里。论断 3 在这台客户机上\textbf{不成立}。论文里的百分比来自在服务器上关掉十一项原因，不是这台虚拟机上的一个命令行开关。
 
+\subsection{已安装内核上的透明大页}
+
+这项比较在 4.4.0-210-generic 上只改一个因素。精简二进制、命令行和迭代次数都不变。唯一的写入是 \texttt{/sys/kernel/mm/transparent\_hugepage/enabled}，\texttt{madvise}（客户机原来的设置）、\texttt{never} 和 \texttt{always} 各写一次。碎片整理保持 \texttt{always}。每种设置在 2026 年 11 月 17 日跑了三次。日志在 \texttt{results/thp/<模式>/run\{1,2,3\}.csv}，\texttt{environment.txt} 记下写入之后读回的方括号字符串。跑完后客户机恢复为 \texttt{madvise}。\texttt{getpid} 是对照：这项测试不触及页映射。
+
+\begin{table}[ht]
+\centering
+\caption{同一内核上的透明大页。每格是三次 K-best 的均值 $\pm$ 样本标准差。}
+\label{tab:thp}
+\input{generated/thp_table_zh.tex}
+\end{table}
+
+表~\ref{tab:thp} 里每一对区间都重叠。论文认为对这项设置敏感的大块 munmap 分别是 302857 $\pm$ 36653 ns、307558 $\pm$ 14605 ns 和 306336 $\pm$ 15523 ns。最接近的一对是 \texttt{madvise} 和 \texttt{never} 下的 small page fault（2610 $\pm$ 129 ns 对 2277 $\pm$ 228 ns），这两个区间仍然相接。对照项也重叠（291 $\pm$ 38 ns、327 $\pm$ 13 ns、333 $\pm$ 62 ns）。论文把关掉透明大页列为一项配置错误，并把编译选项改成 always。在这台客户机上，三种运行时设置都让缺页、mmap 和 munmap 留在各次运行的波动里，所以这个因素在这里\textbf{不成立}。基准程序映射的是文件，并且只触摸一个字节。它不调用 \texttt{MADV\_HUGEPAGE}，因此 \texttt{madvise} 不会为这些测试请求大页。\texttt{always} 就是为了这一点才一起测的，它也没有和另外两种设置分开。
+
 仓库里另有一份对现有扫描的核对，写在 \texttt{docs/timer-floor.md}。它把 \texttt{ref} 当作时钟底，均值低于三倍时钟底、或者时钟底为 0 的行被拿掉。1152 行里拿掉 56 行（4.9\%），主要是 \texttt{getpid} 和整个 3.6.10。相对 4.0.5 的中位数比值仍是 1.02，至少高 50\% 的比例仍在 18\% 附近。4.16.13 到 4.18.16 看起来大约快一倍，包括一段不调用内核的纯 CPU 循环。那三次启动是计时基准偏了，不是内核变快。拿掉贴近时钟的行，也不会把论断 1 变成论文的结论。
 
 这次运行给不出原服务器上的热力图，也给不出十一项消融。到不了 sshd 的内核记在 \texttt{results/kernels/progress.log} 的启动失败里，不给它们填一个延迟。
@@ -178,11 +192,11 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 
 \section{结论}
 
-这次复现是部分完成的。作者列出的 41 个内核里，34 个把精简基准跑了三次。在这些日志上，“4.0 之后大多数核心操作变慢了”这一条不成立；在一颗不受 Meltdown 影响的 CPU 上，\texttt{nopti} 也没有复现出 KPTI 变慢。在 4.0.5 和 4.4.0-210 上把 \texttt{getpid} 改成批量计时之后，报告的每次调用大约少了一半，两个内核之间的变慢也不见了，所以原来那一行主要是计时器。关掉 Spectre v2 之后 Nginx 变快、Apache 变慢，Redis 仍落在各次运行的波动里，所以应用层面的论断也不成立。十一项原因的消融没有复现。实际的教训是：把微基准抄到一个新计时器上，以及一个装得上却启动不了的内核镜像，都会安静地失败。前者仍然会打出一个数字，后者则根本走不到打印数字的那一步。日志必须能看出发生的是哪一种。
+这次复现是部分完成的。作者列出的 41 个内核里，34 个把精简基准跑了三次。在这些日志上，“4.0 之后大多数核心操作变慢了”这一条不成立；在一颗不受 Meltdown 影响的 CPU 上，\texttt{nopti} 也没有复现出 KPTI 变慢。把透明大页在 \texttt{always}、\texttt{madvise} 和 \texttt{never} 之间切换后，缺页、mmap 和 munmap 仍落在各次运行的波动里，所以这项配置原因在这台客户机上也不成立。在 4.0.5 和 4.4.0-210 上把 \texttt{getpid} 改成批量计时之后，报告的每次调用大约少了一半，两个内核之间的变慢也不见了，所以原来那一行主要是计时器。关掉 Spectre v2 之后 Nginx 变快、Apache 变慢，Redis 仍落在各次运行的波动里，所以应用层面的论断也不成立。十一项原因的消融没有复现。实际的教训是：把微基准抄到一个新计时器上，以及一个装得上却启动不了的内核镜像，都会安静地失败。前者仍然会打出一个数字，后者则根本走不到打印数字的那一步。日志必须能看出发生的是哪一种。
 
 \section*{贡献说明}
 
-邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，跑了 \texttt{results/macro/} 下的 Redis、Apache 和 Nginx 对照，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
+邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，跑了 \texttt{results/macro/} 下的 Redis、Apache 和 Nginx 对照，比较了 \texttt{results/thp/} 下的透明大页模式，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
 
 \section*{AI 使用说明}
 

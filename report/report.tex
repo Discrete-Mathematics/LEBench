@@ -27,7 +27,7 @@ Three claims are tied to the paper:
 \item \textbf{Section 5.} Turning those eleven changes off speeds Redis, Apache, and Nginx by up to 56\%, 33\%, and 34\%.
 \end{enumerate}
 
-This reproduction tests claim 1 on the kernel list shipped with the authors' experiment notes, and tests one factor from claim 2 (page-table isolation). Claim 3 is tested as one runtime switch, \texttt{spectre\_v2=off}, on the guest's recovery kernel. The authors' \texttt{EXPERIMENTS.md} lists 41 Ubuntu mainline builds, from 3.0.7 to 4.20.13. The paper text says 36 versions. The driver attempts every release in that file.
+This reproduction tests claim 1 on the kernel list shipped with the authors' experiment notes, and tests two factors from claim 2 on the recovery kernel: page-table isolation, and the transparent-hugepage sysfs knob. Claim 3 is tested as one runtime switch, \texttt{spectre\_v2=off}, on that same kernel. The authors' \texttt{EXPERIMENTS.md} lists 41 Ubuntu mainline builds, from 3.0.7 to 4.20.13. The paper text says 36 versions. The driver attempts every release in that file.
 
 \section{Reproduction setup}
 
@@ -76,6 +76,7 @@ Iterations & \texttt{BASE\_ITER} 10{,}000 and a 60\,s settle & \texttt{BASE\_ITE
 Omitted tests & 96\,KB send/recv, 12{,}000-page fork, 10{,}000-page I/O & Not compiled in & The upstream comment says the large send blocks on old kernels. The other two dominate runtime. \\
 Statistics & K-best inside one process & That value, then mean $\pm$ sample standard deviation over 3 processes & The course requires the cross-run statistic. \\
 Applications & Redis, Apache, Nginx, all 11 causes disabled, many kernels & Redis 4.0.8, Apache 2.4.18, Nginx 1.10.3, one kernel, only \texttt{spectre\_v2=off} & The guest can toggle one mitigation. The other ten causes need kernel rebuilds. \\
+THP & \texttt{CONFIG\_TRANSPARENT\_HUGEPAGE\_ALWAYS} as one of eleven causes & Runtime \texttt{always}, \texttt{madvise}, and \texttt{never} on 4.4.0-210 & The installed kernel is not rebuilt. Only the sysfs knob changes. \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -152,6 +153,19 @@ Claim 3 was run on 4.4.0-210-generic only. The paper turns off eleven causes and
 
 Apache is slower with the switch, and the intervals do not overlap (1580 $\pm$ 139 against 1308 $\pm$ 24). Nginx is faster, and those intervals do not overlap either (5725 $\pm$ 966 against 7314 $\pm$ 208). Every Redis row has a higher mean, and every Redis interval still overlaps the default interval. The three applications do not move in the same direction, and the Redis changes are inside the run-to-run spread. Claim 3 is \textbf{not supported} on this guest. The paper's percentages come from disabling eleven causes on a server, not one command-line switch on this virtual machine.
 
+\subsection{Transparent hugepages on the installed kernel}
+
+This comparison changes one factor on 4.4.0-210-generic. The reduced binary, the command line, and the iteration count stay the same. The only write is to \texttt{/sys/kernel/mm/transparent\_hugepage/enabled}, once each for \texttt{madvise} (the setting the guest already had), \texttt{never}, and \texttt{always}. Defrag stayed at \texttt{always}. Each setting ran three times on 17 November 2026. Logs are \texttt{results/thp/<mode>/run\{1,2,3\}.csv}, and \texttt{environment.txt} records the bracket string read back after the write. The guest was restored to \texttt{madvise} when the runs finished. \texttt{getpid} is the control: that test does not touch a page mapping.
+
+\begin{table}[ht]
+\centering
+\caption{Transparent hugepages on one kernel. Each cell is the mean $\pm$ sample standard deviation of three K-best runs.}
+\label{tab:thp}
+\input{generated/thp_table.tex}
+\end{table}
+
+Every pair of intervals in Table~\ref{tab:thp} overlaps. Big munmap, the operation the paper treats as sensitive to this setting, is 302857 $\pm$ 36653 ns, 307558 $\pm$ 14605 ns, and 306336 $\pm$ 15523 ns. The closest pair is small page fault under \texttt{madvise} and \texttt{never} (2610 $\pm$ 129 ns against 2277 $\pm$ 228 ns), and those intervals still meet. The control overlaps as well (291 $\pm$ 38 ns, 327 $\pm$ 13 ns, 333 $\pm$ 62 ns). The paper lists disabled transparent hugepages as a configuration mistake and turns the build option to always. On this guest the three runtime settings leave page fault, mmap, and munmap inside the run-to-run spread, so this factor is \textbf{not supported} here. The benchmark maps a file and touches one byte. It does not call \texttt{MADV\_HUGEPAGE}, so \texttt{madvise} does not request a huge page for these tests. \texttt{always} was included for that reason, and it does not separate from the other two settings either.
+
 A separate audit of the existing sweep, in \texttt{docs/timer-floor.md}, asks whether claim 1 is an artifact of the clock. It treats \texttt{ref} as the timer floor and drops a row when the mean is below three times that floor, or when the floor is zero. That removes 56 of 1152 rows (4.9\%), mostly \texttt{getpid} and the whole 3.6.10 boot. The median ratio to 4.0.5 stays 1.02, and the share of rows at least 50\% higher stays near 18\%. The 4.16.13--4.18.16 rows look about twice as fast, including the pure-CPU loop, which does not call the kernel. Those three boots are a shifted time base, not a faster kernel. Dropping the timer-bound rows does not turn claim 1 into the paper's result.
 
 What this run cannot show is the heatmap on the original server or the eleven-way ablation. Kernels that do not reach sshd are recorded as boot failures in \texttt{results/kernels/progress.log} and are not given a latency.
@@ -188,11 +202,11 @@ The changes that make the course tree more faithful are the ones in \texttt{cour
 
 \section{Conclusion}
 
-The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduced benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and removing timer-bound rows does not reverse that. The \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. Batching \texttt{getpid} on 4.0.5 and 4.4.0-210 cuts the reported per-call cost by about half. Turning Spectre v2 off speeds Nginx and slows Apache, while Redis stays inside its run-to-run spread, so the application claim is not supported either. The eleven-cause ablation is not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
+The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduced benchmark three times. On those logs, the claim that most core operations got slower after 4.0 is not supported, and removing timer-bound rows does not reverse that. The \texttt{nopti} switch does not reproduce the KPTI slowdown on a CPU that is not subject to Meltdown. Switching transparent hugepages among \texttt{always}, \texttt{madvise}, and \texttt{never} leaves page fault, mmap, and munmap inside the run-to-run spread, so that configuration cause is not supported on this guest either. Batching \texttt{getpid} on 4.0.5 and 4.4.0-210 cuts the reported per-call cost by about half. Turning Spectre v2 off speeds Nginx and slows Apache, while Redis stays inside its run-to-run spread, so the application claim is not supported either. The eleven-cause ablation is not reproduced. The practical lesson is that a microbenchmark copied onto a new timer, and a kernel image that does not boot, both fail quietly: the first still prints a number, and the second never gets far enough to print one. The logs have to show which of those happened.
 
 \section*{Contribution statement}
 
-Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, ran the Redis, Apache, and Nginx comparison under \texttt{results/macro/}, and wrote this report and the slides. Commits for this work use that student ID and name.
+Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, ran the Redis, Apache, and Nginx comparison under \texttt{results/macro/}, compared transparent-hugepage modes under \texttt{results/thp/}, and wrote this report and the slides. Commits for this work use that student ID and name.
 
 \section*{AI usage statement}
 
