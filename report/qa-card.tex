@@ -1,0 +1,46 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{booktabs}
+\pagestyle{empty}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\textbf{LEBench questions, 1 December 2026.}
+English only. Answer the row with your name. Two minutes total.
+Hanfeng Zou speaks only about what the paper claims, and does not quote a measured number.
+
+\begin{center}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.31\linewidth}p{0.48\linewidth}p{0.15\linewidth}@{}}
+\toprule
+Question & Answer from the report & Who \\
+\midrule
+Why is a claim not supported? &
+The mean$\pm$sample-stdev intervals overlap, or the apps move in different directions. A higher mean inside the spread is not evidence. &
+Haoyu Zou \\
+Why is overlap not a difference? &
+Each cell is three K-best runs. If the intervals meet, the next run can land on either side. &
+Chengxin Zhang \\
+Why do the nanoseconds differ from the paper? &
+The guest has 2 vCPUs and 4\,GB. The paper's server is a Xeon E5-2630 v3 with 128\,GB. We compare kernels on this guest. &
+Haoyu Zou \\
+Why does \texttt{madvise} not show a huge-page effect? &
+The benchmark maps a file and touches one byte. It does not call \texttt{MADV\_HUGEPAGE}, so \texttt{madvise} does not request a huge page. \texttt{always} was measured too, and it still overlaps. &
+Haoyu Zou \\
+Why was there no eleven-cause ablation? &
+The installed kernel was not rebuilt. The guest can change one sysfs or command-line switch. The other causes need a new build. &
+Haoyu Zou \\
+Why is 4.16--4.18 faster? &
+The pure-CPU loop, which does not call the kernel, moves with those boots. That is a shifted clock, not a faster kernel. &
+Dongxu Sun \\
+What does the paper claim? &
+Core operations got slower from 3.0 to 4.20, with eleven causes, and turning those causes off speeds Redis, Apache, and Nginx. &
+Hanfeng Zou \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

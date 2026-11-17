@@ -5,18 +5,26 @@
 \usetheme{Madrid}
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 
-\title{一台虚拟机上的 LEBench}
+\title[LEBench]{一台虚拟机上的 LEBench}
 \subtitle{SOSP 2019，Ren 等人}
-\author{邹浩宇 \quad 5260000157}
+\author[全组]{%
+\begin{tabular}{@{}c@{}}
+邹浩宇 \quad 5260000157\\
+张澄心 \quad 1240016541\\
+孙东旭 \quad 5260000073\\
+邹涵锋 \quad 1240020460
+\end{tabular}}
 \institute{CS340 操作系统}
-\date{2026年11月17日}
+\date{2026年12月1日}
 
 \begin{document}
 
 \begin{frame}
 \titlepage
-\note{0:00--0:30。报论文、客户机和姓名。整场大约十四分钟。数字来自这台虚拟机，论文里的服务器是另一台机器。}
+\note{0:00--0:10。邹涵锋（1240020460）。报论文和四位发言人。不报测量数字。整场五分钟。上台用英文稿。}
 \end{frame}
 
 \begin{frame}{论文声称什么}
@@ -26,83 +34,45 @@
 \item 十一个原因覆盖这些跳动：安全、新功能、错误配置（表 3、图 2）。
 \item 关掉它们之后，Redis、Apache 和 Nginx 会变快（第 5 节）。
 \end{itemize}
-我们在作者的内核清单上检验第一条，并在恢复用内核上做两个单因素开关：\texttt{nopti}，以及透明大页。应用程序只在一个内核上比较了 \texttt{spectre\_v2=off}。
-\note{0:30--1:45。先念四条论断，再说这台客户机实际能碰到哪几条。不要承诺重编十一项原因。}
+\note{0:10--1:00。邹涵锋。只念四条论断。不报延迟、内核个数或结论。一分钟停。}
 \end{frame}
 
 \begin{frame}{实际跑的是什么}
-\begin{itemize}
-\item 测量代码来自 LEBench 提交 \texttt{6aa7801}，没有改计时方法。
-\item 同一条 K-best 规则：五个样本落在 5\% 以内，用 \texttt{clock\_gettime} 计时。
-\item 循环缩短到 \texttt{BASE\_ITER} 40，这样每次启动可以重复三次。
-\item Ubuntu 16.04.6 跑在 VirtualBox 里，传统 BIOS，磁盘在 \texttt{D:}。
-\item 每个内核一次 \texttt{grub-reboot}。panic 后回到 4.4.0-210。
-\end{itemize}
-\note{1:45--2:45。测量函数是作者的函数。改过的是迭代次数和重启路径。三次进程运行，再取均值和样本标准差。}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.55cm,
+  box/.style={draw, rounded corners, align=center, font=\small, inner sep=5pt, minimum height=1.15cm},
+  arr/.style={-{Stealth}, thick}
+]
+\node[box] (g) {客户机\\2 vCPU，4\,GB};
+\node[box, right=of g] (r) {一次\\\texttt{grub-reboot}};
+\node[box, right=of r] (t) {三次运行\\精简套件};
+\node[box, right=of t] (s) {均值 $\pm$\\样本标准差};
+\draw[arr] (g) -- (r);
+\draw[arr] (r) -- (t);
+\draw[arr] (t) -- (s);
+\end{tikzpicture}
+\end{center}
+作者的 K-best 规则，\texttt{clock\_gettime}，\texttt{BASE\_ITER} 40。panic 后回到 4.4.0-210。
+\note{1:00--2:00。邹浩宇（5260000157）。顺着四个框讲。函数是作者的函数。三次进程运行，再取均值和样本标准差。这一页不报结果数字。}
 \end{frame}
 
-\begin{frame}{为什么数字不是论文里的数字}
-\begin{itemize}
-\item 客户机：2 个 vCPU，4\,GB，虚拟磁盘，宿主机开了内存完整性。
-\item CPU：i7-13700H。Meltdown：不受影响。
-\item 论文的服务器是 Xeon E5-2630 v3，128\,GB。
-\item 我们只在这台客户机上比较内核。不去对齐论文的纳秒数。
-\end{itemize}
-\note{2:45--3:45。绝对纳秒不是论断。论断是同一台机器上相对 Linux 4.0 的方向。这颗 CPU 报告 Meltdown 不适用。}
-\end{frame}
-
-\begin{frame}{扩展：只改一个开关 \texttt{nopti}}
-同一内核（4.4.0-210），同一二进制，只改命令行。
-\begin{itemize}
-\item getpid：314\,ns 对 295\,ns。区间重叠。
-\item 小块读、send、recv、select、poll、epoll 的区间也重叠。
-\item fork：93\,$\mu$s 对 254\,$\mu$s。区间不重叠，方向和 KPTI 开销相反。
-\item 两次启动的 \texttt{/sys/.../meltdown} 都是“Not affected”。
-\end{itemize}
-完整的表在报告里。
-\note{3:45--5:00。指着 fork。区间不重叠，方向和 KPTI 开销相反。其余行都落在波动里。}
-\end{frame}
-
-\begin{frame}{\texttt{nopti} 说明了什么}
-\begin{itemize}
-\item 漏洞文件写明这颗 CPU 不受 Meltdown 影响。
-\item getpid、读、send、recv 的变化小于各次运行之间的波动。
-\item 加上 \texttt{nopti} 之后 fork 更慢，这不是论文里的 KPTI 故事。
-\item KPTI 开销在这里没有复现出来。这颗 CPU 本来就不付这笔代价。
-\end{itemize}
-\note{5:00--5:45。这个因素的结论：不成立。命令行是生效的，因为 fork 变了，漏洞文件仍然写着这颗 CPU 不受影响。}
-\end{frame}
-
-\begin{frame}{扩展：批量计时 getpid}
-只改一处：一次计时 1{,}000 次调用，再除以 1{,}000。K-best 和机器不变。
-\begin{itemize}
-\item 4.0.5：从 245 $\pm$ 0 ns 降到 129 $\pm$ 0 ns。区间不重叠。
-\item 4.4.0-210：从 314 $\pm$ 39 ns 降到 127 $\pm$ 40 ns。
-\item 批量之后这两个内核的区间重叠。单次计时里的变慢没有留下来。
-\item 4.0.5 上一次空跑的时钟大约 130 ns。原来的 getpid 一行主要就是这一对时钟。
-\end{itemize}
-\note{5:45--7:00。只改一个因素：一对时钟里放一千次调用，再除掉。之后 4.0.5 和 4.4 重叠。单次计时的差距是计时器。}
-\end{frame}
-
-\begin{frame}{各内核之间}
-比 4.0.5 更晚的 19 个内核、627 项测量里，271 项（43\%）均值更高，76 项（12\%）至少高 50\%。117 项的区间不重叠且均值更高。
+\begin{frame}{各内核相对本机 4.0.5}
+更晚的 627 项测量里，271 项（43\%）均值更高，76 项（12\%）至少高 50\%。论断 1 在这台客户机上不成立。
 
 \IfFileExists{generated/relative_latency.pdf}{%
-\includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]{generated/relative_latency.pdf}
+\includegraphics[width=\linewidth,height=0.62\textheight,keepaspectratio]{generated/relative_latency.pdf}
 }{相对延迟图在 4.0.5 和更晚的内核都有三次运行之后才会写出。}
-\note{7:00--8:30。更晚的均值里 43\% 更高，12\% 至少高 50\%。只有区间不重叠才算更慢。fork 没有更高的均值。4.16 到 4.18 的下凹是时钟基准偏了，纯 CPU 循环也偏。}
+\note{2:00--2:25。邹浩宇。指着横线 1。说 43\% 和 12\%，然后说论断 1 在这里不成立。不要逐项展开。}
 \end{frame}
 
-\begin{frame}{一份没有采用的重写}
-另一套 C 程序用 \texttt{rdtsc} 重写了测试，结果表是空的。
+\begin{frame}{4.4.0-210 上的两个开关}
 \begin{itemize}
-\item 在这台虚拟机上，\texttt{rdtsc} 不是合适的时钟。
-\item \texttt{select} 在计时区间里做了分配。
-\item 上下文切换是一次平均值，不是 K-best，也没有把优先级调到 $-20$。
-\item 它没有在 Linux 上执行过。
+\item \texttt{nopti}：getpid 314\,ns 对 295\,ns，区间重叠。fork 方向反了，93\,$\mu$s 对 254\,$\mu$s。这颗 CPU 不受 Meltdown 影响。
+\item 透明大页 \texttt{always} / \texttt{madvise} / \texttt{never}：大块 munmap 是 302857 $\pm$ 36653 ns、307558 $\pm$ 14605 ns、306336 $\pm$ 15523 ns。区间重叠。
+\item 最接近的一对是 small page fault，2610 $\pm$ 129 ns 对 2277 $\pm$ 228 ns，仍然重叠。
 \end{itemize}
-课程这棵树调用的是 \texttt{OS\_Eval}，没有把它换掉。
-\note{8:30--9:15。这棵树不是任何数字的来源。在这台虚拟机上 rdtsc 不是合适的时钟，那套程序也没有在 Linux 上跑过。}
+\note{2:25--2:50。邹浩宇。\texttt{nopti} 一句，透明大页一句。两个因素都不成立。文件映射没有调用 \texttt{MADV\_HUGEPAGE}。}
 \end{frame}
 
 \begin{frame}{论断 3：只改一个开关}
@@ -112,43 +82,23 @@
 \item Apache 从每秒 1580 $\pm$ 139 次降到 1308 $\pm$ 24 次。更慢，区间不重叠。
 \item Nginx 从每秒 5725 $\pm$ 966 次升到 7314 $\pm$ 208 次。更快，区间不重叠。
 \item Redis 的均值上升，每个区间仍然重叠。
-\item 论文的加速来自关掉全部十一项。这一个开关复现不出来。
 \end{itemize}
-\note{9:15--10:45。漏洞文件确实变了，开关生效。Apache 和 Nginx 方向相反。Redis 留在波动里。论断 3 不成立。}
+\note{2:50--3:30。张澄心（1240016541）。开关生效了。Apache 和 Nginx 方向相反。Redis 留在波动里。论断 3 不成立。论文关掉的是十一项原因。}
 \end{frame}
 
-\begin{frame}{透明大页}
-同一内核，同一二进制。三种 sysfs 设置，各三次。碎片整理保持 \texttt{always}。
+\begin{frame}{这台客户机给不出什么}
 \begin{itemize}
-\item 大块 munmap：302857 $\pm$ 36653 ns、307558 $\pm$ 14605 ns、306336 $\pm$ 15523 ns。区间重叠。
-\item 最接近的一对是 small page fault，2610 $\pm$ 129 ns 对 2277 $\pm$ 228 ns，仍然重叠。
-\item 对照项 \texttt{getpid} 也重叠。
-\item 论文里“把透明大页改成 always”这一条，在这台客户机上不成立。
+\item 两个虚拟 CPU、4\,GB。论文的服务器是 Xeon E5-2630 v3，128\,GB。
+\item 这颗 i7-13700H 不为页表隔离付代价。
+\item Linux 3.0.7--3.5.4 的 sshd 没有应答，所以没有 3.0 基线。
+\item 计时器错了仍然会打出数字。4.16--4.18 看起来更快，包括一段不调用内核的纯 CPU 循环：那是时钟基准偏了。
 \end{itemize}
-\note{10:45--12:00。只改 enabled 文件，没有重编内核。缺页、mmap、munmap 的每一对都重叠，包括 always。基准程序映射文件，也不调用 MADV\_HUGEPAGE。客户机已经改回 madvise。}
+\note{3:30--4:30。孙东旭（5260000073）。先讲硬件，再讲没有 3.0 基线，再讲计时器。4.16--4.18 的下凹包含一段不进内核的循环。四分半停。}
 \end{frame}
 
-\begin{frame}{结论}
-41 个列出的内核里，34 个完成了三次运行。3.0.7--3.5.4 的 sshd 没有应答。4.19.11 没有可下载的 modules 包。
-\begin{itemize}
-\item 论断 1：在这里不成立。更晚内核里 43\% 的均值高于本机 4.0.5，12\% 至少高 50\%。
-\item 19 个更晚内核里，getpid 有 9 个明显更快，2 个更慢。
-\item 论断 2：\texttt{nopti} 没有复现 KPTI 开销。这颗 CPU 不受影响。
-\item 论断 3：不成立。\texttt{spectre\_v2=off} 让 Apache 变慢、Nginx 变快。Redis 仍落在波动里。
-\item 透明大页：不成立。\texttt{always}、\texttt{madvise}、\texttt{never} 在缺页、mmap、munmap 上的区间都重叠。
-\item 总体：部分复现。缺的是论文自己的结论，测量框架已经跑起来了。
-\end{itemize}
-\note{12:00--13:30。把四条结论走一遍。41 个内核里 34 个跑完。和 3.0 的比较仍然无法判断，因为那些内核的 sshd 没有应答。}
-\end{frame}
-
-\begin{frame}{两种安静的失败}
-\begin{itemize}
-\item 计时器选错时，抄来的基准程序仍然会打出一个数字。
-\item 内核包装得上，却可能永远到不了 sshd。
-\item 两种情况都要留在日志里：要么是一份 CSV，要么是一行启动失败。
-\item 没有使用上游那个把 \texttt{grub-install} 装到分区上的做法。它可能写错磁盘。
-\end{itemize}
-\note{13:30--14:15。用两种安静的失败收尾：计时器错了仍然会打出数字，到不了 sshd 的内核则什么都不打。两种都要留在日志里。十四分钟停。}
+\begin{frame}{给跑这颗 CPU 的人}
+在这台虚拟机上，论文里的变慢和这几项开关都没有复现。这颗 i7-13700H 不受 Meltdown 影响，所以在更老的服务器上要紧的缓解，不能当作这台硬件上的证据。
+\note{4:30--5:00。邹浩宇。把这句话念完就停。提问用英语。谁做过谁答。邹涵锋只答论文声称什么。}
 \end{frame}
 
 \end{document}
