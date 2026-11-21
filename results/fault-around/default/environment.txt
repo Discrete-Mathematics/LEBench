@@ -1,0 +1,6 @@
+config: default
+date_utc: 2026-11-21T11:06:35Z
+uname: 4.4.0-210-generic
+fault_around_bytes: 65536
+cmdline: BOOT_IMAGE=/boot/vmlinuz-4.4.0-210-generic root=UUID=d733b143-dffd-45ac-b6a6-51fd97f3afd8 ro console=tty1 console=ttyS0
+cpu: QEMU Virtual CPU version 2.5+
