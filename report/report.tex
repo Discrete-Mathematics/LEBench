@@ -224,6 +224,8 @@ The reproduction is partial. Thirty-four of the 41 listed kernels ran the reduce
 
 Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16.04.6 guest, wrote the reduced runner and the reboot driver, collected the logs under \texttt{results/kernels/}, measured the batched-\texttt{getpid} variant under \texttt{results/batching/}, ran the Redis, Apache, and Nginx comparison under \texttt{results/macro/}, compared transparent-hugepage modes under \texttt{results/thp/}, and wrote this report and the slides. Commits for this work use that student ID and name.
 
+Zhang Chengxin (1240016541) built the Claim 3 macrobenchmark harness and its pre-registered design (\texttt{macrobench/}), wrote the report-number verifier and its tests (\texttt{scripts/verify\_report\_numbers.py}, \texttt{tests/}), set up the CI checks, added the Limitations section and the reproducible PDF build (\texttt{scripts/build\_report.sh}), and maintains the project audit (\texttt{docs/audit.md}). Commits for this work use that student ID and name.
+
 \section*{AI usage statement}
 
 AI coding assistants drafted and debugged the measurement harnesses, the runner and reboot scripts, the verification tooling, parts of this report and the slides, and helped operate the virtual machines. Kernel packages, the benchmark source, and the latency numbers come from the LEBench authors and from the guest logs; no assistant invented measurements.

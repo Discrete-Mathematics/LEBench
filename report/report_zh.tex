@@ -214,6 +214,8 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 
 邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，跑了 \texttt{results/macro/} 下的 Redis、Apache 和 Nginx 对照，比较了 \texttt{results/thp/} 下的透明大页模式，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
 
+张澄心（1240016541）搭建了论断 3 的宏基准工具和预注册设计（\texttt{macrobench/}），编写了报告数字校验脚本和单元测试（\texttt{scripts/verify\_report\_numbers.py}、\texttt{tests/}），配置了 CI 检查，补写了局限一节和可复现的 PDF 构建（\texttt{scripts/build\_report.sh}），并维护项目审计（\texttt{docs/audit.md}）。这项工作的提交说明使用该学号和姓名。
+
 \section*{AI 使用说明}
 
 AI 编程助手（不止一个，本组成员各自使用）起草并调试了测量框架、运行与重启脚本、校验工具、本报告和幻灯片的一部分，并协助操作虚拟机。内核包、基准程序源代码和延迟数字来自 LEBench 作者以及客户机日志；没有助手编造测量值。
