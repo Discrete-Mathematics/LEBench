@@ -1,0 +1,34 @@
+config,run,app,test,metric,value,unit
+default,1,redis,GET,throughput,66889.63,req_per_s
+default,1,redis,RPUSH,throughput,73206.44,req_per_s
+default,1,redis,RPOP,throughput,73583.52,req_per_s
+default,1,redis,SPOP,throughput,47214.35,req_per_s
+default,1,redis,LRANGE_100 (first 100 elements),throughput,22163.12,req_per_s
+default,1,apache,index,throughput,4053.63,req_per_s
+default,1,apache,index,latency_mean,24.669,ms
+default,1,apache,index,failed,0,count
+default,1,nginx,index,throughput,15659.71,req_per_s
+default,1,nginx,index,latency_mean,6.386,ms
+default,1,nginx,index,failed,0,count
+default,2,redis,GET,throughput,68634.18,req_per_s
+default,2,redis,RPUSH,throughput,80580.17,req_per_s
+default,2,redis,RPOP,throughput,80000.00,req_per_s
+default,2,redis,SPOP,throughput,73152.89,req_per_s
+default,2,redis,LRANGE_100 (first 100 elements),throughput,32393.91,req_per_s
+default,2,apache,index,throughput,4074.83,req_per_s
+default,2,apache,index,latency_mean,24.541,ms
+default,2,apache,index,failed,0,count
+default,2,nginx,index,throughput,16774.22,req_per_s
+default,2,nginx,index,latency_mean,5.962,ms
+default,2,nginx,index,failed,0,count
+default,3,redis,GET,throughput,74794.31,req_per_s
+default,3,redis,RPUSH,throughput,79554.50,req_per_s
+default,3,redis,RPOP,throughput,81766.15,req_per_s
+default,3,redis,SPOP,throughput,79491.26,req_per_s
+default,3,redis,LRANGE_100 (first 100 elements),throughput,31867.43,req_per_s
+default,3,apache,index,throughput,3962.32,req_per_s
+default,3,apache,index,latency_mean,25.238,ms
+default,3,apache,index,failed,0,count
+default,3,nginx,index,throughput,17064.12,req_per_s
+default,3,nginx,index,latency_mean,5.860,ms
+default,3,nginx,index,failed,0,count

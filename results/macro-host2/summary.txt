@@ -1,0 +1,22 @@
+default      apache  index    failed       n=3           0 +/-        0 count    ratio=-
+default      apache  index    latency_mean n=3       24.82 +/-    0.371 ms       ratio=1.0000
+default      apache  index    throughput   n=3        4030 +/-     59.8 req_per_s ratio=1.0000
+default      nginx   index    failed       n=3           0 +/-        0 count    ratio=-
+default      nginx   index    latency_mean n=3       6.069 +/-    0.279 ms       ratio=1.0000
+default      nginx   index    throughput   n=3    1.65e+04 +/-      741 req_per_s ratio=1.0000
+default      redis   GET      throughput   n=3   7.011e+04 +/- 4.15e+03 req_per_s ratio=1.0000
+default      redis   LRANGE_100 (first 100 elements) throughput   n=3   2.881e+04 +/- 5.76e+03 req_per_s ratio=1.0000
+default      redis   RPOP     throughput   n=3   7.845e+04 +/- 4.31e+03 req_per_s ratio=1.0000
+default      redis   RPUSH    throughput   n=3   7.778e+04 +/- 3.99e+03 req_per_s ratio=1.0000
+default      redis   SPOP     throughput   n=3   6.662e+04 +/- 1.71e+04 req_per_s ratio=1.0000
+spectre-off  apache  index    failed       n=3           0 +/-        0 count    ratio=-
+spectre-off  apache  index    latency_mean n=3       26.45 +/-     0.69 ms       ratio=1.0660
+spectre-off  apache  index    throughput   n=3        3782 +/-     99.8 req_per_s ratio=0.9384
+spectre-off  nginx   index    failed       n=3           0 +/-        0 count    ratio=-
+spectre-off  nginx   index    latency_mean n=3       5.989 +/-   0.0661 ms       ratio=0.9868
+spectre-off  nginx   index    throughput   n=3    1.67e+04 +/-      184 req_per_s ratio=1.0120
+spectre-off  redis   GET      throughput   n=3   5.484e+04 +/- 7.61e+03 req_per_s ratio=0.7823
+spectre-off  redis   LRANGE_100 (first 100 elements) throughput   n=3    2.17e+04 +/-  4.4e+03 req_per_s ratio=0.7533
+spectre-off  redis   RPOP     throughput   n=3   5.463e+04 +/- 1.34e+04 req_per_s ratio=0.6964
+spectre-off  redis   RPUSH    throughput   n=3    6.03e+04 +/- 1.04e+04 req_per_s ratio=0.7752
+spectre-off  redis   SPOP     throughput   n=3   5.064e+04 +/- 1.22e+04 req_per_s ratio=0.7602

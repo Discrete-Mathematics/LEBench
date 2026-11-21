@@ -143,6 +143,8 @@ Ren 等人测量了 Linux 3.0 到 4.20 上核心操作的延迟，认为内核�
 
 Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx 更快，区间也不重叠（5725 $\pm$ 966 对 7314 $\pm$ 208）。Redis 每一行的均值都更高，但每一个区间仍与默认区间重叠。三个应用的方向不一致，Redis 的变化落在各次运行的波动里。论断 3 在这台客户机上\textbf{不成立}。论文里的百分比来自在服务器上关掉十一项原因，不是这台虚拟机上的一个命令行开关。
 
+第二台宿主机（Intel i9-14900HX，同一个 Ubuntu 16.04.6 镜像、2 vCPU、4\,GB）在 2026 年 11 月 7--8 日跑了同样的两种配置；日志在 \texttt{results/macro-host2/}，对照写在 \texttt{docs/cross-host.md}。在那台机器上方向反了过来：\texttt{spectre\_v2=off} 让 Redis 慢 22--30\%（GET 0.78、RPUSH 0.78、RPOP 0.70、SPOP 0.76），Nginx 留在噪声里（1.01）。Apache 在两边都变慢。单个开关的效应在两边都很小，而且符号不能跨机器转移，所以论断 3 在两台机器上的判定一致，也不是某一台机器的噪声假象。
+
 \subsection{已安装内核上的透明大页}
 
 这项比较在 4.4.0-210-generic 上只改一个因素。精简二进制、命令行和迭代次数都不变。唯一的写入是 \texttt{/sys/kernel/mm/transparent\_hugepage/enabled}，\texttt{madvise}（客户机原来的设置）、\texttt{never} 和 \texttt{always} 各写一次。碎片整理保持 \texttt{always}。每种设置在 2026 年 11 月 17 日跑了三次。日志在 \texttt{results/thp/<模式>/run\{1,2,3\}.csv}，\texttt{environment.txt} 记下写入之后读回的方括号字符串。跑完后客户机恢复为 \texttt{madvise}。\texttt{getpid} 是对照：这项测试不触及页映射。

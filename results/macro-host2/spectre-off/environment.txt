@@ -1,0 +1,20 @@
+config: spectre-off
+date_utc: 2026-11-07T17:34:47Z
+uname: 4.4.0-210-generic
+cmdline: BOOT_IMAGE=/boot/vmlinuz-4.4.0-210-generic root=UUID=d733b143-dffd-45ac-b6a6-51fd97f3afd8 ro console=tty1 console=ttyS0 spectre_v2=off
+cpu: Intel(R) Core(TM) i9-14900HX
+nproc: 2
+itlb_multihit: Not affected
+l1tf: Not affected
+mds: Not affected
+meltdown: Not affected
+spec_store_bypass: Vulnerable
+spectre_v1: Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+spectre_v2: Vulnerable, IBPB: kernel-off, STIBP: disabled
+srbds: Not affected
+tsx_async_abort: Not affected
+redis_server: Redis server v=4.0.8 sha=00000000:0 malloc=jemalloc-4.0.3 bits=64 build=156c53e5252234f2
+redis_bench: Invalid option "--version" or option argument missing
+apache: Server version: Apache/2.4.18 (Ubuntu)
+nginx: nginx version: nginx/1.10.3 (Ubuntu)
+ab: This is ApacheBench, Version 2.3 <$Revision: 1706008 $>

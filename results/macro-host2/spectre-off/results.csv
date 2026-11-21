@@ -1,0 +1,34 @@
+config,run,app,test,metric,value,unit
+spectre-off,1,redis,GET,throughput,61462.82,req_per_s
+spectre-off,1,redis,RPUSH,throughput,60350.03,req_per_s
+spectre-off,1,redis,RPOP,throughput,44385.27,req_per_s
+spectre-off,1,redis,SPOP,throughput,41390.73,req_per_s
+spectre-off,1,redis,LRANGE_100 (first 100 elements),throughput,18093.00,req_per_s
+spectre-off,1,apache,index,throughput,3893.18,req_per_s
+spectre-off,1,apache,index,latency_mean,25.686,ms
+spectre-off,1,apache,index,failed,0,count
+spectre-off,1,nginx,index,throughput,16735.09,req_per_s
+spectre-off,1,nginx,index,latency_mean,5.975,ms
+spectre-off,1,nginx,index,failed,0,count
+spectre-off,2,redis,GET,throughput,46533.27,req_per_s
+spectre-off,2,redis,RPUSH,throughput,49825.61,req_per_s
+spectre-off,2,redis,RPOP,throughput,49776.01,req_per_s
+spectre-off,2,redis,SPOP,throughput,46104.20,req_per_s
+spectre-off,2,redis,LRANGE_100 (first 100 elements),throughput,20399.84,req_per_s
+spectre-off,2,apache,index,throughput,3751.58,req_per_s
+spectre-off,2,apache,index,latency_mean,26.655,ms
+spectre-off,2,apache,index,failed,0,count
+spectre-off,2,nginx,index,throughput,16498.11,req_per_s
+spectre-off,2,nginx,index,latency_mean,6.061,ms
+spectre-off,2,nginx,index,failed,0,count
+spectre-off,3,redis,GET,throughput,56529.11,req_per_s
+spectre-off,3,redis,RPUSH,throughput,70721.36,req_per_s
+spectre-off,3,redis,RPOP,throughput,69735.01,req_per_s
+spectre-off,3,redis,SPOP,throughput,64432.99,req_per_s
+spectre-off,3,redis,LRANGE_100 (first 100 elements),throughput,26609.90,req_per_s
+spectre-off,3,apache,index,throughput,3700.67,req_per_s
+spectre-off,3,apache,index,latency_mean,27.022,ms
+spectre-off,3,apache,index,failed,0,count
+spectre-off,3,nginx,index,throughput,16860.71,req_per_s
+spectre-off,3,nginx,index,latency_mean,5.931,ms
+spectre-off,3,nginx,index,failed,0,count
