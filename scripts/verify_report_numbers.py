@@ -40,6 +40,12 @@ def load_macro_rows(root):
         return [r for r in csv.DictReader(fh) if r["metric"] != "failed"]
 
 
+def load_macro_host2_rows(root):
+    path = root / "results" / "macro-host2" / "summary.csv"
+    with path.open(newline="", encoding="utf-8") as fh:
+        return [r for r in csv.DictReader(fh) if r["metric"] != "failed"]
+
+
 def version(kernel):
     return tuple(int(x) for x in re.match(r"(\d+)\.(\d+)\.(\d+)", kernel).groups())
 
@@ -237,12 +243,88 @@ def thp(root):
     return {"name": "extension (transparent hugepages)", "ok": not problems, "problems": problems}
 
 
+CROSS_HOST_EXPECTED = {
+    # (app, test): (host A spectre/default ratio, host B spectre/default ratio),
+    # as published in docs/cross-host.md.
+    ("redis", "GET"): (1.35, 0.78),
+    ("redis", "RPUSH"): (1.26, 0.78),
+    ("redis", "RPOP"): (1.16, 0.70),
+    ("redis", "SPOP"): (1.19, 0.76),
+    ("redis", "LRANGE_100 (first 100 elements)"): (1.08, 0.75),
+    ("apache", "index"): (0.83, 0.94),
+    ("nginx", "index"): (1.28, 1.01),
+}
+
+
+def host_ratios(rows):
+    """Return {(app, test): spectre-off mean / default mean} from a macro summary."""
+    defaults = {}
+    spectres = {}
+    for row in rows:
+        if row["metric"] != "throughput":
+            continue
+        key = (row["app"], row["test"])
+        if row["config"] == "default":
+            defaults[key] = float(row["mean"])
+        elif row["config"] == "spectre-off":
+            spectres[key] = float(row["mean"])
+    return {key: spectres[key] / defaults[key] for key in spectres if key in defaults}
+
+
+def cross_host(root):
+    """The cross-host ratios in docs/cross-host.md and the report must match both summaries."""
+    problems = []
+    try:
+        ratios_a = host_ratios(load_macro_rows(root))
+        ratios_b = host_ratios(load_macro_host2_rows(root))
+    except FileNotFoundError as error:
+        return {"name": "claim 3 (cross-host)", "ok": False, "problems": [str(error)]}
+
+    for key, (expected_a, expected_b) in CROSS_HOST_EXPECTED.items():
+        if key not in ratios_a:
+            problems.append("%r missing from the host A summary" % (key,))
+            continue
+        if key not in ratios_b:
+            problems.append("%r missing from the host B summary" % (key,))
+            continue
+        if abs(ratios_a[key] - expected_a) > 0.02:
+            problems.append("%r host A ratio: computed %.3f, expected %.2f"
+                            % (key, ratios_a[key], expected_a))
+        if abs(ratios_b[key] - expected_b) > 0.02:
+            problems.append("%r host B ratio: computed %.3f, expected %.2f"
+                            % (key, ratios_b[key], expected_b))
+
+    # The report paragraph quotes four host-B Redis ratios inline.
+    report_text = (root / "report" / "report.tex").read_text(encoding="utf-8")
+    match = re.search(
+        r"\(GET (?P<get>[\d.]+), RPUSH (?P<rpush>[\d.]+), RPOP (?P<rpop>[\d.]+), "
+        r"SPOP (?P<spop>[\d.]+) of the default mean\)",
+        report_text,
+    )
+    quoted = {"GET": 0.78, "RPUSH": 0.78, "RPOP": 0.70, "SPOP": 0.76}
+    if not match:
+        problems.append("host-B ratios not found in report/report.tex")
+    else:
+        for test, group in (("GET", "get"), ("RPUSH", "rpush"), ("RPOP", "rpop"), ("SPOP", "spop")):
+            printed = float(match.group(group))
+            if abs(printed - quoted[test]) > 0.001:
+                problems.append("report quotes %s = %.2f, expected %.2f"
+                                % (test, printed, quoted[test]))
+    return {"name": "claim 3 (cross-host)", "ok": not problems, "problems": problems}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
 
-    results = [claim1(args.root), macro(args.root), batch(args.root), thp(args.root)]
+    results = [
+        claim1(args.root),
+        macro(args.root),
+        cross_host(args.root),
+        batch(args.root),
+        thp(args.root),
+    ]
     failures = 0
     for result in results:
         status = "PASS" if result["ok"] else "FAIL"

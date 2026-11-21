@@ -11,6 +11,7 @@ points at a file that exists in this repository.
 | Kernel sweep (claim 1) | `results/kernels/` (34 kernels × 3 runs), `results/kernel_summary.csv`, `analysis/`, `docs/timer-floor.md` | done, verdict *not supported* |
 | Root causes (claim 2) | `results/kernels/4.4.0-210-nopti/` (KPTI), `results/macro/{default,spectre-off}/` (Retpoline), `results/thp/` (transparent hugepages, 3 modes × 3 runs) | three of eleven causes, verdict *not supported* on this CPU/guest |
 | Applications (claim 3) | `results/macro/`, `report/generated/macro_table.tex` | done for one kernel and one switch, verdict *not supported* |
+| Applications, cross-host (claim 3) | `results/macro-host2/`, `docs/cross-host.md` | same experiment on a second host; the switch's direction reverses, so the negative verdict is robust |
 | Extensions | `results/batching/` (batched `getpid`), `results/thp/` (hugepage modes) | both done, single-factor designs |
 | Report | `report/report.tex` + `report.pdf`, `report/report_zh.tex` + `report_zh.pdf` | drafted, needs the fixes in §3 |
 | Slides and talk | `report/slides.{tex,pdf}`, `slides_zh.*`, 5-minute cut, `report/qa-card.pdf`, `docs/talk-script.md`, `docs/qa-bank.md` | drafted |
@@ -25,10 +26,11 @@ files and compares it with the generated LaTeX. Current output:
 ```
 [PASS] claim 1 (kernel sweep)
 [PASS] claim 3 (macrobenchmark)
+[PASS] claim 3 (cross-host)
 [PASS] extension (batched getpid)
 [PASS] extension (transparent hugepages)
 
-4 checked, 0 failed
+5 checked, 0 failed
 ```
 
 Claim 1 recomputes 627 measurements on the 19 later kernels, 271 with a higher mean,

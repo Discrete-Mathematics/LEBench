@@ -105,9 +105,11 @@ make test       # unit + integration tests, no VM needed
 ```
 
 `verify` checks the claim-1 counts in `report/generated/claim_summary.tex`, the
-claim-3 macro table, the batched-`getpid` extension, and the transparent-hugepage
-table against `results/kernel_summary.csv`, `results/macro/summary.csv`,
-`results/batching/` and `results/thp/summary.csv`. A stale or hand-edited table fails
+claim-3 macro table, the cross-host ratios in `docs/cross-host.md`, the
+batched-`getpid` extension, and the transparent-hugepage table against
+`results/kernel_summary.csv`, `results/macro/summary.csv`,
+`results/macro-host2/summary.csv`, `results/batching/` and
+`results/thp/summary.csv`. A stale or hand-edited table fails
 the command, and the same checks run in CI on every push
 (`.github/workflows/verify.yml`).
 
