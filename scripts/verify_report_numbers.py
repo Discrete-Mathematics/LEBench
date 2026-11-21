@@ -184,12 +184,65 @@ def batch(root):
     return {"name": "extension (batched getpid)", "ok": not problems, "problems": problems}
 
 
+THP_ROW_RE = re.compile(
+    r"^(?P<test>.+?) & (?P<ma>\d+) \$\\pm\$ (?P<mas>\d+) ns & "
+    r"(?P<ne>\d+) \$\\pm\$ (?P<nes>\d+) ns & "
+    r"(?P<al>\d+) \$\\pm\$ (?P<als>\d+) ns \\\\$"
+)
+
+
+def thp(root):
+    """The transparent-hugepage table must match results/thp/summary.csv."""
+    summary_path = root / "results" / "thp" / "summary.csv"
+    if not summary_path.exists():
+        return {"name": "extension (transparent hugepages)", "ok": True, "skipped": "no summary.csv"}
+    with summary_path.open(newline="", encoding="utf-8") as handle:
+        summary = {}
+        for row in csv.DictReader(handle):
+            summary[(row["test"].strip(), row["mode"].strip())] = (
+                float(row["mean_ns"]),
+                float(row["stdev_ns"]),
+            )
+
+    tex_path = root / "report" / "generated" / "thp_table.tex"
+    if not tex_path.exists():
+        return {"name": "extension (transparent hugepages)", "ok": False,
+                "problems": ["thp_table.tex missing"]}
+
+    problems = []
+    published_rows = 0
+    for line in tex_path.read_text(encoding="utf-8").splitlines():
+        match = THP_ROW_RE.match(line.strip())
+        if not match:
+            continue
+        published_rows += 1
+        test = match.group("test")
+        printed = {
+            "madvise": (int(match.group("ma")), int(match.group("mas"))),
+            "never": (int(match.group("ne")), int(match.group("nes"))),
+            "always": (int(match.group("al")), int(match.group("als"))),
+        }
+        for mode, (mean, std) in printed.items():
+            key = (test, mode)
+            if key not in summary:
+                problems.append("%r / %s: no row in results/thp/summary.csv" % (test, mode))
+                continue
+            cmean, cstd = summary[key]
+            if abs(cmean - mean) > 0.01 * abs(mean) + 1:
+                problems.append("%r / %s mean: computed %.1f, printed %d" % (test, mode, cmean, mean))
+            if abs(cstd - std) > max(0.02 * abs(std), 5):
+                problems.append("%r / %s std: computed %.1f, printed %d" % (test, mode, cstd, std))
+    if published_rows == 0:
+        problems.append("no rows parsed from thp_table.tex")
+    return {"name": "extension (transparent hugepages)", "ok": not problems, "problems": problems}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
 
-    results = [claim1(args.root), macro(args.root), batch(args.root)]
+    results = [claim1(args.root), macro(args.root), batch(args.root), thp(args.root)]
     failures = 0
     for result in results:
         status = "PASS" if result["ok"] else "FAIL"

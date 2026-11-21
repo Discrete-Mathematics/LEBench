@@ -21,3 +21,7 @@ verify:
 # Unit and integration tests (pure Python, no VM required).
 test:
 	python3 -m unittest discover -s tests -v
+
+# Rebuild both report PDFs (requires tectonic on PATH).
+report:
+	bash scripts/build_report.sh

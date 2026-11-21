@@ -105,10 +105,15 @@ make test       # unit + integration tests, no VM needed
 ```
 
 `verify` checks the claim-1 counts in `report/generated/claim_summary.tex`, the
-claim-3 macro table, and the batched-`getpid` extension against
-`results/kernel_summary.csv`, `results/macro/summary.csv` and
-`results/batching/`. A stale or hand-edited table fails the command, and the same
-checks run in CI on every push (`.github/workflows/verify.yml`).
+claim-3 macro table, the batched-`getpid` extension, and the transparent-hugepage
+table against `results/kernel_summary.csv`, `results/macro/summary.csv`,
+`results/batching/` and `results/thp/summary.csv`. A stale or hand-edited table fails
+the command, and the same checks run in CI on every push
+(`.github/workflows/verify.yml`).
+
+The report PDFs are committed; after editing the `.tex` sources rebuild them with
+`make report` (requires the single-file [tectonic](https://tectonic-typesetting.github.io)
+engine on `PATH`).
 
 The audit of what the repository does and does not cover against the course
 rubric is in [docs/audit.md](docs/audit.md).

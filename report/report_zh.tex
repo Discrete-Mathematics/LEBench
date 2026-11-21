@@ -12,7 +12,7 @@
 \large Linux 核心操作性能演化分析}
 \author{邹浩宇 \quad 5260000157\\
 CS340 操作系统，2026--2027}
-\date{2026年11月9日}
+\date{2026年11月21日}
 
 \begin{document}
 \maketitle
@@ -160,6 +160,22 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 
 这次运行给不出原服务器上的热力图，也给不出十一项消融。到不了 sshd 的内核记在 \texttt{results/kernels/progress.log} 的启动失败里，不给它们填一个延迟。
 
+\subsection{局限}
+\label{sec:limitations}
+
+这次复现无法证明什么，以及原因：
+
+\begin{itemize}
+\item \textbf{只有一台机器。}所有对照都在同一台宿主机上的同一个 VirtualBox 客户机里完成，论文 \S6 的两台机器敏感性检查没有覆盖，也无法排除宿主机级别降频和虚拟磁盘的影响。
+\item \textbf{测量精度被压缩。}课程运行程序把 \texttt{BASE\_ITER} 从 10{,}000 降到 40，省掉 60 秒预热，并裁掉 96\,KB send/recv、12{,}000 页 fork 和 10{,}000 页文件测试。较小的效应可能落在时钟底以下；\texttt{docs/timer-floor.md} 里的核对量化了这个时钟底，并在 1152 行里拿掉 56 行。
+\item \textbf{内核覆盖不全。}列出的 41 个内核里 34 个能启动。3.0.7--3.5.4 一直连不上 sshd（没有 3.0 基线，论文“比 3.0 慢 75\%”无法判定），4.19.11 则缺少仍可下载的 \texttt{linux-modules} 包。
+\item \textbf{十一个原因只做了三个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off} 和透明大页模式；其余八个原因需要改配置、打补丁或重新编译内核。
+\item \textbf{CPU 不受 Meltdown 影响。}i7-13700H 报告“Not affected”，页表隔离从未启用，论文的 KPTI 开销在这台机器上根本测不到。
+\item \textbf{应用只在单个内核上跑。}论断 3 只在 4.4.0-210 这一个内核上用一个开关测试 Redis、Apache 和 Nginx，而不是像论文 \S5 那样跨内核并关掉全部原因。
+\end{itemize}
+
+因此本节所有结论都只针对这台客户机和这些日志，而不是针对一般意义上的 Linux。
+
 \section{扩展：把 getpid 改成批量计时}
 \label{sec:batch}
 
@@ -200,7 +216,7 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 
 \section*{AI 使用说明}
 
-Cursor 里的 AI 编程助手起草了运行程序、重启脚本、本报告和幻灯片，并操作了虚拟机。内核包、基准程序源代码和延迟数字来自 LEBench 作者以及客户机日志。助手没有编造测量值。
+AI 编程助手（不止一个，本组成员各自使用）起草并调试了测量框架、运行与重启脚本、校验工具、本报告和幻灯片的一部分，并协助操作虚拟机。内核包、基准程序源代码和延迟数字来自 LEBench 作者以及客户机日志；没有助手编造测量值。
 
 \begin{thebibliography}{9}
 \bibitem{ren2019lebench}

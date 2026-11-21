@@ -10,7 +10,7 @@
 \large An Analysis of Performance Evolution of Linux's Core Operations}
 \author{Haoyu Zou \quad 5260000157\\
 CS340 Operating Systems, 2026--2027}
-\date{9 November 2026}
+\date{21 November 2026}
 
 \begin{document}
 \maketitle
@@ -170,6 +170,22 @@ A separate audit of the existing sweep, in \texttt{docs/timer-floor.md}, asks wh
 
 What this run cannot show is the heatmap on the original server or the eleven-way ablation. Kernels that do not reach sshd are recorded as boot failures in \texttt{results/kernels/progress.log} and are not given a latency.
 
+\subsection{Limitations}
+\label{sec:limitations}
+
+What this reproduction cannot demonstrate, and why:
+
+\begin{itemize}
+\item \textbf{One machine.} Every comparison runs inside one VirtualBox guest on one host, so the paper's two-machine sensitivity check (\S6) is not covered, and nothing here controls for host-level throttling or for the virtual disk.
+\item \textbf{Reduced measurement precision.} The course runner sets \texttt{BASE\_ITER} to 40 instead of 10{,}000, omits the 60-second settle, and compiles out the 96\,KB send/recv, the 12{,}000-page fork, and the 10{,}000-page file tests. Small effects may sit under the timer floor; the audit in \texttt{docs/timer-floor.md} quantifies that floor and drops 56 of 1152 rows.
+\item \textbf{Incomplete kernel coverage.} 34 of the 41 listed kernels booted. Linux 3.0.7--3.5.4 never answered sshd (no 3.0 baseline, so the paper's ``75\% slower than 3.0'' cannot be judged) and 4.19.11 lacks a published \texttt{linux-modules} package.
+\item \textbf{Three of eleven causes.} Only \texttt{nopti}, \texttt{spectre\_v2=off}, and the transparent-hugepage modes were toggled; the other eight causes need configuration changes, patches, or kernel rebuilds.
+\item \textbf{A CPU without Meltdown.} The i7-13700H reports ``Not affected'', so page-table isolation is never enabled and the paper's KPTI cost is not measurable here at all.
+\item \textbf{Applications on one kernel.} Claim 3 runs Redis, Apache, and Nginx on 4.4.0-210 with one switch, not across the kernel list with all causes disabled as in the paper's \S5.
+\end{itemize}
+
+The verdicts in this section are therefore claims about \emph{this guest and these logs}, not about Linux in general.
+
 \section{Extension}
 \label{sec:batch}
 
@@ -210,7 +226,7 @@ Haoyu Zou (5260000157) imported LEBench at \texttt{6aa7801}, built the Ubuntu 16
 
 \section*{AI usage statement}
 
-An AI coding assistant in Cursor drafted the runner, the reboot script, this report, and the slides, and operated the virtual machine. Kernel packages, the benchmark source, and the latency numbers are from the LEBench authors and from the guest logs. The assistant did not invent measurements.
+AI coding assistants drafted and debugged the measurement harnesses, the runner and reboot scripts, the verification tooling, parts of this report and the slides, and helped operate the virtual machines. Kernel packages, the benchmark source, and the latency numbers come from the LEBench authors and from the guest logs; no assistant invented measurements.
 
 \begin{thebibliography}{9}
 \bibitem{ren2019lebench}
