@@ -9,7 +9,7 @@ points at a file that exists in this repository.
 | Area | Evidence | State |
 |---|---|---|
 | Kernel sweep (claim 1) | `results/kernels/` (34 kernels × 3 runs), `results/kernel_summary.csv`, `analysis/`, `docs/timer-floor.md` | done, verdict *not supported* |
-| Root causes (claim 2) | `results/kernels/4.4.0-210-nopti/` (KPTI), `results/macro/{default,spectre-off}/` (Retpoline), `results/thp/` (transparent hugepages, 3 modes × 3 runs) | three of eleven causes, verdict *not supported* on this CPU/guest |
+| Root causes (claim 2) | `results/kernels/4.4.0-210-nopti/` (KPTI), `results/macro/{default,spectre-off}/` (Retpoline), `results/thp/` (transparent hugepages, 3 modes × 3 runs), `results/fault-around/` (fault-around window) | four of eleven causes, verdict *not supported* on this CPU/guest |
 | Applications (claim 3) | `results/macro/`, `report/generated/macro_table.tex` | done for one kernel and one switch, verdict *not supported* |
 | Applications, cross-host (claim 3) | `results/macro-host2/`, `docs/cross-host.md` | same experiment on a second host; the switch's direction reverses, so the negative verdict is robust |
 | Extensions | `results/batching/` (batched `getpid`), `results/thp/` (hugepage modes) | both done, single-factor designs |
@@ -29,8 +29,9 @@ files and compares it with the generated LaTeX. Current output:
 [PASS] claim 3 (cross-host)
 [PASS] extension (batched getpid)
 [PASS] extension (transparent hugepages)
+[PASS] claim 2 (fault-around)
 
-5 checked, 0 failed
+6 checked, 0 failed
 ```
 
 Claim 1 recomputes 627 measurements on the 19 later kernels, 271 with a higher mean,
@@ -64,9 +65,9 @@ Ordered by what the rubric penalises.
 5. **No `v1.0` tag.** The final deadline requires the repository to be tagged `v1.0`
    after the last commit.
 
-6. **The eleven-cause ablation is not reproduced.** Three of the eleven causes were
-   toggled (`nopti`, `spectre_v2=off`, hugepage modes). This is a scope decision, not an
-   oversight; it must stay in the Limitations section.
+6. **The eleven-cause ablation is not reproduced.** Four of the eleven causes were
+   toggled (`nopti`, `spectre_v2=off`, hugepage modes, fault-around). This is a scope
+   decision, not an oversight; it must stay in the Limitations section.
 
 7. **Linux 3.0 baseline missing.** 3.0.7–3.5.4 never reached sshd, so the paper's
    "75% slower than 3.0" cannot be tested. Recorded in `results/kernels/boot-failures.txt`.

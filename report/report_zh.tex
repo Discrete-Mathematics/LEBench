@@ -158,6 +158,10 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 
 表~\ref{tab:thp} 里每一对区间都重叠。论文认为对这项设置敏感的大块 munmap 分别是 302857 $\pm$ 36653 ns、307558 $\pm$ 14605 ns 和 306336 $\pm$ 15523 ns。最接近的一对是 \texttt{madvise} 和 \texttt{never} 下的 small page fault（2610 $\pm$ 129 ns 对 2277 $\pm$ 228 ns），这两个区间仍然相接。对照项也重叠（291 $\pm$ 38 ns、327 $\pm$ 13 ns、333 $\pm$ 62 ns）。论文把关掉透明大页列为一项配置错误，并把编译选项改成 always。在这台客户机上，三种运行时设置都让缺页、mmap 和 munmap 留在各次运行的波动里，所以这个因素在这里\textbf{不成立}。基准程序映射的是文件，并且只触摸一个字节。它不调用 \texttt{MADV\_HUGEPAGE}，因此 \texttt{madvise} 不会为这些测试请求大页。\texttt{always} 就是为了这一点才一起测的，它也没有和另外两种设置分开。
 
+\subsection{已安装内核上的 fault-around}
+
+Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时，提前为它们建好映射。在 4.4.0-210-generic 上把 debugfs 旋钮 \texttt{fault\_around\_bytes} 从默认的 65{,}536 字节改成 4{,}096 字节（只覆盖一页，相当于关掉这项功能），六次运行交错进行，避免漂移偏到某一种设置上；日志在 \texttt{results/fault-around/<配置>/run\{1,2,3\}.csv}，完整表格在 \texttt{results/fault-around/summary.csv}。每一行缺页都留在各次运行的波动里：small page fault 是 10{,}500 $\pm$ 520 ns 对 11{,}200 $\pm$ 1{,}967 ns，mid 是 11{,}200 $\pm$ 436 对 11{,}567 $\pm$ 1{,}650，big 是 11{,}733 $\pm$ 723 对 12{,}000 $\pm$ 954。对照行也动了同样的幅度，论文里 \texttt{big-pagefault} 慢 54\% 的现象没有出现。精简套件映射的是 1{,}000 页的文件并且只触摸一个字节，而 fault-around 只有在相邻页已在页缓存里时才有收益，所以这台客户机无法像论文的 10{,}000 页测试那样用到这项功能。这个原因在这里\textbf{不成立}。
+
 仓库里另有一份对现有扫描的核对，写在 \texttt{docs/timer-floor.md}。它把 \texttt{ref} 当作时钟底，均值低于三倍时钟底、或者时钟底为 0 的行被拿掉。1152 行里拿掉 56 行（4.9\%），主要是 \texttt{getpid} 和整个 3.6.10。相对 4.0.5 的中位数比值仍是 1.02，至少高 50\% 的比例仍在 18\% 附近。4.16.13 到 4.18.16 看起来大约快一倍，包括一段不调用内核的纯 CPU 循环。那三次启动是计时基准偏了，不是内核变快。拿掉贴近时钟的行，也不会把论断 1 变成论文的结论。
 
 这次运行给不出原服务器上的热力图，也给不出十一项消融。到不了 sshd 的内核记在 \texttt{results/kernels/progress.log} 的启动失败里，不给它们填一个延迟。
@@ -171,7 +175,7 @@ Apache 更慢，区间不重叠（1580 $\pm$ 139 对 1308 $\pm$ 24）。Nginx �
 \item \textbf{只有一台机器。}所有对照都在同一台宿主机上的同一个 VirtualBox 客户机里完成，论文 \S6 的两台机器敏感性检查没有覆盖，也无法排除宿主机级别降频和虚拟磁盘的影响。
 \item \textbf{测量精度被压缩。}课程运行程序把 \texttt{BASE\_ITER} 从 10{,}000 降到 40，省掉 60 秒预热，并裁掉 96\,KB send/recv、12{,}000 页 fork 和 10{,}000 页文件测试。较小的效应可能落在时钟底以下；\texttt{docs/timer-floor.md} 里的核对量化了这个时钟底，并在 1152 行里拿掉 56 行。
 \item \textbf{内核覆盖不全。}列出的 41 个内核里 34 个能启动。3.0.7--3.5.4 一直连不上 sshd（没有 3.0 基线，论文“比 3.0 慢 75\%”无法判定），4.19.11 则缺少仍可下载的 \texttt{linux-modules} 包。
-\item \textbf{十一个原因只做了三个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off} 和透明大页模式；其余八个原因需要改配置、打补丁或重新编译内核。
+\item \textbf{十一个原因只做了四个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off}、透明大页模式和 fault-around 窗口；其余七个原因需要改配置、打补丁或重新编译内核。
 \item \textbf{CPU 不受 Meltdown 影响。}i7-13700H 报告“Not affected”，页表隔离从未启用，论文的 KPTI 开销在这台机器上根本测不到。
 \item \textbf{应用只在单个内核上跑。}论断 3 只在 4.4.0-210 这一个内核上用一个开关测试 Redis、Apache 和 Nginx，而不是像论文 \S5 那样跨内核并关掉全部原因。
 \end{itemize}

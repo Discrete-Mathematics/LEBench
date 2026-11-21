@@ -313,6 +313,59 @@ def cross_host(root):
     return {"name": "claim 3 (cross-host)", "ok": not problems, "problems": problems}
 
 
+def fault_around(root):
+    """results/fault-around/summary.csv must be recomputable from the run CSVs."""
+    base = root / "results" / "fault-around"
+    if not (base / "summary.csv").exists():
+        return {"name": "claim 2 (fault-around)", "ok": True, "skipped": "no summary.csv"}
+
+    problems = []
+    computed = {}
+    for config in ("default", "off"):
+        for run in (1, 2, 3):
+            path = base / config / ("run%d.csv" % run)
+            if not path.exists():
+                problems.append("missing %s" % path)
+                continue
+            for line in path.read_text(encoding="utf-8").splitlines():
+                parts = [piece.strip() for piece in line.split(",")]
+                if len(parts) >= 2 and parts[0].endswith("kbest:"):
+                    name = parts[0][:-len("kbest:")].strip()
+                    try:
+                        computed.setdefault((config, name), []).append(float(parts[1]) * 1e9)
+                    except ValueError:
+                        pass
+
+    means = {}
+    for key, values in computed.items():
+        if len(values) == 3:
+            means[key] = (statistics.mean(values), statistics.stdev(values))
+
+    published = 0
+    with (base / "summary.csv").open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            published += 1
+            test = row["test"]
+            for config, column_mean, column_std in (
+                ("default", "default_mean_ns", "default_stdev_ns"),
+                ("off", "off_mean_ns", "off_stdev_ns"),
+            ):
+                key = (config, test)
+                if key not in means:
+                    problems.append("%r / %s not computable from the run CSVs" % (test, config))
+                    continue
+                mean, std = means[key]
+                if abs(mean - float(row[column_mean])) > 0.005 * abs(mean) + 1:
+                    problems.append("%r / %s mean: computed %.2f, summary %.2f"
+                                    % (test, config, mean, float(row[column_mean])))
+                if abs(std - float(row[column_std])) > max(0.01 * abs(std), 1):
+                    problems.append("%r / %s std: computed %.2f, summary %.2f"
+                                    % (test, config, std, float(row[column_std])))
+    if published == 0:
+        problems.append("no rows in results/fault-around/summary.csv")
+    return {"name": "claim 2 (fault-around)", "ok": not problems, "problems": problems}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -324,6 +377,7 @@ def main():
         cross_host(args.root),
         batch(args.root),
         thp(args.root),
+        fault_around(args.root),
     ]
     failures = 0
     for result in results:
