@@ -2,6 +2,7 @@
 TEST_DIR/OS_Eval
 course/sweep_bench
 course/batched_bench
+course/full_bench
 *.o
 *.a
 *.so

@@ -166,6 +166,19 @@ Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时
 
 这次运行给不出原服务器上的热力图，也给不出十一项消融。到不了 sshd 的内核记在 \texttt{results/kernels/progress.log} 的启动失败里，不给它们填一个延迟。
 
+\subsection{已安装内核上的作者迭代次数}
+
+2026 年 11 月 23 日，恢复用内核又跑了一份二进制。\texttt{course/OS\_Eval\_fulliter.c} 保留作者的 \texttt{BASE\_ITER} 10000 和 60 秒静置。精简套件省掉的三项测试仍然省掉。三次运行的退出码都是 0。日志在 \texttt{results/fulliter/4.4.0-210-generic/run\{1,2,3\}.csv}。表~\ref{tab:fulliter} 把这些 K-best 均值和同一内核的精简扫描放在一起。
+
+\begin{table}[ht]
+\centering
+\caption{同一内核、两种迭代次数。每格是三次 K-best 的均值 $\pm$ 样本标准差。}
+\label{tab:fulliter}
+\input{generated/fulliter_table_zh.tex}
+\end{table}
+
+只有上下文切换的区间不重叠：\texttt{BASE\_ITER} 40 是 11225 $\pm$ 5490 ns，10000 是 2927 $\pm$ 1458 ns。getpid、fork、small read、big write、big munmap 和 select 仍然重叠。在这一台内核上把循环加长，并没有把精简套件的结论变成论文的跨内核结论。这些运行结束之后，客户机开始按论文的原因开关重编 Linux 4.20.13。那次编译不在这张表里。
+
 \subsection{局限}
 \label{sec:limitations}
 
@@ -173,9 +186,9 @@ Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时
 
 \begin{itemize}
 \item \textbf{只有一台机器。}所有对照都在同一台宿主机上的同一个 VirtualBox 客户机里完成，论文 \S6 的两台机器敏感性检查没有覆盖，也无法排除宿主机级别降频和虚拟磁盘的影响。
-\item \textbf{测量精度被压缩。}课程运行程序把 \texttt{BASE\_ITER} 从 10{,}000 降到 40，省掉 60 秒预热，并裁掉 96\,KB send/recv、12{,}000 页 fork 和 10{,}000 页文件测试。较小的效应可能落在时钟底以下；\texttt{docs/timer-floor.md} 里的核对量化了这个时钟底，并在 1152 行里拿掉 56 行。
+\item \textbf{测量精度被压缩。}课程运行程序把 \texttt{BASE\_ITER} 从 10{,}000 降到 40，省掉 60 秒预热，并裁掉 96\,KB send/recv、12{,}000 页 fork 和 10{,}000 页文件测试。4.4.0-210 另外按 10{,}000 测过，见上一小节。较小的效应可能落在时钟底以下；\texttt{docs/timer-floor.md} 里的核对量化了这个时钟底，并在 1152 行里拿掉 56 行。
 \item \textbf{内核覆盖不全。}列出的 41 个内核里 34 个能启动。3.0.7--3.5.4 一直连不上 sshd（没有 3.0 基线，论文“比 3.0 慢 75\%”无法判定），4.19.11 则缺少仍可下载的 \texttt{linux-modules} 包。
-\item \textbf{十一个原因只做了四个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off}、透明大页模式和 fault-around 窗口；其余七个原因需要改配置、打补丁或重新编译内核。
+\item \textbf{十一个原因只做了四个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off}、透明大页模式和 fault-around 窗口；其余七个原因需要改配置、打补丁或重新编译内核。按这些开关重编 Linux 4.20.13 已经在客户机上开始，这些日志里还没有编完。
 \item \textbf{CPU 不受 Meltdown 影响。}i7-13700H 报告“Not affected”，页表隔离从未启用，论文的 KPTI 开销在这台机器上根本测不到。
 \item \textbf{应用只在单个内核上跑。}论断 3 只在 4.4.0-210 这一个内核上用一个开关测试 Redis、Apache 和 Nginx，而不是像论文 \S5 那样跨内核并关掉全部原因。
 \end{itemize}
@@ -218,7 +231,7 @@ Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时
 
 \section*{贡献说明}
 
-邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，跑了 \texttt{results/macro/} 下的 Redis、Apache 和 Nginx 对照，比较了 \texttt{results/thp/} 下的透明大页模式，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
+邹浩宇（5260000157）导入了 \texttt{6aa7801} 的 LEBench，安装了 Ubuntu 16.04.6 客户机，编写了精简运行程序和重启驱动，收集了 \texttt{results/kernels/} 下的日志，测量了 \texttt{results/batching/} 下的批量 \texttt{getpid}，跑了 \texttt{results/macro/} 下的 Redis、Apache 和 Nginx 对照，比较了 \texttt{results/thp/} 下的透明大页模式，在 \texttt{results/fulliter/} 下跑了作者的迭代次数，并撰写了本报告和幻灯片。这项工作的提交说明使用该学号和姓名。
 
 张澄心（1240016541）搭建了论断 3 的宏基准工具和预注册设计（\texttt{macrobench/}），编写了报告数字校验脚本和单元测试（\texttt{scripts/verify\_report\_numbers.py}、\texttt{tests/}），配置了 CI 检查，补写了局限一节和可复现的 PDF 构建（\texttt{scripts/build\_report.sh}），并维护项目审计（\texttt{docs/audit.md}）。这项工作的提交说明使用该学号和姓名。
 

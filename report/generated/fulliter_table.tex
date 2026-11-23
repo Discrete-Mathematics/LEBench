@@ -1,0 +1,14 @@
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Test & \texttt{BASE\_ITER} 40 & \texttt{BASE\_ITER} 10000 \\
+\midrule
+ref & 78 $\pm$ 19 ns & 58 $\pm$ 23 ns \\
+getpid & 314 $\pm$ 39 ns & 216 $\pm$ 91 ns \\
+context siwtch & 11225 $\pm$ 5490 ns & 2927 $\pm$ 1458 ns \\
+fork & 92848 $\pm$ 16518 ns & 66254 $\pm$ 27208 ns \\
+small read & 784 $\pm$ 400 ns & 583 $\pm$ 240 ns \\
+big write & 1659861 $\pm$ 878922 ns & 1278738 $\pm$ 604021 ns \\
+big munmap & 269543 $\pm$ 180809 ns & 168083 $\pm$ 68560 ns \\
+select & 1172 $\pm$ 515 ns & 968 $\pm$ 465 ns \\
+\bottomrule
+\end{tabular}
