@@ -49,8 +49,10 @@
 
 ## 当前状态（每次跑完更新）
 
+> 更新时间：2026-11-26。完整判定和证据链见报告 §Analysis 与 `docs/audit.md`。
+
 | Claim | 已跑测试 | 运行次数 | 日志路径 | 初步判定 |
 |---|---|---|---|---|
-| C1 | TODO | 0 | TODO | inconclusive |
-| C2 | TODO | 0 | TODO | inconclusive |
-| C3 | TODO | 0 | TODO | inconclusive |
+| C1 | `nopti` vs 默认，4.4.0-210，精简套件 | 各 3 次 | `results/kernels/4.4.0-210-nopti/` | **not supported**——此 CPU 报告 "Not affected"，页表隔离从未启用 |
+| C2 | `spectre_v2=off` vs 默认（微基准开关未单独跑；用宏基准代证） | 各 3 次 | `results/macro/`（Redis/Apache/Nginx） | **inconclusive**——Nginx 变快、Apache 变慢、Redis 在噪声内 |
+| C3 | 同上，两台主机交叉验证 | 各 3 次 × 2 主机 | `results/macro/`、`results/macro-host2/` | **not supported**——方向在主机间反转，加速远小于论文的 56/33/34% |
