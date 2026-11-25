@@ -13,6 +13,7 @@ points at a file that exists in this repository.
 | Applications (claim 3) | `results/macro/`, `report/generated/macro_table.tex` | done for one kernel and one switch, verdict *not supported* |
 | Applications, cross-host (claim 3) | `results/macro-host2/`, `docs/cross-host.md` | same experiment on a second host; the switch's direction reverses, so the negative verdict is robust |
 | Extensions | `results/batching/` (batched `getpid`), `results/thp/` (hugepage modes) | both done, single-factor designs |
+| Protocol comparison | `results/fulliter/`, `report/generated/fulliter_table.tex` | the reduced suite (`BASE_ITER` 40) against three full `BASE_ITER` 10000 runs on 4.4.0-210 |
 | Report | `report/report.tex` + `report.pdf`, `report/report_zh.tex` + `report_zh.pdf` | drafted, needs the fixes in §3 |
 | Slides and talk | `report/slides.{tex,pdf}`, `slides_zh.*`, 5-minute cut, `report/qa-card.pdf`, `docs/talk-script.md`, `docs/qa-bank.md` | drafted |
 | Reproduction notes | `docs/REPRODUCTION.md`, deviations table in the report | done |
@@ -30,8 +31,9 @@ files and compares it with the generated LaTeX. Current output:
 [PASS] extension (batched getpid)
 [PASS] extension (transparent hugepages)
 [PASS] claim 2 (fault-around)
+[PASS] protocol check (full iterations)
 
-6 checked, 0 failed
+7 checked, 0 failed
 ```
 
 Claim 1 recomputes 627 measurements on the 19 later kernels, 271 with a higher mean,

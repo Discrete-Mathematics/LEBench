@@ -366,6 +366,77 @@ def fault_around(root):
     return {"name": "claim 2 (fault-around)", "ok": not problems, "problems": problems}
 
 
+def parse_os_eval_kbest(path):
+    """{(test name): [kbest seconds x N]} from one OS_Eval CSV."""
+    rows = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        parts = [piece.strip() for piece in line.split(",")]
+        if len(parts) >= 2 and parts[0].endswith("kbest:"):
+            name = parts[0][:-len("kbest:")].strip()
+            try:
+                rows.setdefault(name, []).append(float(parts[1]) * 1e9)
+            except ValueError:
+                pass
+    return rows
+
+
+FULLITER_ROW_RE = re.compile(
+    r"^(?P<test>.+?) & (?P<b40m>\d+) \$\\pm\$ (?P<b40s>\d+) ns & "
+    r"(?P<b10m>\d+) \$\\pm\$ (?P<b10s>\d+) ns \\\\$"
+)
+
+
+def fulliter(root):
+    """The full-iteration table must match the sweep (BASE_ITER 40) and the
+    three BASE_ITER 10000 runs on 4.4.0-210."""
+    problems = []
+    base = root / "results" / "fulliter" / "4.4.0-210-generic"
+    tex_path = root / "report" / "generated" / "fulliter_table.tex"
+    if not tex_path.exists():
+        return {"name": "protocol check (full iterations)", "ok": True, "skipped": "no fulliter table"}
+
+    sweep = {r["test"]: (float(r["mean_ns"]), float(r["stdev_ns"]))
+             for r in load_kernel_rows(root) if r["kernel"] == "4.4.0-210-generic"}
+
+    full = {}
+    for run in (1, 2, 3):
+        path = base / ("run%d.csv" % run)
+        if not path.exists():
+            problems.append("missing %s" % path)
+            continue
+        for name, values in parse_os_eval_kbest(path).items():
+            full.setdefault(name, []).extend(values)
+    full_means = {name: (statistics.mean(v), statistics.stdev(v) if len(v) > 1 else 0.0)
+                  for name, v in full.items()}
+
+    rows_checked = 0
+    for line in tex_path.read_text(encoding="utf-8").splitlines():
+        match = FULLITER_ROW_RE.match(line.strip())
+        if not match:
+            continue
+        rows_checked += 1
+        test = match.group("test")
+        published = {
+            "40": (int(match.group("b40m")), int(match.group("b40s"))),
+            "10000": (int(match.group("b10m")), int(match.group("b10s"))),
+        }
+        if test not in sweep:
+            problems.append("%r missing from the kernel sweep summary" % test)
+            continue
+        if test not in full_means:
+            problems.append("%r missing from the fulliter runs" % test)
+            continue
+        if abs(sweep[test][0] - published["40"][0]) > 0.01 * published["40"][0] + 1:
+            problems.append("%r BASE_ITER 40 mean: sweep %.1f, printed %d"
+                            % (test, sweep[test][0], published["40"][0]))
+        if abs(full_means[test][0] - published["10000"][0]) > 0.01 * published["10000"][0] + 1:
+            problems.append("%r BASE_ITER 10000 mean: computed %.1f, printed %d"
+                            % (test, full_means[test][0], published["10000"][0]))
+    if rows_checked == 0:
+        problems.append("no rows parsed from fulliter_table.tex")
+    return {"name": "protocol check (full iterations)", "ok": not problems, "problems": problems}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -378,6 +449,7 @@ def main():
         batch(args.root),
         thp(args.root),
         fault_around(args.root),
+        fulliter(args.root),
     ]
     failures = 0
     for result in results:

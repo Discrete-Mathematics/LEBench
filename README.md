@@ -106,13 +106,16 @@ make test       # unit + integration tests, no VM needed
 
 `verify` checks the claim-1 counts in `report/generated/claim_summary.tex`, the
 claim-3 macro table, the cross-host ratios in `docs/cross-host.md`, the
-batched-`getpid` extension, the transparent-hugepage table, and the
-fault-around summary against `results/kernel_summary.csv`,
-`results/macro/summary.csv`, `results/macro-host2/summary.csv`,
-`results/batching/`, `results/thp/summary.csv` and
-`results/fault-around/summary.csv`. A stale or hand-edited table fails
-the command, and the same checks run in CI on every push
-(`.github/workflows/verify.yml`).
+batched-`getpid` extension, the transparent-hugepage table, the fault-around
+summary, and the full-iteration protocol table against
+`results/kernel_summary.csv`, `results/macro/summary.csv`,
+`results/macro-host2/summary.csv`, `results/batching/`, `results/thp/summary.csv`,
+`results/fault-around/summary.csv` and `results/fulliter/`. A stale or
+hand-edited table fails the command, and the same checks run in CI on every
+push (`.github/workflows/verify.yml`).
+
+The final submission checklist (deadlines, open items, tagging) is in
+[docs/final-checklist.md](docs/final-checklist.md).
 
 The report PDFs are committed; after editing the `.tex` sources rebuild them with
 `make report` (requires the single-file [tectonic](https://tectonic-typesetting.github.io)
