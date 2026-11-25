@@ -47,9 +47,15 @@ cp .config "$OUT/config.before"
 ./scripts/config --disable MEMCG
 ./scripts/config --disable USERFAULTFD
 ./scripts/config --disable CONTEXT_TRACKING_FORCE
+./scripts/config --disable TRANSPARENT_HUGEPAGE_MADVISE
 ./scripts/config --enable TRANSPARENT_HUGEPAGE
 ./scripts/config --enable TRANSPARENT_HUGEPAGE_ALWAYS
 make olddefconfig
+if grep -q '^CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y' .config; then
+  echo "THP_ALWAYS selected"
+else
+  echo "THP_ALWAYS not selected"
+fi
 cp .config "$OUT/config.after"
 echo "CONFIG_DIFF"
 diff -u "$OUT/config.before" "$OUT/config.after" | head -n 200 || true

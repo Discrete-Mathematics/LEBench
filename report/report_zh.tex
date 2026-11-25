@@ -177,7 +177,7 @@ Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时
 \input{generated/fulliter_table_zh.tex}
 \end{table}
 
-只有上下文切换的区间不重叠：\texttt{BASE\_ITER} 40 是 11225 $\pm$ 5490 ns，10000 是 2927 $\pm$ 1458 ns。getpid、fork、small read、big write、big munmap 和 select 仍然重叠。在这一台内核上把循环加长，并没有把精简套件的结论变成论文的跨内核结论。这些运行结束之后，客户机开始按论文的原因开关重编 Linux 4.20.13。那次编译不在这张表里。
+只有上下文切换的区间不重叠：\texttt{BASE\_ITER} 40 是 11225 $\pm$ 5490 ns，10000 是 2927 $\pm$ 1458 ns。getpid、fork、small read、big write、big munmap 和 select 仍然重叠。在这一台内核上把循环加长，并没有把精简套件的结论变成论文的跨内核结论。这些运行结束之后，客户机开始重编 Linux 4.20.13。虚拟机在编译中途关机。fault-around 补丁已经打上。TLB 布局补丁没有打上，日志写的是三个 hunk 被忽略。透明大页一直停在 madvise，直到 2026-11-25 用 \texttt{CONFIG\_TRANSPARENT\_HUGEPAGE\_ALWAYS=y} 把编译续上。这次编译还没有结束，也不在这张表里。
 
 \subsection{局限}
 \label{sec:limitations}
@@ -188,7 +188,7 @@ Fault-around（论文 \S4.2.1）会在缺页页的相邻页已在页缓存里时
 \item \textbf{只有一台机器。}所有对照都在同一台宿主机上的同一个 VirtualBox 客户机里完成，论文 \S6 的两台机器敏感性检查没有覆盖，也无法排除宿主机级别降频和虚拟磁盘的影响。
 \item \textbf{测量精度被压缩。}课程运行程序把 \texttt{BASE\_ITER} 从 10{,}000 降到 40，省掉 60 秒预热，并裁掉 96\,KB send/recv、12{,}000 页 fork 和 10{,}000 页文件测试。4.4.0-210 另外按 10{,}000 测过，见上一小节。较小的效应可能落在时钟底以下；\texttt{docs/timer-floor.md} 里的核对量化了这个时钟底，并在 1152 行里拿掉 56 行。
 \item \textbf{内核覆盖不全。}列出的 41 个内核里 34 个能启动。3.0.7--3.5.4 一直连不上 sshd（没有 3.0 基线，论文“比 3.0 慢 75\%”无法判定），4.19.11 则缺少仍可下载的 \texttt{linux-modules} 包。
-\item \textbf{十一个原因只做了四个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off}、透明大页模式和 fault-around 窗口；其余七个原因需要改配置、打补丁或重新编译内核。按这些开关重编 Linux 4.20.13 已经在客户机上开始，这些日志里还没有编完。
+\item \textbf{十一个原因只做了四个。}只切换了 \texttt{nopti}、\texttt{spectre\_v2=off}、透明大页模式和 fault-around 窗口；其余七个原因需要改配置、打补丁或重新编译内核。重编 Linux 4.20.13 已经开始，中途因关机中断，并在 2026-11-25 续编。TLB 布局补丁没有打上，这棵树里没有 \texttt{CONFIG\_CONTEXT\_TRACKING\_FORCE}，空闲态补丁也没有使用。续上的编译在这些日志里还没有结束，也还没有安装或测量。
 \item \textbf{CPU 不受 Meltdown 影响。}i7-13700H 报告“Not affected”，页表隔离从未启用，论文的 KPTI 开销在这台机器上根本测不到。
 \item \textbf{应用只在单个内核上跑。}论断 3 只在 4.4.0-210 这一个内核上用一个开关测试 Redis、Apache 和 Nginx，而不是像论文 \S5 那样跨内核并关掉全部原因。
 \end{itemize}
