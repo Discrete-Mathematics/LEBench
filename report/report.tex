@@ -8,9 +8,10 @@
 
 \title{Reproducing LEBench on a Virtual Machine\\
 \large An Analysis of Performance Evolution of Linux's Core Operations}
-\author{Haoyu Zou \quad 5260000157\\
+\author{Haoyu Zou \quad Zhang Chengxin \quad Dongxu Sun \quad Hanfeng Zou\\
+5260000157 \quad 1240016541 \quad 5260000073 \quad 1240020460\\
 CS340 Operating Systems, 2026--2027}
-\date{21 November 2026}
+\date{26 November 2026}
 
 \begin{document}
 \maketitle
@@ -105,6 +106,8 @@ Of the 41 releases in \texttt{EXPERIMENTS.md}, 34 booted far enough for three ru
 
 \input{generated/claim_summary.tex}
 
+Table~\ref{tab:paper} is the comparison the course asks for: the paper's statement and this guest's measurement on the same metric and under the same setting.
+
 \begin{table}[ht]
 \centering
 \caption{Paper versus this guest. The metric is the sign of the latency change from Linux 4.0, which is what Figure 1(a) plots.}
@@ -119,7 +122,7 @@ vs Linux 3.0 & 75\% of tests slower & No measurement: 3.0.7--3.5.4 never reached
 \end{tabular}
 \end{table}
 
-Those 627 rows are every test on the 19 kernels newer than 4.0.5 that finished three runs. A zero K-best on 3.6.10 (getpid and a few other tests) is a failed window: the average in the same CSV is not zero, and 3.6.10 is not the baseline, so it is not in the 627. Table~\ref{tab:kernels} shows three tests. Every mean is the mean of three K-best values in \texttt{results/kernels/<release>/run\{1,2,3\}.csv}, and the full set is \texttt{results/kernel\_summary.csv}.
+Those 627 rows are every test on the 19 kernels newer than 4.0.5 that finished three runs. A zero K-best on 3.6.10 (getpid and a few other tests) is a failed window: the average in the same CSV is not zero, and 3.6.10 is not the baseline, so it is not in the 627. Table~\ref{tab:kernels} shows three tests. Figure~\ref{fig:rel} plots the whole set as a ratio to the 4.0.5 result, one line per test. Every mean is the mean of three K-best values in \texttt{results/kernels/<release>/run\{1,2,3\}.csv}, and the full set is \texttt{results/kernel\_summary.csv}.
 
 {\small
 \input{generated/kernel_table.tex}
@@ -140,7 +143,7 @@ Claim 1 is about the sign of the change from 4.0, not the absolute nanoseconds. 
 
 On that rule, claim 1 is \textbf{not supported} on this guest. Only 271 of 627 later-kernel measurements (43\%) even have a higher mean than 4.0.5, and only 117 have a non-overlapping interval and a higher mean. The paper's ``most tests are slower, and many by at least 50\%'' does not describe this table: 76 of 627 (12\%) have a mean at least 50\% higher. Broken out for the 19 later kernels, getpid has a higher mean on 5 and a clearly faster interval on 9; fork has a higher mean on 0. Big write, which the paper treats as an exception that got faster, has a higher mean on 11 of 19 kernels, but only 1 of those intervals clears the noise. The comparison with Linux 3.0 is \textbf{inconclusive}: 3.0.7 through 3.5.4 never reached sshd, so there is no 3.0 baseline on this guest.
 
-Claim 2 is only touched by the \texttt{nopti} switch. The paper's KPTI result needs a CPU that pays for page-table isolation. The i7-13700H reports that it does not. The switch still changes \texttt{fork}, so the command line is not a no-op, but it does not reproduce ``KPTI makes \texttt{getpid}, read, and recv slower.'' That part of claim 2 is \textbf{not supported} here.
+Claim 2 is only touched by the \texttt{nopti} switch. The paper's KPTI result needs a CPU that pays for page-table isolation. The i7-13700H reports that it does not. The switch still changes \texttt{fork}, so the command line is not a no-op, but it does not reproduce ``KPTI makes \texttt{getpid}, read, and recv slower.'' That part of claim 2 is therefore \textbf{inconclusive} here: the KPTI cost is not measurable on a CPU that never enables page-table isolation, which is different from measuring it and finding it absent. \texttt{docs/verdicts.md} records the same verdict.
 
 Claim 3 was run on 4.4.0-210-generic only. The paper turns off eleven causes and reports speed-ups of up to 56\%, 33\%, and 34\% for Redis, Apache, and Nginx. Here the only change is \texttt{spectre\_v2=off}. The vulnerability file moves from ``Mitigation: Enhanced IBRS'' to ``Vulnerable'', so the switch took effect. Table~\ref{tab:macro} is mean $\pm$ sample standard deviation of three runs, in requests per second. Logs are \texttt{results/macro/<config>/results.csv}.
 
@@ -217,7 +220,7 @@ The reduced suite times one \texttt{getpid} between two \texttt{clock\_gettime} 
 \input{generated/batch_table.tex}
 \end{table}
 
-On 4.0.5 the batched per-call cost is 129 ns, against 245 ns for one call. The two intervals do not overlap. The same binary's empty clock pair that day was 132 $\pm$ 19 ns, close to the batched per-call figure, which is what a timer-dominated sample looks like. On 4.4.0-210 the single-shot mean is 314 ns and its interval sits entirely above 4.0.5. After batching, the means are 127 ns and 129 ns, and the intervals overlap. The apparent \texttt{getpid} slowdown between these two kernels does not survive the change. \texttt{small read} on the batched binary stays within the single-shot spread (4.0.5: 813 $\pm$ 72 ns against 726 $\pm$ 73 ns), so the rest of the suite did not move with this edit.
+Table~\ref{tab:batch} lists both kernels before and after the change. On 4.0.5 the batched per-call cost is 129 ns, against 245 ns for one call. The two intervals do not overlap. The same binary's empty clock pair that day was 132 $\pm$ 19 ns, close to the batched per-call figure, which is what a timer-dominated sample looks like. On 4.4.0-210 the single-shot mean is 314 ns and its interval sits entirely above 4.0.5. After batching, the means are 127 ns and 129 ns, and the intervals overlap. The apparent \texttt{getpid} slowdown between these two kernels does not survive the change. \texttt{small read} on the batched binary stays within the single-shot spread (4.0.5: 813 $\pm$ 72 ns against 726 $\pm$ 73 ns), so the rest of the suite did not move with this edit.
 
 \section{The other implementation}
 \label{sec:rewrite}
