@@ -11,8 +11,10 @@ Course: CS340 Operating Systems, academic year 2026–2027. The week of 2026-10-
 | Upstream repository | <https://github.com/LinuxPerfStudy/LEBench> |
 | Starting commit | `6aa7801` (`Merge pull request #9 from purplewall1206/master`) |
 | License | Apache License 2.0, copyright 2019 University of Toronto (`LICENSE`) |
-| Files modified from that commit | `README.md` |
-| Files added | `.gitignore`, `Makefile`, `docs/REPRODUCTION.md`, `docs/CONTRIBUTIONS.md`, `results/README.md`, `scripts/run_current_kernel.py`, `scripts/summarize_runs.py`, `setup/Dockerfile` |
+| Files modified from that commit | `README.md` — the only upstream file edited |
+| Files added | 736 files: `results/` 627 logs, `report/` 24, `course/` 19, `docs/` 18, `scripts/` 18, `analysis/` 17, `macrobench/` 5, `tests/` 2, `setup/` 1, `.github/` 1, plus `.gitignore`, `.dockerignore`, `Makefile` and `claims-under-test.md` at the root |
+
+The counts come from `git diff --name-status 6aa7801..HEAD`, so the list can be regenerated rather than trusted: the only edited upstream file is `README.md`; everything else is an addition.
 
 `run.py`, `get_kern.py`, `EXPERIMENTS.md`, `template/`, `grub`, and `TEST_DIR/` are the upstream sources and have not been edited. `run.py` and `get_kern.py` are Python 2, as published. The new runner is Python 3 and does not reboot the machine.
 
